@@ -1,0 +1,198 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Localtion extends Admin_Controller {
+
+    private $author_data = array();
+
+    function __construct(){
+        parent::__construct();
+        $this->load->model('localtion_model');
+        $this->load->model('area_model');
+        $this->load->model('product_model');
+        $this->load->helper('common');
+        $this->author_data = handle_author_common_data();
+        $this->data['controller'] = $this->localtion_model->table;
+        $this->load->model('category_model');
+    }
+
+    public function index() {
+        $this->data['keyword'] = '';
+        $this->data['area_id'] = '';
+        $this->data['is_hot'] = (!empty($this->input->get('hot')))?'1':'';
+        if($this->input->get('search')){
+            $this->data['keyword'] = $this->input->get('search');
+        }
+        if($this->input->get('area_id')){
+            $this->data['area_id'] = $this->input->get('area_id');
+        }
+        $this->load->library('pagination');
+        $per_page = 10;
+        $total_rows  = $this->localtion_model->count_searchs($this->data['keyword'],$this->data['area_id'],$this->data['is_hot']);
+        $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/index'), $total_rows, $per_page, 4);
+        $this->data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $this->data['area'] = $this->area_model->get_all_area();
+        $this->pagination->initialize($config);
+        $this->data['page_links'] = $this->pagination->create_links();
+        $this->data['result'] = $this->localtion_model->get_all_with_pagination_searchs('desc', $per_page, $this->data['page'], $this->data['keyword'],$this->data['area_id'],$this->data['is_hot'],1);
+        $this->render('admin/localtion/list_localtion_view');
+    }
+    public function create(){
+        $this->load->helper('form');
+        $this->data['area'] = $this->area_model->get_all_area();
+        if($this->input->post()){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
+            if($this->form_validation->run() == TRUE){
+                if(!empty($_FILES['image_localtion']['name'])){
+                    $this->check_img($_FILES['image_localtion']['name'], $_FILES['image_localtion']['size']);
+                }
+                $slug = $this->input->post('slug_localtion');
+                $unique_slug = $this->localtion_model->build_unique_slug($slug);
+                if(!file_exists("assets/upload/".$this->data['controller']."/".$unique_slug) && (!empty($_FILES['image_localtion']['name']))){
+                    mkdir("assets/upload/".$this->data['controller']."/".$unique_slug, 0777);
+                    mkdir("assets/upload/".$this->data['controller']."/".$unique_slug.'/thumb', 0777);
+                }
+                if(!empty($_FILES['image_localtion']['name'])){
+                    $localtionimage = $this->upload_image('image_localtion', $_FILES['image_localtion']['name'], 'assets/upload/localtion/'.$unique_slug, 'assets/upload/localtion/'.$unique_slug.'/thumb');
+                }
+                $is_hot = (!empty($this->input->post('is_hot')))? '1' : '0'; 
+                $localtion_request = array(
+                    'slug' => $unique_slug,
+                    'title' => $this->input->post('title'),
+                    'description' => $this->input->post('description'),
+                    'content' => $this->input->post('content'),
+                    'area_id' => $this->input->post('area_id'),
+                    'is_hot' => $is_hot,
+                );
+                if(isset($localtionimage)){
+                    $localtion_request['image'] = $localtionimage;
+                }
+                $insert = $this->localtion_model->common_insert(array_merge($localtion_request,$this->author_data));
+                if($insert){
+                    $this->session->set_flashdata('message_success', 'Thêm mới thành công!');
+                    redirect('admin/'. $this->data['controller'] .'', 'refresh');
+                }else {
+                    $this->session->set_flashdata('message_error', 'Thêm mới thất bại!');
+                    $this->render('admin/'. $this->data['controller'] .'/create_localtion_view');
+                }
+            }
+        }
+        $this->render('admin/localtion/create_localtion_view');
+    }
+    public function edit($id = null){
+        $detail = $this->localtion_model->get_by_id($id);
+        if(empty($detail['id'])){
+            redirect('admin/localtion/index','refresh');
+        }
+        $this->data['detail'] = $detail;
+        $this->data['area'] = $this->area_model->get_all_area();
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        if($this->input->post()){
+            $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
+            if($this->form_validation->run() === true){
+                $unique_slug = $this->data['detail']['slug'];
+                if($unique_slug !== $this->input->post('slug_localtion')){
+                    $unique_slug = $this->localtion_model->build_unique_slug($this->input->post('slug_localtion'));
+                    if(file_exists("assets/upload/localtion/".$this->data['detail']['slug'])) {
+                        rename("assets/upload/localtion/".$this->data['detail']['slug'], "assets/upload/localtion/".$unique_slug);
+                    }
+                }
+                if(!empty($_FILES['image_localtion']['name'])){
+                    $this->check_img($_FILES['image_localtion']['name'], $_FILES['image_localtion']['size']);
+                    $localtionimage = $this->upload_image('image_localtion', $_FILES['image_localtion']['name'], 'assets/upload/localtion/'.$unique_slug, 'assets/upload/localtion/'.$unique_slug.'/thumb');
+                }
+                $is_hot = (!empty($this->input->post('is_hot')))? '1' : '0'; 
+                $localtion_request = array(
+                    'title' => $this->input->post('title'),
+                    'description' => $this->input->post('description'),
+                    'content' => $this->input->post('content'),
+                    'area_id' => $this->input->post('area_id'),
+                    'is_hot' => $is_hot,
+                );
+                if($unique_slug != $this->data['detail']['slug']){
+                    $localtion_request['slug'] = $unique_slug;
+                }
+                if(isset($localtionimage)){
+                    $localtion_request['image'] = $localtionimage;
+                }
+                $update = $this->localtion_model->common_update($id, $localtion_request);
+                if($update){
+                    $this->session->set_flashdata('message_success', 'Cập nhật thành công!');
+                    if(isset($localtionimage) && !empty($detail['image']) && file_exists('assets/upload/localtion/'.$unique_slug.'/'.$detail['image'])){
+                        unlink('assets/upload/localtion/'.$unique_slug.'/'.$detail['image']);
+                        $new_array = explode('.', $detail['image']);
+                        $typeimg = array_pop($new_array);
+                        $nameimg = str_replace(".".$typeimg, "", $detail['image']);
+                        if(file_exists('assets/upload/localtion/'.$unique_slug.'/thumb/'.$nameimg.'_thumb.'.$typeimg)){
+                            unlink('assets/upload/localtion/'.$unique_slug.'/thumb/'.$nameimg.'_thumb.'.$typeimg);
+                        }
+                    }
+                    redirect('admin/localtion', 'refresh');
+                }else {
+                    $this->session->set_flashdata('message_error', 'Cập nhật thất bại!');
+                    $this->render('admin/localtion/edit/'.$id);
+                }
+            }
+        }
+        $this->render('admin/localtion/edit_localtion_view');
+    }
+    public function detail($id){
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->load->model('comment_model');
+        $this->load->library('pagination');
+        $per_page = 5;
+        $total_rows  = $this->comment_model->count_search_without_by_product_id($id,2);
+        $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/detail/'. $id), $total_rows, $per_page, 5);
+        $this->data['page'] = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
+        $this->pagination->initialize($config);
+        $this->data['page_links'] = $this->pagination->create_links();
+        $this->data['comments'] = $this->comment_model->get_all_by_product_id($id , $per_page, $this->data['page'],2);
+
+        $detail = $this->localtion_model->get_by_id($id);
+        $this->data['detail'] = $detail;
+        $this->data['area'] = $this->area_model->get_by_id_area($detail['area_id']);
+        $this->render('admin/localtion/detail_localtion_view');
+    }
+    function remove(){
+        $id = $this->input->post('id');
+        if($id &&  is_numeric($id) && ($id > 0)){
+            if($this->localtion_model->find_rows(array('id' => $id,'is_deleted' => 0)) == 0){
+                return $this->return_api(HTTP_NOT_FOUND, MESSAGE_ISSET_ERROR);
+            }
+            $localtion = count($this->product_model->get_all_for_remove($id));// lấy số bài viết thuộc về category
+            if($localtion == 0){
+                $data = array('is_deleted' => 1);
+                $update = $this->localtion_model->common_update($id, $data);
+                if($update){
+                    $reponse = array(
+                        'csrf_hash' => $this->security->get_csrf_hash()
+                    );
+                    return $this->return_api(HTTP_SUCCESS,MESSAGE_REMOVE_SUCCESS,$reponse);
+                }
+                return $this->return_api(HTTP_NOT_FOUND,MESSAGE_REMOVE_ERROR);
+            }else{
+                return $this->return_api(HTTP_NOT_FOUND,sprintf(MESSAGE_ERROR_REMOVE_LOCALTION,$localtion));
+            }
+        }
+        return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ID_ERROR);
+    }
+
+    protected function check_img($filename, $filesize){
+        $map = strripos($filename, '.')+1;
+        $fileextension = substr($filename, $map,(strlen($filename)-$map));
+        if(!($fileextension == 'jpg' || $fileextension == 'jpeg' || $fileextension == 'png' || $fileextension == 'gif')){
+            $this->session->set_flashdata('message_error', MESSAGE_FILE_EXTENSION_ERROR);
+            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
+        }
+        if ($filesize > 1228800) {
+            $this->session->set_flashdata('message_error', sprintf(MESSAGE_PHOTOS_ERROR, 1200));
+            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
+        }
+    }
+}
