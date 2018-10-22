@@ -4,9 +4,9 @@
 * 
 */
 class Product extends Admin_Controller{
-    private $request_language_template = array(
-        'title', 'design', 'technology', 'untilities', 'version', 'metadescription', 'metakeywords', 'mass', 'size', 'distance', 'altitude','brightinterval', 'fuelrange', 'fronttiresize', 'forks', 'afterwards', 'engine', 'cylindercapacity','piston','compressionratio','maximumpower','torque' ,'capacity','motion','bootsystem'
-    );
+    // private $request_language_template = array(
+    //     'title', 'design', 'technology', 'untilities', 'version', 'metadescription', 'metakeywords', 'mass', 'size', 'distance', 'altitude','brightinterval', 'fuelrange', 'fronttiresize', 'forks', 'afterwards', 'engine', 'cylindercapacity','piston','compressionratio','maximumpower','torque' ,'capacity','motion','bootsystem'
+    // );
     // private $request_language_template_tour = array(
     //     'title', 'content'
     // );
@@ -19,13 +19,10 @@ class Product extends Admin_Controller{
 		parent::__construct();
 		$this->load->model('product_model');
         $this->load->model('product_category_model');
-        $this->load->model('localtion_model');
-        $this->load->model('area_model');
-        $this->load->model('tour_date_model');
 		$this->load->helper('common');
         $this->load->helper('file');
         $this->data['template'] = build_template();
-        $this->data['request_language_template'] = $this->request_language_template;
+        // $this->data['request_language_template'] = $this->request_language_template;
         // $this->data['request_language_template_tour'] = $this->request_language_template_tour;
         $this->data['request_vehicles'] = $this->request_vehicles;
         $this->data['controller'] = $this->product_model->table;
@@ -57,6 +54,12 @@ class Product extends Admin_Controller{
         $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
         $this->build_new_category($product_category,0,$this->data['product_category']);
         if($this->input->post()){
+            echo "<pre>";
+            print_r($this->input->post());
+            echo "<pre>";die;
+            if($this->check_all_file_img($_FILES) === false){
+                return false;
+            }
             $this->content_column('design');
             $this->content_column('technology');
             $this->content_column('untilities');
@@ -85,30 +88,30 @@ class Product extends Admin_Controller{
                 $untilities_img = $this->input->post('untilities_img');
             }
 
-            if(!empty($_FILES['image_shared']['name'][0])){
-                $this->check_imgs($_FILES['image_shared']['name'], $_FILES['image_shared']['size']);
-            }
-            if(!empty($_FILES['banner_shared']['name'][0])){
-                $this->check_imgs($_FILES['banner_shared']['name'], $_FILES['banner_shared']['size']);
-            }
-            if(!empty($_FILES['design_img']['name'][0])){
-                $this->check_imgs($_FILES['design_img']['name'], $_FILES['design_img']['size']);
-            }
-            if(!empty($_FILES['technology_img']['name'][0])){
-                $this->check_imgs($_FILES['technology_img']['name'], $_FILES['technology_img']['size']);
-            }
-            if(!empty($_FILES['untilities_img']['name'][0])){
-                $this->check_imgs($_FILES['untilities_img']['name'], $_FILES['untilities_img']['size']);
-            }
+            // if(!empty($_FILES['image_shared']['name'][0])){
+            //     $this->check_imgs($_FILES['image_shared']['name'], $_FILES['image_shared']['size']);
+            // }
+            // if(!empty($_FILES['banner_shared']['name'][0])){
+            //     $this->check_imgs($_FILES['banner_shared']['name'], $_FILES['banner_shared']['size']);
+            // }
+            // if(!empty($_FILES['design_img']['name'][0])){
+            //     $this->check_imgs($_FILES['design_img']['name'], $_FILES['design_img']['size']);
+            // }
+            // if(!empty($_FILES['technology_img']['name'][0])){
+            //     $this->check_imgs($_FILES['technology_img']['name'], $_FILES['technology_img']['size']);
+            // }
+            // if(!empty($_FILES['untilities_img']['name'][0])){
+            //     $this->check_imgs($_FILES['untilities_img']['name'], $_FILES['untilities_img']['size']);
+            // }
             $version_img = array();
             $version_icon = array();
             for ($i=0; $i < $this->input->post('number_version'); $i++) { 
-                if(!empty($_FILES['version'.($i+1).'_img']['name'][0])){
-                    $this->check_imgs($_FILES['version'.($i+1).'_img']['name'], $_FILES['version'.($i+1).'_img']['size']);
-                }
-                if(!empty($_FILES['version'.($i+1).'_icon']['name'][0])){
-                    $this->check_imgs($_FILES['version'.($i+1).'_icon']['name'], $_FILES['version'.($i+1).'_icon']['size']);
-                }
+                // if(!empty($_FILES['version'.($i+1).'_img']['name'][0])){
+                //     $this->check_imgs($_FILES['version'.($i+1).'_img']['name'], $_FILES['version'.($i+1).'_img']['size']);
+                // }
+                // if(!empty($_FILES['version'.($i+1).'_icon']['name'][0])){
+                //     $this->check_imgs($_FILES['version'.($i+1).'_icon']['name'], $_FILES['version'.($i+1).'_icon']['size']);
+                // }
                 $version_img[$i] = array();
                 if($this->input->post('version'.($i+1).'_img') !== null){
                     $version_img[$i] = $this->input->post('version'.($i+1).'_img');
@@ -179,18 +182,12 @@ class Product extends Admin_Controller{
             $this->db->trans_begin();
             $insert = $this->product_model->common_insert(array_merge($shared_request,$this->author_data));
             if($insert){
-                $requests = handle_multi_language_request('product_id', $insert, $this->request_language_template, $this->input->post(), $this->page_languages);
-                $this->product_model->insert_with_language($requests);
-            }
-            if ($this->db->trans_status() === false) {
-                $this->db->trans_rollback();
-                return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
-            } else {
-                $this->db->trans_commit();
                 $reponse = array(
                     'csrf_hash' => $this->security->get_csrf_hash()
                 );
                 return $this->return_api(HTTP_SUCCESS,MESSAGE_CREATE_SUCCESS,$reponse);
+            }else{
+                return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
             }
         }
         $this->render('admin/product/create_product_view');
@@ -238,55 +235,6 @@ class Product extends Admin_Controller{
             $this->session->set_flashdata('message_error',MESSAGE_ID_ERROR);
             return redirect('admin/'.$this->data['controller'],'refresh');
         }
-    }
-    public function ajax_form($numberdate,$numbercurrent = 0){
-        $reponse = '';
-        for ($i=$numbercurrent; $i < $numberdate; $i++) {
-            $reponse .='<div role="tabpanel" class="tab-pane active" id="'.$i.'"><div class="title-content-date showdate '.$i.'">';
-            $reponse .= '<div class="btn btn-primary col-xs-12 btn-margin" type="button" data-toggle="collapse" href="#showdatecontent_'.$i.'" aria-expanded="true" aria-controls="messageContent" style="padding:10px 0px;margin-bottom:3px;">';
-            $reponse .= '<div class="col-xs-11">Nội dung Đầy đủ Ngày '.($i+1).'</div>';
-            $reponse .= '</div>';
-            $reponse .= '<div class="no_border"><div class="collapse in" id="showdatecontent_'.$i.'">';
-            $reponse .= '<div class="col-xs-12 title-content-date date " style="margin-top:-5px;">';
-            $reponse .= form_label('Hình ảnh ngày '.($i+1), 'img_date_'.$i,'class="img_date"   id="label_img_date_'.$i.'" ');
-            $reponse .= form_upload('img_date_'.$i.'[]',"",'class="form-control" id="img_date_'.$i.'"');
-            $reponse .= form_label('Chọn khu vực ngày '.($i+1), 'img_date_'.$i,'class="img_date"   id="label_img_date_'.$i.'" ');
-
-            $reponse .= '<select class="form-control select2 select2-hidden-accessible" name="parengoplace_'.$i.'"   multiple="" readonly data-idlocaltion="'.$i.'" style="width: 100%;" data-placeholder="Select a State" style="width: 100%;min-height:34px;min-width:300px;" tabindex="-1" aria-hidden="true"  id="paren-go-place_'.$i.'">';
-            $reponse .= $this->area_selected();
-            $reponse .= '</select>';
-            $reponse .= form_label('Chọn những nơi đến ngày '.($i+1), 'img_date_'.$i,'class="img_date"   id="label_img_date_'.$i.'" ');
-            $reponse .= '<select class="form-control select2 select2-hidden-accessible" name="goplace_'.$i.'" multiple="" data-placeholder="Select a State" style="width: 100%;min-height:34px;min-width:300px;" tabindex="-1" aria-hidden="true" id="go-place_'.$i.'">';
-            $reponse .= '</select>';
-            $reponse .= form_label('Phương tiện đi ngày '.($i+1), 'vehicles');
-            $reponse .= form_error('vehicles');
-            $reponse .= form_dropdown('vehicles_'.$i, $this->data['request_vehicles'],0, 'class="form-control" id="vehicles_'.$i.'"');
-            $reponse .= '<div style="margin-top: 10px;"><ul class="nav nav-pills nav-justified language" role="tablist">';
-            $number = 0;
-            foreach ($this->data['page_languages'] as $key => $value) {
-                $active = ($number == 0)?'active':'';
-                $reponse .='<li role="presentation" class="'.$active.'"><a href="#'.$key.$i.'" aria-controls="'.$key.$i.'" role="tab" data-toggle="tab"><span class="badge">'.($number + 1).'</span>'.$value.'</a></li>';
-                $number++;
-            }
-            $number = 0;
-            $reponse .= '<ul></div><div class="tab-content">';
-            foreach ($this->data['page_languages'] as $key => $value) {
-                $active = ($number == 0)?'active':'';
-                $reponse .= '<div role="tabpanel" class="tab-pane '.$active.'" id="'.$key.$i.'">';
-                $reponse .= '<div class="col-xs-12" style="padding:0px">';
-                $reponse .= form_label(($key == 'vi')?'Tiêu đề ngày '.($i+1):'Title date '.($i+1), 'title_date_'.$i.'_'. $key,'class="title_date"   id="label_title_date_'.$key.'_'.$i.'" ');
-                $reponse .= form_error('title_date_'.$i.'_'. $key);
-                $reponse .= form_input('title_date_'.$i.'_'. $key,"", 'class="form-control" id="title_date_'.$key.'_'.$i.'"');
-                $reponse .= form_label(($key == 'vi')?'Nội dung ngày '.($i+1):'Content date '.($i+1),'content_date_'.$i.'_'. $key,'class="content_date"  id="label_content_date_'.$key.'_'.$i.'" ');
-                $reponse .= form_error('content_date_'.$i.'_'. $key);
-                $reponse .= form_textarea('content_date_'.$i.'_'. $key,"", 'class="tinymce-area form-control" id="content_date_'.$key.'_'.$i.'" rows="3"');
-                $reponse .= '</div></div>';
-
-                $number++;
-            }
-                $reponse .= '</div></div></div></div></div></div>';
-        }
-        return $this->return_api(HTTP_SUCCESS,MESSAGE_CREATE_SUCCESS,$reponse);    
     }
     function remove(){
         $id = $this->input->post('id');
@@ -630,7 +578,7 @@ class Product extends Admin_Controller{
         if ($cate_child){
             foreach ($cate_child as $key => $value){
             $select = ($value['id'] == $id)? 'selected' : '';
-            $result.='<option value="'.$value['id'].'"'.$select.'>'.$char.$value['vi'].'</option>';
+            $result.='<option value="'.$value['id'].'"'.$select.'>'.$char.$value['title'].'</option>';
             $this->build_new_category($categorie, $value['id'],$result, $id, $char.'---|');
             }
         }

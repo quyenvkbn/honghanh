@@ -65,7 +65,7 @@
                                 h4.post-subtitle{
                                     padding: 7px 15px;
                                     background-color: $primary;
-                                    color: $gray;
+                                    color: white;
 
                                     height: auto;
 
@@ -180,8 +180,6 @@
                             background-color: transparent;
 
                             h1{
-                                padding-top: 10px;
-                                margin-bottom: 0px;
                                 font-size: 1.5em;
                             }
                         }
@@ -209,7 +207,7 @@
                                 h4.post-subtitle{
                                     padding: 7px 15px;
                                     background-color: $primary;
-                                    color: $gray;
+                                    color: white;
 
                                     height: auto;
 
@@ -222,16 +220,11 @@
                                     font-size: 1em;
                                 }
 
-                                h2.post-title{font-weight: 700;
+                                h2.post-title{
+                                    font-weight: 700;
                                     margin-top: 0;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    display: -webkit-box;
+
                                     font-size: 1.25em;
-                                    line-height: 1.5;
-                                    height: 2.9em;
-                                    -webkit-line-clamp: 2;
-                                    -webkit-box-orient: vertical;
                                 }
                             }
 
@@ -243,12 +236,9 @@
 
                                 p.post-description{
                                     overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    display: -webkit-box;
                                     line-height: 1.5;
-                                    height: 4.5em;
+                                    max-height: 4.5em;
                                     -webkit-line-clamp: 3;
-                                    -webkit-box-orient: vertical;
                                 }
                             }
 

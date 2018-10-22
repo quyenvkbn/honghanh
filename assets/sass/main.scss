@@ -16,8 +16,8 @@ VARIABLES
 =======================================
  */
 
-$primary: #FFDB2F;
-$primary-hover: #FFE87B;
+$primary: #55b73d;
+$primary-hover: #77c564;
 
 $gray-dark: #333;
 $gray: #666;
@@ -62,6 +62,8 @@ FONT EMBED
 =======================================
  */
 
+/* Embed font Roboto from Google Fonts Library */
+
 body{
     font-family: 'Open Sans', sans-serif;
 }
@@ -86,21 +88,18 @@ a{
     margin-bottom: 15px;
 
     background-color: $primary;
-    color: $gray;
     border: none;
     border-radius: 4px;
 
     &:hover{
         background-color: $primary-hover;
-        color: $gray;
     }
 }
 
 .btn-default{
     padding: 7px 30px;
 
-    background-color: #e7e7e7;
-    color: $gray;
+    background-color: #eaeaea;
     border: none;
     border-radius: 4px;
 
@@ -146,421 +145,541 @@ HEADER STYLE
 =======================================
  */
 
-#page{
-    position: relative;
+#top-nav{
+    background-color: #fafafa;
+    border-top: 4px solid $primary;
 
-    width: 100%;
+    .container{
+        .row{
+            padding-top: 7px;
+            padding-bottom: 7px;
 
-    header{
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1011;
+            ul{
+                padding-left: 0;
+                margin-bottom: 0;
 
-        width: 100%;
+                li{
+                    display: inline-block;
+                    font-size: 1.125em;
+                }
+            }
 
-        background: rgba(0,0,0,0.5);
-        background: -moz-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,0) 100%);
-        background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0.5)), color-stop(25%, rgba(0,0,0,0.5)), color-stop(100%, rgba(0,0,0,0)));
-        background: -webkit-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,0) 100%);
-        background: -o-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,0) 100%);
-        background: -ms-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,0) 100%);
-        background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,0) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
+            .left{
+                ul{
+                    padding-top: 5px;
 
-        #top-nav{
-            .container{
-                border-bottom: 2px solid #fff;
+                    li{
+                        padding-right: 15px;
 
-                .row{
-                    padding-top: 7px;
-                    padding-bottom: 7px;
+                        a{
+                            i{
+                                color: $primary;
+                            }
 
-                    ul{
-                        padding-left: 0;
-                        margin-bottom: 0;
+                            color: $gray-light;
 
-                        li{
-                            display: inline-block;
-                            font-size: 1em;
-
-                            a{
-                                color: #fff;
-
-                                i{
-                                    color: $primary;
-                                }
+                            &:hover{
+                                color: $primary;
                             }
                         }
                     }
+                }
+            }
 
-                    .left{
-                        ul{
-                            padding-top: 5px;
+            .right{
+                text-align: right;
 
-                            li{
-                                padding-right: 15px;
-                            }
+                ul{
+                    li{
+                        padding-right: 10px;
+                        color: $gray-light;
+
+                        img{
+                            height: 13px;
+
+                            vertical-align: middle;
                         }
-                    }
 
-                    .right{
-                        text-align: right;
+                        a{
+                            color: $gray-light;
 
-                        ul{
-                            li{
-
+                            &:hover{
+                                color: $primary;
                             }
                         }
                     }
                 }
             }
         }
+    }
+}
 
-        nav{
-            .container{
-                position: relative;
+#brand{
+    background-color: #fff;
 
-                .row{
-                    font-family: 'Roboto', sans-serif;
-                    font-weight: 700;
-                    font-size: 1em;
-                    .left{
-                        img{
-                            width: 120px;
+    background-image: url("../img/bg-brand.png");
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .container{
+        .row{
+            .left{
+
+            }
+
+            .right{
+                text-align: right;
+
+                ul{
+                    list-style: none;
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+
+                    li{
+                        display: inline-block;
+
+                        &.outline{
+                            text-align: left;
+
+                            padding: 15px 40px;
+                            margin-left: 15px;
+
+                            -webkit-border-radius: 7px;
+                            -moz-border-radius: 7px;
+                            border-radius: 7px;
+
+                            border: 1px dashed $primary;
+                            background-color: #fff;
+
+                            color: $gray-light;
+                        }
+
+                        a{
+                            color: $primary;
+                            font-size: 1.5em;
+
+                            &:hover{
+                                color: $primary-hover;
+                            }
                         }
                     }
+                }
+            }
+        }
+    }
+}
 
-                    .right{
-                        text-align: right;
+header.header{
+    width: 100%;
 
-                        > ul{
-                            margin-bottom: 0;
-                            padding-left: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 
-                            list-style: none;
+    z-index: 1011;
 
-                            > li{
-                                padding: 20px 0px 20px 20px;
+    @include primary-bg;
 
-                                display: inline-block;
+    .container-fluid{
+        .container{
+            position: relative;
 
-                                font-size: 1em;
+            &#main-nav{
 
-                                .menu-expand{
-                                    width: 100%;
+                > ul{
+                    margin-bottom: 0;
+                    padding-left: 0;
 
-                                    position: absolute;
-                                    top: 110%;
-                                    left: 0;
-                                    z-index: 1001;
+                    list-style: none;
 
-                                    background-color: #fff;
-                                    border: 1px solid #dadada;
+                    > li{
+                        padding: 20px 30px;
 
-                                    -webkit-box-shadow: 3px 3px 10px #ccc;
-                                    -moz-box-shadow: 3px 3px 10px #ccc;
-                                    box-shadow: 3px 3px 10px #ccc;
+                        display: inline-block;
 
-                                    display: none;
+                        font-size: 1em;
 
-                                    @include transition(500ms);
-                                }
+                        font-weight: 700;
 
-                                &:hover{
-                                    .menu-expand{
-                                        top: 100%;
+                        > a{
+                            color: #fff;
+                            text-transform: uppercase;
+                        }
 
-                                        display: block;
 
-                                        @include transition(500ms);
+                        &:hover{
+                            ul.menu-expand{
+                                display: block;
+                            }
+                        }
 
-                                        .mask{
-                                            width: 100%;
-                                            height: 150px;
-                                            overflow: hidden;
+                        > ul.menu-expand{
+                            width: 100%;
 
-                                            margin-bottom: 15px;
+                            position: absolute;
+                            top: 100%;
+                            left: 0;
+                            z-index: 1001;
+
+                            background-color: #fff;
+                            border: 1px solid #dadada;
+
+                            -webkit-box-shadow: 3px 3px 10px #ccc;
+                            -moz-box-shadow: 3px 3px 10px #ccc;
+                            box-shadow: 3px 3px 10px #ccc;
+
+                            a{
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: -webkit-box;
+                                line-height: 1.5em;
+                                height: 3em;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                font-size: .875em;
+                            }
+
+                            ul{
+                                list-style: none;
+                            }
+
+                        }
+
+                        &:hover{
+                            background-color: $primary-hover;
+                        }
+
+                        &.menu-list{
+                            .menu-list-expand{
+                                .item{
+                                    padding: 15px;
+
+                                    .head{
+                                        h3{
+                                            font-weight: 700;
+                                            font-size: 1.5em;
                                         }
 
                                         a{
-                                            overflow: hidden;
-                                            text-overflow: ellipsis;
-                                            display: -webkit-box;
-                                            line-height: 1.5em;
-                                            height: 3em;
-                                            -webkit-line-clamp: 2;
-                                            -webkit-box-orient: vertical;
-                                            font-size: .875em;
+                                            height: 3.5em;
+
+                                            &:hover{
+                                                color: $primary;
+                                            }
                                         }
+                                    }
+
+                                    .body{
+                                        ul{
+                                            padding-left: 0;
+
+                                            li{
+                                                .mask{
+                                                    width: 100%;
+                                                    height: 200px;
+                                                    overflow: hidden;
+
+                                                    position: relative;
+
+                                                    a{
+                                                        width: 100%;
+                                                        height: 30%;
+
+                                                        padding: 15px;
+
+                                                        font-size: 1.25em;
+                                                        font-weight: 400;
+
+                                                        color: #fff;
+
+                                                        position: absolute;
+                                                        bottom: 0;
+                                                        left: 0;
+
+                                                        background: rgba(0,0,0,0.5);
+                                                        background: -moz-linear-gradient(-45deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 100%);
+                                                        background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(0,0,0,0.75)), color-stop(100%, rgba(0,0,0,0.0)));
+                                                        background: -webkit-linear-gradient(-45deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.0) 100%);
+                                                        background: -o-linear-gradient(-45deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.0) 100%);
+                                                        background: -ms-linear-gradient(-45deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.0) 100%);
+                                                        background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.0) 100%);
+                                                        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#77c564', endColorstr='#55b73d', GradientType=1 );
+
+                                                        &:hover{
+                                                            color: #fff;
+                                                        }
+                                                    }
+                                                }
+
+                                                a{
+                                                    color: $gray-light;
+                                                    font-size: 1.25em;
+
+                                                    &:hover{
+                                                        color: $gray;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &.menu-tabs{
+                            .menu-tabs-expand{
+                                min-height: 520px !important;
+                                
+                                > li{
+                                    width: 25%;
+
+                                    padding: 20px 15px;
+                                    font-size: 1.5em;
+
+                                    border-right: 1px solid #dadada;
+                                    border-bottom: 1px solid #dadada;
+
+                                    > a{
+                                        color: $gray;
+
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        line-height: 1.5em;
+                                        height: 1.5em;
+                                        -webkit-line-clamp: 1;
+                                        -webkit-box-orient: vertical;
+                                        font-size: .875em;
+                                    }
+
+                                    > ul{
+                                        position: absolute;
+                                        top: 0;
+                                        left: 25%;
+
+                                        width: 75%;
+                                        height: 100%;
+
+                                        padding: 15px;
+
+                                        display: none;
+
+                                        > li{
+                                            display: inline-block;
+                                            width: 30%;
+                                            padding-left: 15px;
+                                            padding-right: 15px;
+
+                                            .mask{
+                                                width: 100%;
+                                                height: 160px;
+
+                                                margin-bottom: 15px;
+
+                                                position: relative;
+
+                                                .tour-badge{
+                                                    position: absolute;
+                                                    top: 5px;
+                                                    left: 10px;
+                                                }
+                                            }
+
+                                            a{
+                                                font-weight: 400;
+
+                                                text-transform: uppercase;
+                                            }
+                                        }
+                                    }
+
+                                    &.active{
+                                        background-color: #eaeaea;
+
+                                        a{
+                                            color: $gray;
+
+                                            &:hover{
+                                                color: $gray;
+                                            }
+                                        }
+
+                                        > ul{
+                                            display: block;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &.menu-dropdown{
+
+                            .menu-dropdown-expand{
+                                padding: 15px;
+
+                                .row{
+                                    .media{
+                                        &:first-child{
+                                            margin-top: 15px;
+                                        }
+
+                                        .media-left{
+                                            width: 50%;
+
+                                            .mask{
+                                                width: 100%;
+                                                height: 230px;
+                                                overflow: hidden;
+                                            }
+                                        }
+
+                                        .media-body{
+
+                                            a{
+                                                color: $primary;
+
+                                                &:hover{
+                                                    color: $gray;
+                                                }
+
+                                                h3{
+                                                    font-weight: 700;
+                                                }
+                                            }
+
+                                            p{
+                                                color: $gray-light;
+
+                                                font-size: 1em;
+                                                font-weight: 400;
+
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                display: -webkit-box;
+                                                line-height: 1.5;
+                                                height: 7.5em;
+                                                -webkit-line-clamp: 5;
+                                                -webkit-box-orient: vertical;
+                                            }
+
+                                            .btn-primary{
+                                                color: #fff;
+
+                                                &:hover{
+                                                    color: #fff;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        #nav-device{
+            width: 90%;
+            height: 100vh;
+            overflow-y: scroll;
+
+            @include primary-bg;
+
+            position: fixed;
+            top: 0;
+            left: -100%;
+
+            padding: 15px;
+
+            a{
+                color: #fff;
+            }
+
+            > .head{
+                padding: 10px 0;
+                display: block;
+            }
+
+            > .body{
+                display: block;
+
+                margin-top: 30px;
+
+                .panel-group{
+                    .panel-default{
+                        background-color: transparent;
+                        border-color: transparent;
+
+                        -webkit-box-shadow: none;
+                        -moz-box-shadow: none;
+                        box-shadow: none;
+
+                        .panel-heading{
+                            background-color: transparent;
+                            border-color: transparent;
+
+                            h4{
+                                a{
+                                    color: #fff;
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+
+                        .panel-body{
+                            ul{
+                                list-style: none;
+                                padding-left: 15px;
+                                color: #fff;
+
+                                li{
+                                    h3{
+                                        color: #fff;
+                                        font-size: 1em;
                                     }
 
                                     a{
                                         color: #fff;
                                     }
                                 }
-
-                                > a{
-                                    color: #fff;
-                                    text-transform: uppercase;
-                                }
-
-                                &.menu-tabs{
-                                    .menu-tabs-expand{
-                                        list-style: none;
-                                        padding-left: 0;
-
-                                        > li{
-                                            width: 25%;
-                                            text-align: left;
-
-                                            padding: 30px 15px;
-                                            font-size: 1.25em;
-
-                                            border-right: 1px solid #dadada;
-                                            border-bottom: 1px solid #dadada;
-
-                                            > a{
-                                                color: $gray;
-
-                                                overflow: hidden;
-                                                text-overflow: ellipsis;
-                                                display: -webkit-box;
-                                                line-height: 1.5em;
-                                                height: 1.5em;
-                                                -webkit-line-clamp: 1;
-                                                -webkit-box-orient: vertical;
-                                                font-size: .875em;
-                                            }
-
-                                            > ul{
-                                                position: absolute;
-                                                top: 0;
-                                                left: 25%;
-
-                                                width: 75%;
-                                                height: 100%;
-
-                                                padding: 15px;
-
-                                                display: none;
-
-                                                > li{
-                                                    display: inline-block;
-                                                    width: 30%;
-                                                    padding-left: 15px;
-                                                    padding-right: 15px;
-
-                                                    .mask{
-                                                        width: 100%;
-                                                        height: 160px;
-
-                                                        margin-bottom: 15px;
-                                                        position: relative;
-                                                        .tour-badge{
-                                                            position: absolute;
-                                                            top: 5px;
-                                                            left: 10px;
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            &.active{
-                                                background-color: #eaeaea;
-
-                                                a{
-                                                    color: $gray;
-
-                                                    &:hover{
-                                                        color: $gray;
-                                                    }
-                                                }
-
-                                                > ul{
-                                                    display: block;
-                                                }
-                                            }
-                                        }
-
-                                        .row{
-                                            min-height: 300px;
-
-                                            .left{
-                                                > ul{
-                                                    list-style: none;
-                                                    padding-left: 0;
-                                                    text-align: left;
-
-                                                    position: relative;
-
-                                                    border-right: 1px solid #dadada;
-
-                                                    > li{
-                                                        padding: 10px 15px;
-                                                        font-size: 1.25em;
-
-                                                        border-bottom: 1px solid #dadada;
-
-                                                        &:hover{
-                                                            background-color: #eaeaea;
-
-                                                            > ul{
-                                                                display: block;
-                                                            }
-                                                        }
-
-                                                        > ul{
-                                                            position: absolute;
-                                                            top: 0;
-                                                            left: 100%;
-
-                                                            width: 330%;
-
-                                                            display: none;
-
-                                                            > li{
-                                                                width: 32%;
-                                                                padding-left: 15px;
-                                                                padding-right: 15px;
-
-                                                                font-size: 1.125em;
-
-                                                                display: inline-block;
-
-                                                                a{
-                                                                    color: $gray-light;
-
-                                                                    &:hover{
-                                                                        color: $gray-dark;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            .right{
-                                                padding: 15px;
-
-                                                .item{
-                                                    .mask{
-                                                        width: 100%;
-                                                        height: 200px;
-                                                        overflow: hidden;
-
-                                                        margin-bottom: 15px;
-                                                    }
-
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
                             }
                         }
-                    }
-                }
-
-                .btn-expand{
-                    text-align: center;
-
-                    .btn-primary{
-                        padding: 10px 30px;
-                        margin-top: 25px;
-                        margin-left: 35px;
                     }
                 }
             }
 
-            #nav-device{
-                width: 90%;
-                height: 100vh;
-                overflow-y: scroll;
+            > .foot{
+                padding-top: 30px;
+                border-top: 1px solid #fff;
 
-                background-color: $primary;
+                ul{
+                    list-style: none;
+                    padding-left: 15px;
 
-                position: fixed;
-                top: 0;
-                left: -100%;
+                    &:first-of-type{
+                        padding-bottom: 15px;
+                        border-bottom: 1px solid #e7e7e7;
 
-                padding: 15px;
-
-                a{
-                    color: $gray;
-                }
-
-                > .head{
-                    padding: 10px 0;
-                    display: block;
-                }
-
-                > .body{
-                    display: block;
-
-                    margin-top: 30px;
-
-                    .panel-group{
-                        .panel-default{
-                            background-color: transparent;
-                            border-color: transparent;
-
-                            -webkit-box-shadow: none;
-                            -moz-box-shadow: none;
-                            box-shadow: none;
-
-                            .panel-heading{
-                                background-color: transparent;
-                                border-color: transparent;
-
-                                h4{
-                                    a{
-                                        color: $gray;
-                                        text-transform: uppercase;
-                                    }
-                                }
-                            }
-
-                            .panel-body{
-                                ul{
-                                    list-style: none;
-                                    padding-left: 15px;
-                                    color: $gray;
-
-                                    li{
-                                        h3{
-                                            color: $gray;
-                                            font-size: 1em;
-                                        }
-
-                                        a{
-                                            color: $gray;
-                                        }
-                                    }
+                        li{
+                            a{
+                                img{
+                                    width: 15px;
+                                    margin-top: -4px;
                                 }
                             }
                         }
                     }
-                }
 
-                > .foot{
-                    padding-top: 30px;
-                    border-top: 1px solid #fff;
+                    li{
+                        color: #fff;
 
-                    ul{
-                        list-style: none;
-                        padding-left: 15px;
-
-                        li{
-                            color: $gray;
-
-                            h3{
-                                font-size: 1.25em;
-                                margin-top: 5px;
-                            }
+                        h3{
+                            font-size: 1.25em;
+                            margin-top: 5px;
                         }
                     }
                 }
@@ -568,174 +687,113 @@ HEADER STYLE
         }
     }
 
+
+}
+
+section.main-page{
+    width: 100%;
+
+    .container-fluid{
+        position: relative;
+
+    }
 }
 
 section.main-content{
-    .big-title{
-        h4.subtitle{
-            font-weight: 400;
+    h2.post-title{
+        font-size: 2em;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 1.168;
+        height: 2.3em;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    h4.post-subtitle{
+        font-size: 1em;
+        text-transform: uppercase;
+
+        margin-top: 15px;
+        color: $gray-light;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 1.168;
+        height: 1.5em;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    p.post-description{
+        font-size: 1em;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 1.5;
+        height: 7.5em;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+    }
+    .body{
+        div.post-description{
             font-size: 1em;
-            text-transform: uppercase;
-
-            padding: 7px 25px;
-
-            border-radius: 4px;
-
-            background-color: $primary;
-            color: $gray;
-            text-shadow: none;
-
-            display: inline-block;
-        }
-
-        h1.title{
-            font-weight: 700;
-            font-size: 2em;
 
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            line-height: 1.168;
-            max-width: 40%;
-            height: 3.3em;
-            -webkit-line-clamp: 3;
+            line-height: 1.5;
+            height: 7.5em;
+            -webkit-line-clamp: 5;
             -webkit-box-orient: vertical;
-    
-            margin-bottom: 10px;
         }
     }
 
-    .item{
-        .mask{
-            position: relative;
-
-            .badge{
-                position: absolute;
-
-                z-index: 990;
-
-                background-color: transparent;
-
-                &.badge-special{
-                    width: 130px;
-                    height: 50px;
-
-                    top: 10px;
-                    right: -20px;
-                }
-
-                &.badge-discount{
-                    top: 0px;
-                    left: 15px;
-
-                    padding: 0 5px 5px;
-
-                    background-color: $primary;
-                    color: #fff;
-
-                    border-radius: 0;
-
-                    font-size: 1.5em;
-                    font-weight: 700;
-
-                    .content{
-                        position: relative;
-
-                        padding: 50px 15px 30px;
-
-                        border: 1px solid #fff;
-                        border-top: none;
-                    }
-                }
-            }
-        }
-    }
     .section{
         display: block;
         padding-top: 30px;
         padding-bottom: 30px;
 
         .section-header{
-            margin-bottom: 10px;
-            >h1{
-                margin-top: 0px;
+            margin-bottom: 30px;
+
+            h1{
                 font-size: 2em;
-                font-weight: bold;
+                font-weight: 700;
+                margin-top: 0;
+                padding-bottom: 15px;
             }
-            .row{
-                .left{
-                    h1{
-                        font-size: 2em;
-                        font-weight: 700;
 
-                        margin-top: 0;
-                    }
-                }
+            .line{
+                width: 100%;
+                height: 4px;
+                margin-bottom: 30px;
 
-                .right{
-                    text-align: right;
-                    padding-top: 10px;
+                background-color: #eaeaea;
 
-                    a{
-                        font-size: 1.25em;
-                        color: $gray-light;
+                position: relative;
 
-                        &:hover{
-                            color: $primary;
-                        }
+                .line-primary{
+                    width: 25%;
+                    height: 100%;
 
-                        i{
-                            color: $primary;
-                        }
-                    }
+                    background-color: $primary;
+
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                 }
             }
         }
 
-
-
         .item{
-            h2.post-title{
-                font-size: 1.5em;
+            .inner{
+                position: relative;
 
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                line-height: 1.168;
-                height: 2.3em;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
-
-            h4.post-subtitle{
-                font-size: 1em;
-                text-transform: uppercase;
-
-                margin-top: 30px;
-                color: $gray-light;
-
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                line-height: 1.168;
-                height: 1.5em;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
-            }
-
-            p.post-description{
-                font-size: 1em;
-
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                line-height: 1.5;
-                height: 7.5em;
-                -webkit-line-clamp: 5;
-                -webkit-box-orient: vertical;
-            }
-
-            .mask{
                 .badge{
                     position: absolute;
 
@@ -747,17 +805,17 @@ section.main-content{
                         width: 130px;
                         height: 50px;
 
-                        top: 10px;
-                        right: -20px;
+                        top: 15px;
+                        right: 7px;
                     }
 
                     &.badge-discount{
                         top: 0px;
-                        left: 30px;
+                        left: 35px;
 
                         padding: 0 5px 5px;
 
-                        background-color: $primary;
+                        background-color: #ff7300;
                         color: #fff;
 
                         border-radius: 0;
@@ -781,21 +839,21 @@ section.main-content{
 }
 
 footer.footer{
-    color: $gray;
     background-color: $primary;
-    
+
     background-image: url("../img/bg-footer.png");
     background-repeat: no-repeat;
     background-position: center bottom;
     background-size: 100%;
 
-    padding-top: 30px;
-    padding-bottom: 600px;
 
-    border-top: 2px solid $primary;
+    color: #fff;
+
+    padding-top: 30px;
+    padding-bottom: 400px;
 
     a{
-        color: $gray;
+        color: #eaeaea;
 
         &:hover{
             color: #fff;
@@ -805,58 +863,84 @@ footer.footer{
     .container{
         .row{
             padding-bottom: 30px;
-            border-bottom: 1px solid $gray;
 
-            .item{
+            &:last-of-type{
+                border-bottom: none;
+            }
 
-                h1{
-                    font-size: 2.5em;
-                    font-weight: 700;
+            a{
+                &.link-primary{
+                    color: #fff;
 
-                    color: $primary;
-                }
-
-                .info{
-                    margin-bottom: 5px;
-
-                    label{
-                        font-size: 1.125em;
-                        font-weight: 400;
-
-                        i{
-                            color: $gray;
-                        }
-                    }
-
-                    h2{
-                        font-size: 1.5em;
-                        font-weight: 700;
-
-                        margin-top: 5px;
+                    &:hover{
+                        color: #fff;
                     }
                 }
             }
 
-            &:last-of-type{
-                border-bottom: none;
-
-                ul.list-inline{
-                    margin-top: 15px;
-
-                    li{
-                        font-size: 1.25em;
-                        font-weight: 700;
-
-                        padding-left: 15px;
-                        padding-right: 15px;
+            .item{
+                .head{
+                    h3{
+                        padding-bottom: 15px;
+                        border-bottom: 1px solid #fafafa;
+                        font-size: 1.35em;
+                        font-weight: bold;
                     }
                 }
 
-                .copyright{
-                    margin-top: 15px;
+                .body{
+                    > ul{
+                        padding-left: 0;
+                        list-style: none;
 
-                    font-size: 1em;
+                        > li{
+                            font-weight: bold;
+                            margin-bottom: 10px;
+
+                            > ul{
+                                padding-left: 15px;
+
+                                > li{
+                                    font-weight: normal;
+                                }
+                            }
+                        }
+                    }
+
+                    table{
+                        tr{
+                            td{
+                                border-top-color: transparent;
+
+                                img{
+                                    width: 100px;
+                                }
+
+                                .outline{
+                                    padding: 0px 15px;
+
+                                    -webkit-border-radius: 7px;
+                                    -moz-border-radius: 7px;
+                                    border-radius: 7px;
+
+                                    color: #fff;
+                                    font-size: 1em;
+
+                                    a{
+                                        h2{
+                                            margin-top: 10px;
+                                            font-size: 1.5em;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+
+            .text-center{
+                padding-bottom: 70px;
             }
         }
     }
@@ -865,7 +949,87 @@ footer.footer{
     }
 }
 
-@media (max-width: 768px){
+#fb-chat-box-area{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+
+    z-index: 999;
+
+    #button{
+        width: 50px;
+        height: 50px;
+
+        border-radius: 50%;
+
+        position: relative;
+
+        -webkit-box-shadow:  2px 2px 5px #333;
+        -moz-box-shadow:  2px 2px 5px #333;
+        box-shadow:  2px 2px 5px #333;
+
+        button#open-chat-box{
+            width: 50px;
+            height: 50px;
+
+            position: absolute;
+            bottom: 0;
+            right: 0;
+
+            background-color: #fff;
+
+            border-radius: 50%;
+
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+
+            @include transition(500ms);
+
+            i{
+                color: $primary;
+            }
+
+            &:hover{
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+
+                @include transition(500ms);
+            }
+        }
+    }
+
+    #fb-chat-box{
+        border: 1px solid #fff;
+
+        position: absolute;
+
+        bottom: 0px;
+        right: 55px;
+
+        .heading{
+            padding: 10px 15px;
+
+            background-color: $primary;
+            color: #fff;
+
+            button{
+                background-color: transparent;
+                columns: #fff;
+                border: none;
+            }
+        }
+    }
+
+
+}
+
+@media (max-width: 768px) and (hover: none){
     #top-nav{
         .container{
             .row{
@@ -878,10 +1042,11 @@ footer.footer{
                 }
 
                 .left{
+                    text-align: center;
                 }
 
                 .right{
-                    text-align: left;
+
                 }
             }
         }
@@ -922,206 +1087,144 @@ footer.footer{
                         }
                     }
                 }
+
+                .btn-expand{
+                    text-align: center;
+
+                    .btn-primary{
+                        padding: 10px 30px;
+                        margin-top: 25px;
+                    }
+                }
             }
         }
     }
 
-    header.header{
-        position: fixed;
-        top: 0;
-        left: -100%;
-        z-index: 1011;
+    section.main-content{
+        .section{
+            display: block;
+            padding-top: 50px;
+            padding-bottom: 50px;
 
-        .container-fluid{
-            .container{
+            .section-header{
+                margin-bottom: 30px;
 
-                &#main-nav{
+                h1{
+                    font-size: 2em;
+                    margin-top: 0;
+                    padding-bottom: 15px;
+                }
 
-                    > ul{
+                .line{
+                    width: 100%;
+                    height: 4px;
+                    margin-bottom: 30px;
 
-                        > li{
-                            padding: 12px 15px;
+                    background-color: #eaeaea;
 
-                            display: list-item;
+                    position: relative;
 
-                            &:hover{
-                                background-color: $primary-hover;
+                    .line-primary{
+                        width: 25%;
+                        height: 100%;
 
-                                .menu-expand{
-                                    top: 100%;
+                        background-color: $primary;
 
-                                    display: block;
-
-                                    @include transition(500ms);
-
-                                    .row{
-                                        ul{
-                                            list-style: none;
-                                        }
-
-                                        .mask{
-                                            width: 100%;
-                                            height: 150px;
-                                            overflow: hidden;
-
-                                            margin-bottom: 15px;
-
-                                            img{
-                                                width: 100%;
-                                                height: 100%;
-                                                object-fit: cover;
-                                            }
-                                        }
-
-                                        a{
-                                            overflow: hidden;
-                                            text-overflow: ellipsis;
-                                            display: -webkit-box;
-                                            line-height: 1.5em;
-                                            height: 3em;
-                                            -webkit-line-clamp: 2;
-                                            -webkit-box-orient: vertical;
-                                            font-size: .875em;
-                                        }
-                                    }
-
-                                }
-
-                                a{
-                                    color: #fff;
-                                }
-                            }
-
-                            > a{
-                                color: #fff;
-                                text-transform: uppercase;
-                            }
-
-                            .menu-expand{
-                                width: 100%;
-
-                                position: absolute;
-                                top: 110%;
-                                left: 0;
-                                z-index: 1001;
-
-                                background-color: #fff;
-                                border: 1px solid #dadada;
-
-                                display: none;
-
-                                @include transition(500ms);
-                            }
-
-                            &.menu-tabs{
-                                .menu-tabs-expand{
-                                    .row{
-                                        .left{
-                                            > ul{
-                                                list-style: none;
-                                                padding-left: 0;
-                                                text-align: left;
-
-                                                position: relative;
-
-                                                > li{
-                                                    padding: 10px 15px;
-
-                                                    &:hover{
-                                                        background-color: #eaeaea;
-
-                                                        > ul{
-                                                            display: block;
-                                                        }
-                                                    }
-
-                                                    > ul{
-                                                        position: absolute;
-                                                        top: 0;
-                                                        left: 100%;
-
-                                                        width: 330%;
-
-                                                        display: none;
-
-                                                        > li{
-                                                            width: 32%;
-                                                            padding-left: 15px;
-                                                            padding-right: 15px;
-
-                                                            display: inline-block;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        .right{
-                                            padding: 15px;
-
-                                            .item{
-                                                .mask{
-                                                    width: 100%;
-                                                    height: 200px;
-                                                    overflow: hidden;
-
-                                                    margin-bottom: 15px;
-
-                                                    img{
-                                                        width: 100%;
-                                                        height: 100%;
-                                                        object-fit: cover;
-                                                    }
-                                                }
-
-
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            &.menu-list{
-                                .menu-list-expand{
-                                    .row{
-                                        margin-left: 0;
-                                        margin-right: 0;
-
-                                        .item{
-                                            padding: 15px;
-
-                                            .head{
-
-                                            }
-
-                                            .body{
-                                                ul{
-                                                    padding-left: 0;
-
-                                                    li{
-                                                        a{
-                                                            color: $gray-light;
-
-                                                            &:hover{
-                                                                color: $gray;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        position: absolute;
+                        top: 0;
+                        left: 0;
                     }
+                }
+            }
 
+            .item{
+                h2.post-title{
+                    font-size: 2em;
+
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    line-height: 1.168;
+                    height: 2.3em;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+
+                h4.post-subtitle{
+                    font-size: 1em;
+                    text-transform: uppercase;
+
+                    margin-top: 30px;
+                    color: $gray-light;
+
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    line-height: 1.168;
+                    height: 1.5em;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                }
+
+                p.post-description{
+                    font-size: 1em;
+
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    line-height: 1.5;
+                    height: 7.5em;
+                    -webkit-line-clamp: 5;
+                    -webkit-box-orient: vertical;
                 }
             }
         }
     }
 
     footer.footer{
-        padding-bottom: 150px;
+        padding-bottom: 45px;
+
+        .container{
+            .row{
+                .item{
+                    .head{
+                        h3{
+                        }
+                    }
+
+                    .body{
+                        > ul{
+                            > li{
+
+                                > ul{
+                                    > li{
+                                    }
+                                }
+                            }
+                        }
+
+                        table{
+                            tr{
+                                td{
+                                    img{
+                                    }
+
+                                    .outline{
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .text-center{
+
+                }
+            }
+        }
+
+        .container-fluid{
+        }
     }
 }
