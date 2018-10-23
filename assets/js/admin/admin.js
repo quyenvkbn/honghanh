@@ -1,17 +1,17 @@
 var csrf_hash = $("input[name='csrf_myielts_token']").val();
 switch(window.location.origin){
-    case 'http://myielts.vn':
-        var HOSTNAME = 'http://vajra.vn/';
+    case 'http://honghanh.vn':
+        var HOSTNAME = 'http://honghanh.vn/';
         break;
     default:
-        var HOSTNAME = 'http://localhost/vajra/';
+        var HOSTNAME = 'http://localhost/honghanh/';
 }
 switch(window.location.origin){
-    case 'http://vajra.com':
-        var HOSTNAMEADMIN = 'http://vajra.com/admin';
+    case 'http://honghanh.com':
+        var HOSTNAMEADMIN = 'http://honghanh.com/admin';
         break;
     default:
-        var HOSTNAMEADMIN = 'http://localhost/vajra/admin';
+        var HOSTNAMEADMIN = 'http://localhost/honghanh/admin';
 } 
 $("#box-promotion").fadeOut();
 if(window.location.pathname.indexOf("/product/edit/") != '-1' && $('#promotion').is(':checked') == true){
