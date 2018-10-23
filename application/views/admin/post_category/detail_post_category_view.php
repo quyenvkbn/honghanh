@@ -59,8 +59,8 @@
                                             <td><?php echo $detail['slug'] ?></td>
                                         </tr>
                                         <tr>
-                                            <th>Danh Mục</th>
-                                            <td><?php echo $detail['parent_title'] ?></td>
+                                            <th>Loại danh mục</th>
+                                            <td><?php echo ($detail['type'] == 0)? 'Dịch Vụ' : 'Tin Tức' ?></td>
                                         </tr>
 
                                     </table>
