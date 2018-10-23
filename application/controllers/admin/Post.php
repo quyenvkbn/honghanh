@@ -94,7 +94,7 @@ class Post extends Admin_Controller{
                 }else {
                     $this->load->libraries('session');
                     $this->session->set_flashdata('message_error', MESSAGE_CREATE_ERROR);
-                    $this->render('admin/'. $this->controller .'/create_post_category_view');
+                    $this->render('admin/'. $this->controller .'/create_post_view');
                 }
         	}
         }
