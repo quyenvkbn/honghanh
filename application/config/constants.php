@@ -160,7 +160,7 @@ defined('MESSAGE_REMOVE_ERROR') OR define('MESSAGE_REMOVE_ERROR', 'Xóa thất b
 defined('MESSAGE_FOREIGN_KEY_LINK_ERROR_PRODUCT') OR define('MESSAGE_FOREIGN_KEY_LINK_ERROR_PRODUCT', 'Category vẫn còn %s tour và có %s category là con nên không thẻ xóa!');/**
  * Message foreign key link check product category and check product
  */
-defined('MESSAGE_FOREIGN_KEY_LINK_ERROR') OR define('MESSAGE_FOREIGN_KEY_LINK_ERROR', 'Category vẫn còn %s bài viết và có %s category là con nên không thẻ xóa!');
+defined('MESSAGE_FOREIGN_KEY_LINK_ERROR') OR define('MESSAGE_FOREIGN_KEY_LINK_ERROR', 'Category vẫn còn %s bài viết nên không thẻ xóa!');
 
 /**
  * Message foreign key check product category and check product
