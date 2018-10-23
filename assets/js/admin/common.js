@@ -81,8 +81,6 @@ function remove(controller, id){
             success: function(response){
                 csrf_hash = response.reponse.csrf_hash;
                 if(response.status == 200 && response.isExisted == true){
-                    console.log(response);
-                    console.log(response.message);
                     if(response.message != 'undefined'){
                         alert(response.message);
                     }

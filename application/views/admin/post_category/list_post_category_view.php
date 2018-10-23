@@ -72,53 +72,53 @@
                                 </thead>
                                 
                                 <?php if($result): ?>
+                                    <tbody class="treeview ui-sortable-handle">
                                     <?php foreach ($result as $key => $value): ?>
-                                        <tbody class="treeview ui-sortable-handle">
-                                            <tr class="remove_2">
-                                                <td>
-                                                    <div class="mask_sm">
-                                                        <img src="<?php echo base_url('assets/upload/post_category/'. $value['image']) ?>" alt="anh-cua-tin-tong-hop" width="150px">
-                                                    </div>
-                                                </td>
-                                                <td><?php echo $value['title'] ?></td>
-                                                <td><?php echo ($value['type'] == 0) ? 'Dịch Vụ' : 'Tin Tức' ?></td>
-                                                <td>
-                                                    <?php if ($value['is_activated'] == 0): ?>
-                                                        <span class="label label-success">Đang sử dụng</span>
-                                                    <?php else: ?>
-                                                        <span class="label label-warning">Không sử dụng</span>
-                                                    <?php endif ?>
-                                                </td>
-                                                <td>
-                                                    <a href="<?php echo base_url('admin/post_category/detail/' . $value['id']) ?>" <button="" class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">Xem chi tiết
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <?php if ($value['is_activated'] == 0): ?>
-                                                        <a href="javascript:void(0);" onclick="deactive('post_category', <?php echo $value['id'] ?>, 'Chăc chắn tắt danh mục(Lưu ý: Khi tắt danh mục thì tất cả bài viết của danh mục cũng tắt theo)')" class="dataActionDelete" title="Tắt danh mục"><i class="fa fa-low-vision" aria-hidden="true"></i> </a>
-                                                    <?php else: ?>
-                                                        <a href="javascript:void(0);" onclick="active('post_category', <?php echo $value['id'] ?>, 'Chăc chắn bật danh mục(Lưu ý: Khi bật danh mục thì tất cả bài viết của danh mục cũng bật theo)')" class="dataActionDelete" title="Bật danh mục"><i class="fa fa-eye" aria-hidden="true"></i> </a>
-                                                    <?php endif ?>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <a href="<?php echo base_url('admin/post_category/edit/' . $value['id']) ?>" class="dataActionEdit" title="Sửa danh mục"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <a href="javascript:void(0);" onclick="remove('post_category', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa danh mục"><i class="fa fa-remove" aria-hidden="true"></i> </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="8" class="no_border" style="padding: 0">
-                                                    <div class="collapse" id="2" aria-expanded="true" style="">
-                                                        <div clas="row">
-                                                            <div class="table-responsive col-md-11 col-md-offset-1" style="padding-right: 0">
-                                                                <table class="table table_product">
-                                                                </table>
-                                                            </div>
+                                        <tr class="remove_<?php echo $value['id'] ?>">
+                                            <td>
+                                                <div class="mask_sm">
+                                                    <img src="<?php echo base_url('assets/upload/post_category/'. $value['image']) ?>" alt="anh-cua-tin-tong-hop" width="150px">
+                                                </div>
+                                            </td>
+                                            <td><?php echo $value['title'] ?></td>
+                                            <td><?php echo ($value['type'] == 0) ? 'Dịch Vụ' : 'Tin Tức' ?></td>
+                                            <td>
+                                                <?php if ($value['is_activated'] == 0): ?>
+                                                    <span class="label label-success">Đang sử dụng</span>
+                                                <?php else: ?>
+                                                    <span class="label label-warning">Không sử dụng</span>
+                                                <?php endif ?>
+                                            </td>
+                                            <td>
+                                                <a href="<?php echo base_url('admin/post_category/detail/' . $value['id']) ?>" <button="" class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">Xem chi tiết
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <?php if ($value['is_activated'] == 0): ?>
+                                                    <a href="javascript:void(0);" onclick="deactive('post_category', <?php echo $value['id'] ?>, 'Chăc chắn tắt danh mục(Lưu ý: Khi tắt danh mục thì tất cả bài viết của danh mục cũng tắt theo)')" class="dataActionDelete" title="Tắt danh mục"><i class="fa fa-low-vision" aria-hidden="true"></i> </a>
+                                                <?php else: ?>
+                                                    <a href="javascript:void(0);" onclick="active('post_category', <?php echo $value['id'] ?>, 'Chăc chắn bật danh mục(Lưu ý: Khi bật danh mục thì tất cả bài viết của danh mục cũng bật theo)')" class="dataActionDelete" title="Bật danh mục"><i class="fa fa-eye" aria-hidden="true"></i> </a>
+                                                <?php endif ?>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <a href="<?php echo base_url('admin/post_category/edit/' . $value['id']) ?>" class="dataActionEdit" title="Sửa danh mục"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <a href="javascript:void(0);" onclick="remove('post_category', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa danh mục"><i class="fa fa-remove" aria-hidden="true"></i> </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8" class="no_border" style="padding: 0">
+                                                <div class="collapse" id="2" aria-expanded="true" style="">
+                                                    <div clas="row">
+                                                        <div class="table-responsive col-md-11 col-md-offset-1" style="padding-right: 0">
+                                                            <table class="table table_product">
+                                                            </table>
                                                         </div>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     <?php endforeach ?>
+                                    </tbody>
                                 <?php else: ?>
                                     <tr>
                                         Chưa có danh mục

@@ -173,17 +173,12 @@ class Post_category extends Admin_Controller{
         $this->load->model('post_model');
         if($id &&  is_numeric($id) && ($id > 0)){
             $post_category = $this->post_category_model->get_by_id($id);
-            if($post_category['parent_id'] == 0){
-                return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ERROR_REMOVE_CATEGORY);
-            }
             if($this->post_category_model->find_rows(array('id' => $id,'is_deleted' => 0)) == 0){
                 return $this->return_api(HTTP_NOT_FOUND, MESSAGE_ISSET_ERROR);
             }
             $where = array('post_category_id' => $id,'is_deleted' => 0);
             $post = $this->post_model->find_rows($where);// lấy số bài viết thuộc về category
-            $where = array('parent_id' => $id,'is_deleted' => 0);
-            $parent_id = $this->post_category_model->find_rows($where);//lấy số con của category
-            if($post == 0 && $parent_id == 0){
+            if($post == 0){
                 $data = array('is_deleted' => 1);
                 $update = $this->post_category_model->common_update($id, $data);
                 if($update){
@@ -194,7 +189,7 @@ class Post_category extends Admin_Controller{
                 }
                 return $this->return_api(HTTP_NOT_FOUND,MESSAGE_REMOVE_ERROR);
             }else{
-                return $this->return_api(HTTP_NOT_FOUND,sprintf(MESSAGE_FOREIGN_KEY_LINK_ERROR,$post,$parent_id));
+                return $this->return_api(HTTP_NOT_FOUND,sprintf(MESSAGE_FOREIGN_KEY_LINK_ERROR,$post));
             }
         }
         return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ID_ERROR);
