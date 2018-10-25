@@ -4,9 +4,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Danh Sách
+            Danh sách
             <small>
-                Cửa Hàng
+                Phụ Tùng
             </small>
         </h1>
     </section>
@@ -33,7 +33,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
-                            Cửa Hàng
+                            Phụ Tùng
                         </h3>
                     </div>
 
@@ -63,10 +63,7 @@
                                     <th>No.</th>
                                     <th>Hình ảnh</th>
                                     <th>Tiêu đề</th>
-                                    <th>Loại cửa hàng</th>
-                                    <th>Đại chỉ</th>
-                                    <th>Số điện thoại</th>
-                                    <th>E-Mail</th>
+                                    <th>Detail</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -74,30 +71,28 @@
                                 <?php if($result): ?>
                                 <?php $i = 1; ?>
                                 <?php foreach ($result as $key => $value): ?>
-                                    
-                                
                                     <tr class="remove_<?php echo $value['id'] ?>">
                                         <td><?php echo $i++ ?></td>
                                         <td>
                                             <div class="mask_sm">
-                                                <img src="<?php echo base_url('assets/upload/'.$controller.'/'. $value['image']) ?>" width="150px">
+                                                <img src="<?php echo base_url('assets/upload/'.$controller.'/'. $value['image']) ?>" alt="anh-cua-<?php echo $value['slug'] ?>" width=150px>
                                             </div>
                                         </td>
                                         <td><?php echo $value['title'] ?></td>
-                                        <td><?php echo $value['shop_type_title'] ?></td>
-                                        <td><?php echo $value['address'] ?></td>
-                                        <td><?php echo $value['phone'] ?></td>
-                                        <td><?php echo $value['email'] ?></td>
+                                        <td>
+                                            <a href="<?php echo base_url('assets/upload/accessary/pdf/' . $value['file']) ?>" target="_blank">
+                                            <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">Xem chi tiết</button></a>
+                                        </td>
                                         <td>
                                             <a href="<?php echo base_url('admin/'.$controller.'/edit/'. $value['id']) ?>" class="dataActionEdit" title="Sửa bài viết"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                                            <a href="javascript:void(0);" onclick="remove('shop', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa bài viết"><i class="fa fa-remove" aria-hidden="true"></i> </a>
+                                            <a href="javascript:void(0);" onclick="remove('accessary', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa bài viết"><i class="fa fa-remove" aria-hidden="true"></i> </a>
                                         </td>
 
                                     </tr>
                                 <?php endforeach ?>
                                 <?php else: ?>
                                     <tr>
-                                        Chưa có cửa hàng
+                                        Chưa có phụ tùng
                                     </tr>
                                 <?php endif; ?>
 
@@ -107,10 +102,7 @@
                                     <th>No.</th>
                                     <th>Hình ảnh</th>
                                     <th>Tiêu đề</th>
-                                    <th>Loại cửa hàng</th>
-                                    <th>Đại chỉ</th>
-                                    <th>Số điện thoại</th>
-                                    <th>E-Mail</th>
+                                    <th>Detail</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>

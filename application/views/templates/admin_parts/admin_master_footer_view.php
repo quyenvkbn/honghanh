@@ -32,5 +32,26 @@
     		}
     	});
 	});
+    function tog(v){return v?'addClass':'removeClass';}
+
+    $(document).on('input', '.clearable', function(){
+        $(this)[tog(this.value)]('x');
+    }).on('mousemove', '.x', function( e ){
+        $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+    }).on('touchstart click', '.onX', function( ev ){
+        ev.preventDefault();
+        $(this).removeClass('x onX').val('').change();
+    });
+    $('.clearable').mousemove(function(){
+        $(this)[tog(this.value)]('x');
+    });
+    $('.clearable').mouseout(function(){
+        $(this).removeClass('x onX');
+    });
+    $(".clearable").each(function() {
+        if($(this).val().length > 0){
+            $(this)[tog(this.value)]('x');
+        }
+    });
 </script>
 </html>

@@ -252,6 +252,27 @@ class Admin_Controller extends MY_Controller {
         return $image_list;
     }
 
+    function upload_pdf_file($file_input_id, $file_name, $upload_path) {
+        
+        $pdf_file = '';
+        if (!empty($file_name)) {
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'pdf';
+            $config['file_name'] = $file_name;
+            $config['max_size'] = '20971520';
+            $config['encrypt_name'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if($this->upload->do_upload($file_input_id)){
+                $upload_data = $this->upload->data();
+                $pdf_file = $upload_data['file_name'];
+            }
+        }
+
+        return $pdf_file;
+    }
+
     function config_file($upload_path = '') {
         $config = array();
         $config['upload_path'] = $upload_path;

@@ -46,7 +46,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script type="text/javascript" src="<?php echo site_url('tinymce/tinymce.min.js') ?>" ></script>
     <script src="<?php echo site_url('assets/js/jquery.rateit.js') ?>"></script>
+    <style type="text/css">
+        /* Clearable text inputs */
+        .clearable{
+          background: #fff url(http://i.stack.imgur.com/mJotv.gif) no-repeat right -10px center;
+          border: 1px solid #999;
+          padding: 3px 18px 3px 4px;     /* Use the same right padding (18) in jQ! */
+          border-radius: 3px;
+          transition: background 0.4s;
+        }
+        .clearable.x  { background-position: right 5px center; } /* (jQ) Show icon */
+        .clearable.onX{ cursor: pointer; }              /* (jQ) hover cursor style */
+        .clearable::-ms-clear {display: none; width:0; height:0;} /* Remove IE default X */
 
+    </style>
 
 
 </head>

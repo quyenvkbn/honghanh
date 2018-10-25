@@ -95,21 +95,7 @@
             <div class="col-md-3">
                 <div class="box box-warning">
                     <div class="box-header">
-                        <h3 class="box-title">Chỉnh sửa 
-                            <?php 
-                                switch ($controller) {
-                                    case 'post_category':
-                                        echo "";
-                                        break;
-                                    case 'post':
-                                        echo "Bài Viết";
-                                        break;
-                                    default:
-                                        # code...
-                                        break;
-                                }
-                             ?>
-                         này?</h3>
+                        <h3 class="box-title">Chỉnh sửa danh mục này?</h3>
                     </div>
                     <div class="box-body">
                         <a href="<?php echo base_url('admin/'.$controller.'/edit/'.$detail['id']) ?>" class="btn btn-warning" role="button">Chỉnh sửa</a>
