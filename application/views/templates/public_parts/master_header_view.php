@@ -43,7 +43,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!--Favicon-->
 	<link rel="shortcut icon" type="image/png" href="<?php echo site_url('assets/img/favicon.png') ?>"/>
 
-
 </head>
 
 <body>

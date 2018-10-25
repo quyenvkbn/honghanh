@@ -1,15 +1,16 @@
 <?php
+
 /**
  * 
  */
-class About extends Admin_Controller
+class Accessary extends Admin_Controller
 {
 	
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('about_model');
-		$this->data['controller'] = 'about';
+		$this->load->model('accessary_model');
+		$this->data['controller'] = 'accessary';
 		$this->load->helper('common');
         $this->load->helper('file');
         $this->author_data = handle_author_common_data();
@@ -21,9 +22,9 @@ class About extends Admin_Controller
         if($this->input->get('search')){
             $keywords = $this->input->get('search');
         }
-        $total_rows  = $this->about_model->count_search();
+        $total_rows  = $this->accessary_model->count_search();
         if($keywords != ''){
-            $total_rows  = $this->about_model->count_search($keywords);
+            $total_rows  = $this->accessary_model->count_search($keywords);
         }
         $this->data['keywords'] = $keywords;
         $this->load->library('pagination');
@@ -38,12 +39,12 @@ class About extends Admin_Controller
         $this->pagination->initialize($config);
         $this->data['page_links'] = $this->pagination->create_links();
 
-        $result = $this->about_model->get_all_with_pagination_search('desc', $per_page, $this->data['page']);
+        $result = $this->accessary_model->get_all_with_pagination_search('desc', $per_page, $this->data['page']);
         if($keywords != ''){
-            $result = $this->about_model->get_all_with_pagination_search('desc', $per_page, $this->data['page'], $keywords);
+            $result = $this->accessary_model->get_all_with_pagination_search('desc', $per_page, $this->data['page'], $keywords);
         }
         $this->data['result'] = $result;
-		$this->render('admin/'.$this->data['controller'].'/list_about_view');
+		$this->render('admin/'.$this->data['controller'].'/list_accessary_view');
 	}
 
 	public function create()
@@ -54,51 +55,44 @@ class About extends Admin_Controller
         $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
         $this->form_validation->set_rules('slug', 'Slug', 'required');
         $this->form_validation->set_rules('image', 'Ảnh đại diện', 'callback_check_file');
+        $this->form_validation->set_rules('file', 'Bảng giá', 'callback_check_file_pdf');
 
         if ($this->form_validation->run() == FALSE) {
-        	$this->render('admin/'.$this->data['controller'].'/create_about_view');
+        	$this->render('admin/'.$this->data['controller'].'/create_accessary_view');
         } else {
         	if($this->input->post()){
                 if(!empty($_FILES['image']['name'])){
                     $this->check_img($_FILES['image']['name'], $_FILES['image']['size']);
                 }
             	$slug = $this->input->post('slug');
-                $unique_slug = $this->about_model->build_unique_slug($slug);
+                $unique_slug = $this->accessary_model->build_unique_slug($slug);
                 $image = $this->upload_image('image', $_FILES['image']['name'], 'assets/upload/'. $this->data['controller'], 'assets/upload/'.$this->data['controller'].'/thumb');
 
+                $file = $this->upload_pdf_file('file', $_FILES['file']['name'], 'assets/upload/'.$this->data['controller'].'/pdf');
+                // echo $file;die;
                 $shared_request = array(
                     'slug' => $unique_slug,
                     'image' => $image,
+                    'file' => $file,
                     'title' => $this->input->post('title'),
-                    'description' => $this->input->post('description'),
-                    'content' => $this->input->post('content'),
                     'created_at' => $this->author_data['created_at'],
                     'created_by' => $this->author_data['created_by'],
                     'updated_at' => $this->author_data['updated_at'],
                     'updated_by' => $this->author_data['updated_by']
                 );
-                $insert = $this->about_model->common_insert($shared_request);
+                $insert = $this->accessary_model->common_insert($shared_request);
                 if($insert){
                     $this->session->set_flashdata('message_success', MESSAGE_CREATE_SUCCESS);
                     redirect('admin/'. $this->data['controller'], 'refresh');
                 }else {
                     $this->load->libraries('session');
                     $this->session->set_flashdata('message_error', MESSAGE_CREATE_ERROR);
-                    $this->render('admin/'. $this->data['controller'] .'/create_about_view');
+                    $this->render('admin/'. $this->data['controller'] .'/create_accessary_view');
                 }
         	}
         }
 	}
 
-	public function detail($id)
-	{
-		$this->load->helper('form');
-        $this->load->library('form_validation');
-
-        $detail = $this->about_model->get_by_id($id);
-        $this->data['detail'] = $detail;
-		$this->render('admin/'. $this->data['controller'] .'/detail_about_view');
-	}
 
 	public function edit($id)
 	{
@@ -108,11 +102,11 @@ class About extends Admin_Controller
         $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
         $this->form_validation->set_rules('slug', 'Slug', 'required');
 
-        $detail = $this->about_model->get_by_id($id);
+        $detail = $this->accessary_model->get_by_id($id);
         $this->data['detail'] = $detail;
 
         if ($this->form_validation->run() == FALSE) {
-            $this->render('admin/'. $this->data['controller'] .'/edit_about_view');
+            $this->render('admin/'. $this->data['controller'] .'/edit_accessary_view');
         } else {
             if($this->input->post()){
                 $check_upload = true;
@@ -121,26 +115,31 @@ class About extends Admin_Controller
                 }
                 if ($check_upload == true) {
                     $slug = $this->input->post('slug');
-                    $unique_slug = $this->about_model->build_unique_slug($slug, $id);
+                    $unique_slug = $this->accessary_model->build_unique_slug($slug, $id);
                     $image = $this->upload_image('image', $_FILES['image']['name'], 'assets/upload/'. $this->data['controller'] .'', 'assets/upload/'. $this->data['controller'] .'/thumb');
+                    $file = $this->upload_pdf_file('file', $_FILES['file']['name'], 'assets/upload/'.$this->data['controller'].'/pdf');
                     $shared_request = array(
                         'slug' => $unique_slug,
-                        'title' => $this->input->post('title'),
-                        'description' => $this->input->post('description'),
-                        'content' => $this->input->post('content'),
-                        'created_at' => $this->author_data['created_at'],
-                        'created_by' => $this->author_data['created_by'],
-                        'updated_at' => $this->author_data['updated_at'],
-                        'updated_by' => $this->author_data['updated_by']
+	                    'title' => $this->input->post('title'),
+	                    'created_at' => $this->author_data['created_at'],
+	                    'created_by' => $this->author_data['created_by'],
+	                    'updated_at' => $this->author_data['updated_at'],
+	                    'updated_by' => $this->author_data['updated_by']
                     );
                     if($image){
                         $shared_request['image'] = $image;
                     }
-                    $update = $this->about_model->common_update($id, $shared_request);
+                    if($file){
+                        $shared_request['file'] = $file;
+                    }
+                    $update = $this->accessary_model->common_update($id, $shared_request);
                     if($update){
                         $this->session->set_flashdata('message_success', MESSAGE_EDIT_SUCCESS);
                         if($image != '' && $image != $detail['image'] && file_exists('assets/upload/'. $this->data['controller'] .'/'.$detail['image'])){
                             unlink('assets/upload/'. $this->data['controller'] .'/'.$detail['image']);
+                        }
+                        if($file != '' && $file != $detail['file'] && file_exists('assets/upload/'. $this->data['controller'] .'/pdf/'.$detail['file'])){
+                            unlink('assets/upload/'. $this->data['controller'] .'/pdf/'.$detail['file']);
                         }
                         redirect('admin/'. $this->data['controller'] .'', 'refresh');
                     }else {
@@ -158,9 +157,13 @@ class About extends Admin_Controller
 
 	public function remove(){
         $id = $this->input->post('id');
+        $detail = $this->accessary_model->get_by_id($id);
         $data = array('is_deleted' => 1);
-        $update = $this->about_model->common_update($id, $data);
+        $update = $this->accessary_model->common_update($id, $data);
         if($update == 1){
+        	if(file_exists('assets/upload/'. $this->data['controller'] .'/pdf/'.$detail['file'])){
+                unlink('assets/upload/'. $this->data['controller'] .'/pdf/'.$detail['file']);
+            }
             $reponse = array(
                 'csrf_hash' => $this->security->get_csrf_hash()
             );
@@ -169,44 +172,8 @@ class About extends Admin_Controller
         return $this->return_api(HTTP_NOT_FOUND,MESSAGE_REMOVE_ERROR);
     }
 
-    public function deactive(){
-        $id = $this->input->post('id');
-        if($id &&  is_numeric($id) && ($id > 0)){
-            if($this->about_model->find_rows(array('id' => $id,'is_deleted' => 0)) != 0){
-                $update = $this->about_model->common_update($id,array_merge(array('is_activated' => 1),$this->author_data));
-                if($update){
-                    $reponse = array(
-                        'csrf_hash' => $this->security->get_csrf_hash()
-                    );
-                    return $this->return_api(HTTP_SUCCESS,'',$reponse);
-                }
-                return $this->return_api(HTTP_BAD_REQUEST);
-            }
-            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ISSET_ERROR);
-        }
-        return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ID_ERROR);
-    }
 
-    public function active(){
-        $id = $this->input->post('id');
-        if($id &&  is_numeric($id) && ($id > 0)){
-            $post = $this->about_model->find($id);
-            if($this->about_model->find_rows(array('id' => $id,'is_deleted' => 0)) != 0){
-                $update = $this->about_model->common_update($id,array_merge(array('is_activated' => 0),$this->author_data));
-                if($update){
-                    $reponse = array(
-                        'csrf_hash' => $this->security->get_csrf_hash()
-                    );
-                    return $this->return_api(HTTP_SUCCESS,'',$reponse);
-                }
-                return $this->return_api(HTTP_BAD_REQUEST);
-            }
-            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ISSET_ERROR);
-        }
-        return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ID_ERROR);
-    }
-
-	protected function check_img($filename, $filesize){
+	public function check_img($filename, $filesize){
         $map = strripos($filename, '.')+1;
         $fileextension = substr($filename, $map,(strlen($filename)-$map));
         if(!($fileextension == 'jpg' || $fileextension == 'jpeg' || $fileextension == 'png' || $fileextension == 'gif')){
@@ -219,8 +186,17 @@ class About extends Admin_Controller
         }
     }
 
-	public function check_file(){
+    public function check_file(){
 	    $this->form_validation->set_message(__FUNCTION__, 'Vui lòng chọn ảnh.');
+	    if (empty($_FILES['image']['name'])) {
+	            return false;
+	        }else{
+	            return true;
+	        }
+	}
+
+	public function check_file_pdf(){
+	    $this->form_validation->set_message(__FUNCTION__, 'Vui lòng chọn file.');
 	    if (empty($_FILES['image']['name'])) {
 	            return false;
 	        }else{

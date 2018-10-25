@@ -27,6 +27,7 @@ class Post_category extends Admin_Controller{
         if($keywords != ''){
             $total_rows  = $this->post_category_model->count_search($keywords);
         }
+        $this->data['keywords'] = $keywords;
         $this->load->library('pagination');
         $config = array();
         $base_url = base_url('admin/'. $this->controller .'/index');

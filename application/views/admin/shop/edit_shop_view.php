@@ -4,7 +4,7 @@
         <h1>
             Cập nhật
             <small>
-                Bài Viết
+                Cửa Hàng
             </small>
         </h1>
     </section>

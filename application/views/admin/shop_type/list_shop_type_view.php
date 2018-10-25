@@ -44,7 +44,7 @@
                         <div class="col-md-6">
                             <form action="<?php echo base_url('admin/'.$controller.'/index') ?>" method="get">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Tìm kiếm theo tên tiêu đề..." name="search" value="<?php echo $keywords ?>">
+                                    <input type="text" class="form-control clearable" placeholder="Tìm kiếm theo tên tiêu đề..." name="search" value="<?php echo $keywords ?>">
                                     <span class="input-group-btn">
                                         <input type="submit" class="btn btn-block btn-primary" value="Tìm kiếm">
                                     </span>

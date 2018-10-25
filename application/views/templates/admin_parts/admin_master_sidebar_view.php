@@ -35,6 +35,11 @@
                         </li>
                     </ul>
                 </li>
+                <li class="<?php echo ($this->uri->segment(2) == 'accessary')? 'active' : '' ?>">
+                    <a href="<?php echo base_url('admin/accessary') ?>">
+                        <i class="fa fa-dashboard"></i> <span>Phụ Tùng</span>
+                    </a>
+                </li>
                 <li class="<?php echo ($this->uri->segment(2) == 'post_category' || $this->uri->segment(2) == 'post')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>
@@ -52,6 +57,25 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="<?php echo ($this->uri->segment(2) == 'shop_type' || $this->uri->segment(2) == 'shop')? 'active' : 'treeview' ?>">
+                    <a href="">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>Hệ Thống Phân Phối</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?php echo ($this->uri->segment(2) == 'shop_type')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/shop_type') ?>"><i class="fa fa-filter"></i> Danh Sách Loại Cửa Hàng</a>
+                        </li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'shop')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/shop') ?>"><i class="fa fa-list"></i> Danh Sách Cửa Hàng</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="<?php echo ($this->uri->segment(2) == 'product' || $this->uri->segment(2) == 'product_category')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>
