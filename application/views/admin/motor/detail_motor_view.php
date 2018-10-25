@@ -47,8 +47,8 @@
                         <ul class="nav nav-tabs" role="tablist" id="nav-product">
                             <li role="presentation" class="active"><a href="#tour" class="btn btn-primary" aria-controls="tour" role="tab" data-toggle="tab">Thông tin cơ bản</a></li>
                             <li role="presentation"><a href="#date-tour" class="btn btn-primary" aria-controls="date-tour" role="tab" data-toggle="tab">Thông số kỹ thuật</a></li>
-                            <li role="presentation"><a href="#img-tour" class="btn btn-primary" aria-controls="img-tour" role="tab" data-toggle="tab">Đặc điểm nổi bật</a></li>
-                            <li role="presentation"><a href="#color-tour" class="btn btn-primary" aria-controls="color-tour" role="tab" data-toggle="tab">Màu sắc và phiên bản sản phẩm</a></li>
+                            <li role="presentation"><a href="#img-tour" class="btn btn-primary" aria-controls="img-tour" role="tab" data-toggle="tab">Đặc tính nổi bật</a></li>
+                            <li role="presentation"><a href="#color-tour" class="btn btn-primary" aria-controls="color-tour" role="tab" data-toggle="tab">Màu sắc sản phẩm</a></li>
                         </ul>
                     </div>
                     <!-- /.box-header -->
@@ -98,10 +98,13 @@
                                                     <td><?php echo $product['title'] ?></td>
                                                 </tr>
                                                 <tr>
+                                                    <th style="width: 140px">Giới thiệu: </th>
+                                                    <td><?php echo $product['description'] ?></td>
+                                                </tr>
+                                                <tr>
                                                     <th style="width: 140px">Từ khóa meta: </th>
                                                     <td><?php echo $product['metakeywords'] ?></td>
                                                 </tr>
-                                            
                                                 <tr>
                                                     <th style="width: 140px">Mô tả meta: </th>
                                                     <td><?php echo $product['metadescription'] ?></td>
@@ -163,6 +166,14 @@
                                                             <td><?php echo $product['engine'] ?></td>
                                                         </tr>
                                                         <tr>
+                                                            <th style="width: 200px">Phanh trước: </th>
+                                                            <td><?php echo $product['frontbrake'] ?></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th style="width: 200px">Phanh sau: </th>
+                                                            <td><?php echo $product['brakeafter'] ?></td>
+                                                        </tr>
+                                                        <tr>
                                                             <th style="width: 200px">Dung tích xy-lanh: </th>
                                                             <td><?php echo $product['cylindercapacity'] ?></td>
                                                         </tr>
@@ -194,6 +205,14 @@
                                                             <th style="width: 200px">Hệ thống khởi động: </th>
                                                             <td><?php echo $product['bootsystem'] ?></td>
                                                         </tr>
+                                                        <tr>
+                                                            <th style="width: 200px">Góc nghiêng phuộc trước: </th>
+                                                            <td><?php echo $product['inclination'] ?></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th style="width: 200px">Chiều dài vết quét: </th>
+                                                            <td><?php echo $product['scanlength'] ?></td>
+                                                        </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -204,13 +223,6 @@
                         <div role="tabpanel" class="tab-pane fade" id="img-tour">
                             <div class="box-body">
                                 <div class="row">
-                                    <div class="col-xs-12">
-                                        <ul class="nav nav-tabs" role="tablist">
-                                            <li role="presentation" class="active design"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Thiết kế</a></li>
-                                            <li role="presentation" class="technology"><a href="#technology"  aria-controls="technology" role="tab" data-toggle="tab">Động cơ & Công nghệ</a></li>
-                                            <li role="presentation" class="untilities"><a href="#untilities"  aria-controls="untilities" role="tab" data-toggle="tab">Tiện ích & An toàn</a></li>
-                                        </ul>
-                                    </div><div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="design">
                                         <div class="col-xs-12" style="margin-bottom:4px;margin-top:4px;padding: 5px;"> 
                                             <?php if (!empty($product['design'])): ?>
@@ -247,79 +259,6 @@
                                             <?php endif ?>
                                         </div>
                                     </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="technology">
-                                        <div class="col-xs-12" style="margin-bottom:4px;margin-top:4px;padding: 5px;">
-                                            <?php if (!empty($product['technology'])): ?>
-                                                <?php foreach ($product['technology'] as $key => $value): ?>
-                                                    <div class="col-sm-12" style="margin:10px 0px;">
-                                                        <div class="col-sm-5" style="padding: 0px; padding-right: 5px;">
-                                                            <img src="<?php echo base_url('assets/upload/product/'.$product['slug'].'/' .$value['image']) ?>" alt="anh-cua-<?php echo $product['slug'] ?>"  style="width: 100%;">
-                                                        </div>
-                                                        <div class="col-sm-7" style="padding: 0px;">
-                                                            <div class="tab-content">
-                                                                <div style="padding: 5px;">
-                                                                    <label for="">Tiêu đề:</label>
-                                                                    <p>
-                                                                        <?php echo $value['title'] ?>
-                                                                    </p>
-                                                                    <label for="">Mô tả:</label>
-                                                                    <p>
-                                                                        <?php echo $value['content'] ?>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <?php if ($key+1 < count($product['technology'])): ?>
-                                                        <div class="col-md-12">
-                                                            <div style="border:2px solid gray;" class="col-md-12"> </div> 
-                                                        </div>  
-                                                    <?php endif ?>  
-                                                <?php endforeach ?>     
-                                            <?php else: ?>
-                                                <div style="padding:20px;">
-                                                    Không có đặc điểm nổi bật về động cơ và công nghệ
-                                                </div>
-                                            <?php endif ?>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="untilities">
-                                        <div class="col-xs-12" style="margin-bottom:4px;margin-top:4px;padding: 5px;"> 
-                                            <?php if (!empty($product['untilities'])): ?>
-                                                <?php foreach ($product['untilities'] as $key => $value): ?>
-                                                    <div class="col-sm-12" style="margin:10px 0px;">
-                                                        <div class="col-sm-5" style="padding: 0px; padding-right: 5px;">
-                                                            <img src="<?php echo base_url('assets/upload/product/'.$product['slug'].'/' .$value['image']) ?>" alt="anh-cua-<?php echo $product['slug'] ?>"  style="width: 100%;">
-                                                        </div>
-                                                        <div class="col-sm-7" style="padding: 0px;">
-                                                            <div class="tab-content">
-                                                                <div style="padding: 5px;">
-                                                                    <label for="">Tiêu đề:</label>
-                                                                    <p>
-                                                                        <?php echo $value['title'] ?>
-                                                                    </p>
-                                                                    <label for="">Mô tả:</label>
-                                                                    <p>
-                                                                        <?php echo $value['content'] ?>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <?php if ($key+1 < count($product['untilities'])): ?>
-                                                        <div class="col-md-12">
-                                                            <div style="border:2px solid gray;" class="col-md-12"> </div> 
-                                                        </div>  
-                                                    <?php endif ?>  
-                                                <?php endforeach ?>   >  
-                                            <?php else: ?>
-                                                <div style="padding:20px;">
-                                                    Không có đặc điểm nổi bật về thiết kế
-                                                </div>
-                                            <?php endif ?>
-                                        </div>
-                                    </div>
-                                </div>
                                 </div>
                             </div>
                         </div>
@@ -328,84 +267,48 @@
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="col-xs-12" style="margin-top:10px;margin-bottom:10px;">
-                                            <?php echo (count($product['version']) == 0) ? 'Không có phiên bản nào' : '' ?>
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <?php foreach ($product['version'] as $key => $value): ?>
-                                                    <li role="presentation" class="<?php echo ($key == 0) ? 'active' : '' ?> version">
-                                                        <a href="#versionversion<?php echo $key ?>" aria-controls="versionversion<?php echo $key ?>" role="tab" data-toggle="tab" style="position:relative">
-                                                            <span class="badge" <?php echo ($key == 0) ? '' : '' ?>>Phiên bản số <?php echo $key+1; ?></span>
-                                                        </a>
-                                                    </li>
-                                                <?php endforeach ?>
-                                            </ul>
-                                        </div>
                                         <div class="tab-content">
-                                            <?php foreach ($product['version'] as $key => $value): ?>
-                                                <div role="tabpanel" class="tab-pane fade <?php echo ($key == 0) ? 'in active' : '' ?>" id="versionversion<?php echo $key; ?>">
-                                                    <div class="col-xs-12">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th style="width: 200px">Tên của phiên bản: </th>
-                                                                        <td><?php echo $value['title'] ?></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12" style="margin-bottom:4px;margin-top:4px;padding: 5px;">
-                                                        <?php if (!empty($value['content'])): ?>
-                                                            <?php foreach ($value['content'] as $k => $val): ?>
-                                                                <div class="col-sm-12" style="margin:10px 0px;">
-                                                                    <div class="col-sm-5" style="padding: 0px; padding-right: 5px;">
-                                                                        <img src="<?php echo base_url('assets/upload/product/'.$product['slug'].'/' .$val['image']) ?>" alt="anh-cua-<?php echo $product['slug'] ?>"  style="width: 100%;">
-                                                                    </div>
-                                                                    <div class="col-sm-7" style="padding: 0px;">
-                                                                        <div class="table-responsive">
-                                                                            <table class="table table-striped">
-                                                                                <tbody>
-                                                                                        <tr>
-                                                                                            <th style="width: 200px">Mã sản phẩm: </th>
-                                                                                            <td><?php echo $val['code'] ?></td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th style="width: 200px">Icon sản phẩm: </th>
-                                                                                            <td>
-                                                                                                <img src="<?php echo base_url('assets/upload/product/'.$product['slug'].'/' .$val['icon']) ?>" width=70 height=20>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th style="width: 200px">Tiêu đề: </th>
-                                                                                            <td><?php echo $val['title'] ?></td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <th style="width: 200px">Giá sản phẩm: </th>
-                                                                                            <td><?php echo ($val['price'] == 0) ? 'Liên hệ' : $val['price']; ?></td>
-                                                                                        </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <?php if ($k+1 < count($value['content'])): ?>
-                                                                    <div class="col-md-12">
-                                                                        <div style="border:2px solid gray;" class="col-md-12"> </div> 
-                                                                    </div>  
-                                                                <?php endif ?>  
-                                                            <?php endforeach; ?>     
-                                                        <?php else: ?>
-                                                            <div style="padding:20px;">
-                                                                Không có sản phẩm nào cho phiên bản này
+                                            <div class="col-xs-12" style="margin-bottom:4px;margin-top:4px;padding: 5px;">
+                                                <?php if (!empty($product['version'])): ?>
+                                                    <?php foreach ($product['version'] as $k => $val): ?>
+                                                        <div class="col-sm-12" style="margin:10px 0px;">
+                                                            <div class="col-sm-5" style="padding: 0px; padding-right: 5px;">
+                                                                <img src="<?php echo base_url('assets/upload/product/'.$product['slug'].'/' .$val['image']) ?>" alt="anh-cua-<?php echo $product['slug'] ?>"  style="width: 100%;">
                                                             </div>
-                                                        <?php endif ?>
+                                                            <div class="col-sm-7" style="padding: 0px;">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped">
+                                                                        <tbody>
+                                                                                <tr>
+                                                                                    <th style="width: 200px">Mã sản phẩm: </th>
+                                                                                    <td><?php echo $val['code'] ?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th style="width: 200px">Tiêu đề: </th>
+                                                                                    <td><?php echo $val['title'] ?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th style="width: 200px">Giá sản phẩm: </th>
+                                                                                    <td><?php echo ($val['price'] == 0) ? 'Liên hệ' : $val['price']; ?></td>
+                                                                                </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <?php if ($k+1 < count($product['version'])): ?>
+                                                            <div class="col-md-12">
+                                                                <div style="border:2px solid gray;" class="col-md-12"> </div> 
+                                                            </div>  
+                                                        <?php endif ?>  
+                                                    <?php endforeach; ?>     
+                                                <?php else: ?>
+                                                    <div style="padding:20px;">
+                                                        Không có sản phẩm nào cho phiên bản này
                                                     </div>
-                                                </div>
-                                                
-                                            <?php endforeach ?>
+                                                <?php endif ?>
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
 

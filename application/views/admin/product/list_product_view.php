@@ -27,7 +27,7 @@
                     <?php echo $this->session->flashdata('message_success'); ?>
                 </div>
             <?php endif ?>
-            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash() ?>" id="csrf" />
+            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash() ?>" id="csrf_motorbike_token" />
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="col-md-7 col-ms-12">
-                                <a href="<?php echo base_url('admin/'.$controller.'/create') ?>" class="btn btn-primary" role="button">Thêm mới</a>
+                                <span type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"  >Thêm mới</span>
                             </div>
                             <div class="col-md-5 col-ms-12">
                                 <form action="<?php echo base_url('admin/'.$controller.'/index') ?>" method="get">
@@ -91,7 +91,8 @@
                                             <?php echo ($value['is_activated'] == 0)? '<span class="label label-success">Đang sử dụng</span>' : '<span class="label label-warning">Không sử dụng</span>'; ?>   
                                         </td>
                                         <td>
-                                            <a href="<?php echo base_url('admin/'.$controller.'/detail/'.$value['id']) ?>"
+                                            <?php $controller_type = ($value['type'] == 0) ? $controller : 'motor' ?>
+                                            <a href="<?php echo base_url('admin/'.$controller_type.'/detail/'.$value['id']) ?>"
                                             <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">Xem chi tiết</button>
                                         </td>
                                         <td>
@@ -100,7 +101,7 @@
                                             <?php else: ?>
                                                 <a href="javascript:void(0);" onclick="active('<?php echo $controller; ?>', <?php echo $value['id'] ?>, 'Chăc chắn bật')" class="dataActionDelete" title="Bật sản phẩm"><i class="fa fa-eye" aria-hidden="true"></i> </a>
                                             <?php endif ?>
-                                            <a href="<?php echo base_url('admin/'.$controller.'/edit/'. $value['id']) ?>" class="dataActionEdit" title="Sửa sản phẩm"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                                            <a href="<?php echo base_url('admin/'.$controller_type.'/edit/'. $value['id']) ?>" class="dataActionEdit" title="Sửa sản phẩm"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
                                             &nbsp&nbsp&nbsp
                                             <a href="javascript:void(0);" onclick="remove('<?php echo $controller; ?>', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa sản phẩm"><i class="fa fa-remove" aria-hidden="true"></i> </a>
 
@@ -138,6 +139,35 @@
                 <!-- /.box -->
             </div>
         </div>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Chọn cấu hình</h4>
+                    </div>
+                    <div class="modal-body" id="modal-form">
+                        <select name="" id="select_templates" class="form-control" required="required" onclick="submit_shared(this.value)">
+                                <option value="product" selected>Xe thông dụng</option>
+                                <option value="motor">Xe Motor</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" id="submit_shared">Xác nhận</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
 </div>
+<script type="text/javascript">
+    var HOSTNAMEADMIN = 'http://localhost/honghanh/admin';
+    document.querySelector('.modal-footer a').setAttribute('href',HOSTNAMEADMIN+'/product/create');
+    function submit_shared(val){
+        document.querySelector('.modal-footer a').setAttribute('href',`${HOSTNAMEADMIN}/${val}/create`);
+    }
+</script>

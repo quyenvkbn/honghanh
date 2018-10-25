@@ -104,6 +104,14 @@
                                             <div class=" col-xs-12">
                                                 <?php
                                                 
+                                                    echo form_label('Giới thiệu sản phẩm', 'description');
+                                                    echo form_error('description');
+                                                    echo form_textarea('description', set_value('description'), 'class="form-control" id="description"');
+                                                ?>
+                                            </div>
+                                            <div class=" col-xs-12">
+                                                <?php
+                                                
                                                     echo form_label('Từ khóa meta', 'metakeywords');
                                                     echo form_error('metakeywords');
                                                     echo form_input('metakeywords', set_value('metakeywords'), 'class="form-control" id="metakeywords"');
@@ -173,6 +181,14 @@
                                                     echo form_label('Loại động cơ', 'engine');
                                                     echo form_error('engine');
                                                     echo form_input('engine', set_value('engine'), 'class="form-control" id="engine"');
+
+                                                    echo form_label('Phanh trước', 'frontbrake');
+                                                    echo form_error('frontbrake');
+                                                    echo form_input('frontbrake', set_value('frontbrake'), 'class="form-control" id="frontbrake"');
+
+                                                    echo form_label('Phanh sau', 'brakeafter');
+                                                    echo form_error('brakeafter');
+                                                    echo form_input('brakeafter', set_value('brakeafter'), 'class="form-control" id="brakeafter"');
                                                 
                                                     echo form_label('Dung tích xy-lanh', 'cylindercapacity');
                                                     echo form_error('cylindercapacity');
@@ -205,6 +221,14 @@
                                                     echo form_label('Hệ thống khởi động', 'bootsystem');
                                                     echo form_error('bootsystem');
                                                     echo form_input('bootsystem', set_value('bootsystem'), 'class="form-control" id="bootsystem"');
+
+                                                    echo form_label('Góc nghiêng phuộc trước', 'inclination');
+                                                    echo form_error('inclination');
+                                                    echo form_input('inclination', set_value('inclination'), 'class="form-control" id="inclination"');
+
+                                                    echo form_label('Chiều dài vết quét', 'scanlength');
+                                                    echo form_error('scanlength');
+                                                    echo form_input('scanlength', set_value('scanlength'), 'class="form-control" id="scanlength"');
                                                 ?>
                                             </div>
                                         </div>
@@ -217,17 +241,12 @@
                         <div class="box box-default">
                             <div class="box-body">
                                 <div class="col-xs-12">
-                                    <h4 class="box-title">Đặc điểm nổi bật</h4>
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation" class="active design"><a href="#design" aria-controls="design" role="tab" data-toggle="tab">Thiết kế</a></li>
-                                        <li role="presentation" class="technology"><a href="#technology"  aria-controls="technology" role="tab" data-toggle="tab">Động cơ & Công nghệ</a></li>
-                                        <li role="presentation" class="untilities"><a href="#untilities"  aria-controls="untilities" role="tab" data-toggle="tab">Tiện ích & An toàn</a></li>
-                                    </ul>
+                                    <h4 class="box-title">Đặc tính nổi bật</h4>
                                 </div>
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="design">
                                         <label class="col-md-12" for="" style="margin-top: 15px;">
-                                            Nhập số đặc điểm nổi bật về thiết kế
+                                            Nhập số đặc tính nổi bật
                                         </label>
                                         <div class="col-md-10" style="margin-top:5px;">
                                             <?php  
@@ -244,83 +263,32 @@
                                             <span class="append-date" id="append-date" onclick="addOneHighlights(this)"><i class="fa-2x fa fa-plus-square"></i></span>
                                         </div>
                                     </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="technology">
-                                        <label class="col-md-12" for="">
-                                            Nhập số đặc điểm nổi bật về động cơ và công nghệ
-                                        </label>
-                                        <div class="col-md-10" style="margin-top:5px;">
-                                            <?php  
-                                                echo form_input("number", set_value("number"), 'class="form-control number-highlights" onpaste="return false" onkeypress=" return isNumberKey(event)"');
-                                            ?>
-                                        </div>
-                                        <div class="col-md-2" style="margin-top:5px;">
-                                            <span class="btn btn-primary form-control append-highlights" id="button-number-highlights" onclick="addHighlights(this)">Xác nhận</span>
-                                        </div>
-                                        <div class="col-xs-12" id="add-technology" style="padding: 0px; margin-top: 10px;">
-                                            
-                                        </div>
-                                        <div class="col-md-12 tab-content">
-                                            <span class="append-date" id="append-date" onclick="addOneHighlights(this)"><i class="fa-2x fa fa-plus-square"></i></span>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="untilities">
-                                        <label class="col-md-12" for="">
-                                            Nhập số đặc điểm nổi bật về tiện ích và an toàn
-                                        </label>
-                                        <div class="col-md-10" style="margin-top:5px;">
-                                            <?php  
-                                                echo form_input("number", set_value("number"), 'class="form-control number-highlights" onpaste="return false" onkeypress=" return isNumberKey(event)"');
-                                            ?>
-                                        </div>
-                                        <div class="col-md-2" style="margin-top:5px;">
-                                            <span class="btn btn-primary form-control append-highlights" id="button-number-highlights" onclick="addHighlights(this)">Xác nhận</span>
-                                        </div>
-                                        <div class="col-xs-12" id="add-untilities" style="padding: 0px; margin-top: 10px;">
-                                            
-                                        </div>
-                                        <div class="col-md-12 tab-content">
-                                            <span class="append-date" id="append-date" onclick="addOneHighlights(this)"><i class="fa-2x fa fa-plus-square"></i></span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="color-products">        
-                        <div class="box box-default">
-                            <div class="box-body">
-                                <div class="col-xs-12">
-                                    <h4 class="box-title">Màu sắc</h4>
-                                </div>
-                                <div class="row">
-                                    <span><?php echo $this->session->flashdata('message'); ?></span>
-                                </div>
-                                <div class="col-md-12" style="padding: 0px;margin-bottom: 10px;">
-                                    <label class="col-md-12" for="">
-                                            Nhập số phiên bản cho sản phẩm
-                                    </label>
-                                    <div class="col-md-10" style="margin-top:5px;">
-                                        <?php  
-                                            echo form_input("numberversion", set_value("numberversion"), 'class="form-control numberversion" onkeypress=" return isNumberKey(event)" id="numberversion"');
-                                        ?>
+                    <div role="tabpanel" class="tab-pane fade" id="color-products">    
+                        <div role="tabpanel" class="tab-pane" id="version">
+                            <div class="box box-default">
+                                <div class="box-body">
+                                    <div class="col-md-12" style="padding: 0px;margin-bottom: 10px;">
+                                        <label class="col-md-12" for="">
+                                                Nhập số màu sắc của motor
+                                        </label>
+                                        <div class="col-md-10" style="margin-top:5px;">
+                                            <input type="text" name="numbercolor" class="form-control numbercolor" onkeypress=" return isNumberKey(event)"/>
+                                        </div>
+                                        <div class="col-md-2" style="margin-top:5px;">
+                                            <span class="btn btn-primary form-control button-numbercolor" onclick="addColor(this)">Xác nhận</span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2" style="margin-top:5px;">
-                                        <span class="btn btn-primary form-control append-date" id="button-numberversion" onclick="addVersion(this)">Xác nhận</span>
+                                    <div class="content-full-color">
+                                        
                                     </div>
-                                </div>
-
-                                <div id="content-full-version">
-                                    <div class="col-xs-12" style="margin-top:10px;margin-bottom:10px;">
-                                        <ul class="nav nav-tabs" role="tablist">
-
-                                        </ul>
+                                    <div class="col-xs-12">
+                                        <i class="fa-2x fa fa-plus-square" id="addpend-one-color" onclick="addOneColor(this)" style="float: right;cursor: pointer;"></i>
+                                        <div class="col-xs-12 border" style="border-bottom: 1px solid green;margin-bottom:10px;margin-top:10px;"></div>
                                     </div>
-                                    <div class="tab-content">
-
-                                    </div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <i class="fa-2x fa fa-plus-square" id="addpend-one-version" onclick="addOneVersion(this)" style="float: right;cursor: pointer;"></i>
                                 </div>
                             </div>
                         </div>
@@ -362,7 +330,7 @@
     </section>
 </div>
 <script type="text/javascript" src="<?php echo base_url('assets/js/');?>jquery.validate.js"></script>
-<script src="<?php echo base_url('assets/js/admin/');?>admin.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="<?php echo base_url('assets/js/admin/');?>motor.js" type="text/javascript" charset="utf-8" async defer></script>
 <script type="text/javascript">
     function isNumberKey(evt)
     {

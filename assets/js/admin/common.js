@@ -9,7 +9,7 @@ $(document).ready(function(){
                 method: "post",
                 url: url,
                 data: {
-                    id : id, csrf_myielts_token : csrf_hash
+                    id : id, csrf_motorbike_token : csrf_hash
                 },
                 success: function(response){
                     if(response.status == 200){
@@ -68,7 +68,7 @@ function removeDate(){
 
 
 }
-var csrf_hash = $("input[name='csrf_myielts_token']").val();
+var csrf_hash = $("input[name='csrf_motorbike_token']").val();
 function remove(controller, id){
     var url = HOSTNAMEADMIN + '/' + controller + '/remove';
     if(confirm('Chắc chắn xóa?')){
@@ -76,7 +76,7 @@ function remove(controller, id){
             method: "post",
             url: url,
             data: {
-                id : id, csrf_myielts_token : csrf_hash
+                id : id, csrf_motorbike_token : csrf_hash
             },
             success: function(response){
                 csrf_hash = response.reponse.csrf_hash;
@@ -109,13 +109,13 @@ function remove_image(controller, id, image, key){
             method: "post",
             url: url,
             data: {
-                id : id, csrf_myielts_token : csrf_hash, image : image
+                id : id, csrf_motorbike_token : csrf_hash, image : image
             },
             success: function(response){
                 if(response.status == 200){
                     csrf_hash = response.reponse.csrf_hash;
                     $('.row_' + key).fadeOut();
-                    $("input[name='csrf_myielts_token']").val(csrf_hash);
+                    $("input[name='csrf_motorbike_token']").val(csrf_hash);
                 }
             },
             error: function(jqXHR, exception){
@@ -131,13 +131,13 @@ function active_image(controller, id, image, key){
             method: "post",
             url: url,
             data: {
-                id : id, csrf_myielts_token : csrf_hash, image : image
+                id : id, csrf_motorbike_token : csrf_hash, image : image
             },
             success: function(response){
                 if(response.status == 200){
                     csrf_hash = response.reponse.csrf_hash;
                     $('.row_' + key).fadeOut();
-                    $("input[name='csrf_myielts_token']").val(csrf_hash);
+                    $("input[name='csrf_motorbike_token']").val(csrf_hash);
                 }
             },
             error: function(jqXHR, exception){
@@ -153,7 +153,7 @@ function active(controller, id, question) {
             method: "post",
             url: url,
             data: {
-                id : id, csrf_myielts_token : csrf_hash
+                id : id, csrf_motorbike_token : csrf_hash
             },
             success: function(response){
                 csrf_hash = response.reponse.csrf_hash;
@@ -201,7 +201,7 @@ function deactive(controller, id, question) {
             method: "post",
             url: url,
             data: {
-                id : id, csrf_myielts_token : csrf_hash
+                id : id, csrf_motorbike_token : csrf_hash
             },
             success: function(response){
                 csrf_hash = response.reponse.csrf_hash;
@@ -268,13 +268,13 @@ function errorHandle(jqXHR, exception){
                 $('#encypted_ppbtn_all').html(html);
             },
             data: {
-                area : $($(this)[0]).val(), selectlocaltion:$('#go-place_'+stt).val(), csrf_myielts_token : csrf_hash
+                area : $($(this)[0]).val(), selectlocaltion:$('#go-place_'+stt).val(), csrf_motorbike_token : csrf_hash
             },
             success: function(response){
                 $('#encypted_ppbtn_all').html('');
                 csrf_hash = response.reponse.csrf_hash;
                 if(response.status == 200 && response.isExisted == true){
-                    $("input[name='csrf_myielts_token']").val(csrf_hash);
+                    $("input[name='csrf_motorbike_token']").val(csrf_hash);
                     $("#go-place_"+stt).html(response.reponse.content);
                 }
             },
@@ -298,7 +298,7 @@ function errorHandle(jqXHR, exception){
                 method: "post",
                 url: url,
                 data: {
-                    id : id, type : type, csrf_myielts_token : csrf_hash
+                    id : id, type : type, csrf_motorbike_token : csrf_hash
                 },
                 success: function(response){
                     if(response.status == 200){

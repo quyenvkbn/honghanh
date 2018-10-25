@@ -12,6 +12,8 @@ switch(window.location.origin){
     default:
         var HOSTNAMEADMIN = 'http://localhost/honghanh/admin';
 }
+var remove_image = new Array();
+var remove_versions = new Array();
 $('#nav-product').html($('#nav-product1').html());
 $(".form-horizontal").on('click','a[aria-controls^="version"]',function(){
     $('.remove.version').removeClass('show');
@@ -90,24 +92,25 @@ function highlights(name,post){
         }else{
             post.append(`${name}_img[]`,number_highlights[i].querySelector('.image').files[0]);
         }
-        highlights[i] = [];
-        highlights[i]['title'] = number_highlights[i].querySelector(`[id^="${name}"] .title`).value;
-        highlights[i]['content'] = number_highlights[i].querySelector(`[id^="${name}"] .content`).value;
+        // post.append(`${name}title[]`,number_highlights[i].querySelector(`[id^="${name}"] .title`).value);
+        // post.append(`${name}content[]`,number_highlights[i].querySelector(`[id^="${name}"] .content`).value);
+        // highlights[i] = [];
+        // highlights[i]['title'] = number_highlights[i].querySelector(`[id^="${name}"] .title`).value;
+        // highlights[i]['content'] = number_highlights[i].querySelector(`[id^="${name}"] .content`).value;
            
     }
-    for (var i = 0; i < highlights.length; i++) {
-        post.append(`${name}title[]`,highlights[i]['title']);
-        post.append(`${name}content[]`,highlights[i]['content']);
-    }
+    // for (var i = 0; i < highlights.length; i++) {
+    //     post.append(`${name}title[]`,highlights[i]['title']);
+    //     post.append(`${name}content[]`,highlights[i]['content']);
+    // }
         
 }
 
 function version(post){
     number_version = document.querySelectorAll(`#color-products [id^="version"]`);
     for (var i = 0; i < number_version.length; i++) {
-        post.append(`versiontitle[]`,number_version[i].querySelector(`.tab-content .title`).value);
+        // post.append(`versiontitle[]`,number_version[i].querySelector(`.tab-content .title`).value);
         number_color = number_version[i].querySelectorAll(`.content-full-color [id^="color${number_version[i].id}"]`);
-        var versions = [];
         for (var j = 0; j < number_color.length; j++) {
             if(number_color[j].querySelector('.img_color').files.length == 0){
                 post.append(`${number_version[i].id}_img[]`,j);
@@ -119,12 +122,13 @@ function version(post){
             }else{
                 post.append(`${number_version[i].id}_icon[]`,number_color[j].querySelector('.icon_color').files[0]);
             }
-            post.append(`${number_version[i].id}title[]`,number_version[i].querySelectorAll(`[id^="color${number_version[i].id}"] .tab-content .title`)[j].value);
-            if(number_color[j].querySelector('.code_color')){
-                post.append(`${number_version[i].id}_code[]`,number_color[j].querySelector('.code_color').value);
-            }else{
-                post.append(`${number_version[i].id}_code[]`,j);
-            }
+            // post.append(`${number_version[i].id}title[]`,number_version[i].querySelectorAll(`[id^="color${number_version[i].id}"] .tab-content .title`)[j].value);
+            // post.append(`${number_version[i].id}_code[]`,number_color[j].querySelector('.code_color').value);
+            // if(number_color[j].querySelector('.code_color')){
+            //     post.append(`${number_version[i].id}_code[]`,number_color[j].querySelector('.code_color').value);
+            // }else{
+            //     post.append(`${number_version[i].id}_code[]`,j);
+            // }
             
         }
     }
@@ -179,6 +183,15 @@ function submit_shared(){
         highlights('untilities',post);
         version(post);
         post.append(`number_version`,document.querySelectorAll(`#color-products [id^="version"]`).length);
+        for (var i = 0; i < remove_image.length; i++) {
+            post.append(`remove_image[]`,remove_image[i]); 
+        }
+        for (var i = 0; i < remove_versions.length; i++) {
+            post.append(`remove_version[]`,remove_versions[i]); 
+        }
+        // console.log(remove_version);
+        // console.log(remove_image);
+        // return false;
         $.ajax({
                 method: "post",
                 url: url,
@@ -198,6 +211,23 @@ function submit_shared(){
                             alert(response.message);
                             if(window.location.pathname.indexOf("/product/edit/") != '-1'){
                                 $("input[name='csrf_motorbike_token']").val(csrf_hash);
+                                for (var i = 0; i < response.reponse.design_img.length; i++) {
+                                    document.querySelectorAll('#design img')[i].setAttribute('value',response.reponse.design_img[i]);
+                                }
+                                for (var i = 0; i < response.reponse.technology_img.length; i++) {
+                                    document.querySelectorAll('#technology img')[i].setAttribute('value',response.reponse.technology_img[i]);
+                                }
+                                for (var i = 0; i < response.reponse.untilities_img.length; i++) {
+                                    document.querySelectorAll('#untilities img')[i].setAttribute('value',response.reponse.untilities_img[i]);
+                                }
+                                for (var i = 0; i < response.reponse.version_img.length; i++) {
+                                    for (var j = 0; j < response.reponse.version_img[i].length; j++) {
+                                        document.querySelector(`#colorversion${i+1}${j+1} img.show_image`).setAttribute('value',response.reponse.version_img[i][j]);
+                                        document.querySelector(`#colorversion${i+1}${j+1} img.show_icon`).setAttribute('value',response.reponse.version_icon[i][j]);
+                                    }
+                                }
+                                remove_image = new Array();
+                                remove_versions = new Array();
                             }else{
                                 window.location.href=HOSTNAMEADMIN+"/product";
                             }
@@ -272,6 +302,7 @@ function addHighlights(ev){
                     </div>
                     <div id="demo${name}${i+1}" class="collapse in form-group">
                         <div class="col-xs-12" style="padding: 0px;">
+                            <img src="" value="" class="hidden" />
                             <div class="col-sm-12 col-xs-12">
                                 <label class="control-label" >Hình ảnh</label>
                                 <input type="file" name="image_${name}[]" value="" placeholder="" class="form-control image">
@@ -285,12 +316,12 @@ function addHighlights(ev){
 				                            <div class="box-body" style="padding:0px;">
 				                                <div class="col-xs-12" style="padding:0px;">
 				                                    <label class="control-label" for="">Tiêu đề</label>
-				                                    <input type="text" name="title${name}[]" value="" placeholder="" class="form-control title">
+				                                    <input type="text" name="${name}title[]" value="" placeholder="" class="form-control title">
 				                                    <span class="help-block hidden">Bạn cần nhập trường này</span>
 				                                </div>
 				                                <div class="col-xs-12" style="padding:0px;">
 				                                    <label class="control-label" for="">Nội dung</label>
-				                                    <textarea name="content${name}[]" value="" placeholder="" class="form-control content"></textarea>
+				                                    <textarea name="${name}content[]" value="" placeholder="" class="form-control content"></textarea>
 				                                </div>
 				                            </div>
 				                        </div>
@@ -318,6 +349,7 @@ function addOneHighlights(ev){
                     </div>
                     <div id="demo${name}${number+1}" class="collapse in form-group">
                         <div class="col-xs-12" style="padding: 0px;">
+                            <img src="" value="" class="hidden" />
                             <div class="col-sm-12 col-xs-12">
                                 <label class="control-label" >Hình ảnh</label>
                                 <input type="file" name="image_${name}[]" value="" placeholder="" class="form-control image">
@@ -331,12 +363,12 @@ function addOneHighlights(ev){
 				                            <div class="box-body" style="padding:0px;">
 				                                <div class="col-xs-12" style="padding:0px;">
 				                                    <label class="control-label" for="">Tiêu đề</label>
-				                                    <input type="text" name="title${name}[]" value="" placeholder="" class="form-control title">
+				                                    <input type="text" name="${name}title[]" value="" placeholder="" class="form-control title">
 				                                    <span class="help-block hidden">Bạn cần nhập trường này</span>
 				                                </div>
 				                                <div class="col-xs-12" style="padding:0px;">
 				                                    <label class="control-label" for="">Nội dung</label>
-				                                    <textarea name="content${name}[]" value="" placeholder="" class="form-control content"></textarea>
+				                                    <textarea name="${name}content[]" value="" placeholder="" class="form-control content"></textarea>
 				                                </div>
 				                            </div>
 				                        </div>
@@ -354,6 +386,9 @@ function addOneHighlights(ev){
 
 function remove_highlights(id,ev){
 	ids = ev.closest('[id^="add-"]').parentElement.id.replace('add-','');
+    if(document.querySelector(`#demo${ids}${id} img`).getAttribute('value') != ''){
+        remove_image.push(document.querySelector(`#demo${ids}${id} img`).getAttribute('value'));
+    }
 	ev.closest('[id^="add-"]').removeChild(document.getElementById(`demo${ids}${id}`).parentElement);
 	let demo = document.querySelectorAll(`[id^="demo${ids}"]`);
     for (i = id; i <= demo.length; i++) {
@@ -398,7 +433,7 @@ function addVersion(ev){
 	                                <div class="col-md-12" style="padding: 0px;margin-bottom: 10px;">
 	                                    <div class="col-md-12" style="margin-top:5px;">
 	                                        <label class="control-label" for="">Nhập tên cho phiên bản</label>
-	                                        <input type="text" name="titleversion[]" class="form-control title" />
+	                                        <input type="text" name="versiontitle[]" class="form-control title" />
 	                                        <span class="help-block hidden">Bạn cần nhập trường này</span>
 	                                    </div>
 	                                </div>
@@ -427,7 +462,6 @@ function addVersion(ev){
                 </div>
             </div>
         `;
-        document.querySelector('#generate_name').insertAdjacentHTML('beforeend', `<input type="file" name="${name}${i+1}_img[]" value="" multiple="" />`);
     }
     document.querySelector('#content-full-version div ul').innerHTML = tab_li;
     document.querySelector('#content-full-version .tab-content').innerHTML = html;
@@ -453,7 +487,7 @@ function addOneVersion(){
 	                            <div class="col-md-12" style="padding: 0px;margin-bottom: 10px;">
 	                                <div class="col-md-12" style="margin-top:5px;">
 	                                    <label class="control-label" for="">Nhập tên cho phiên bản</label>
-	                                    <input type="text" name="titleversion[]" class="form-control title" />
+	                                    <input type="text" name="versiontitle[]" class="form-control title" />
 	                                    <span class="help-block hidden">Bạn cần nhập trường này</span>
 	                                </div>
 	                            </div>
@@ -482,7 +516,6 @@ function addOneVersion(){
             </div>
         </div>
     `; 
-    document.querySelector('#generate_name').insertAdjacentHTML('beforeend', `<input type="file" name="${name}${number+1}_img[]" value="" multiple="" />`);
     document.querySelector('#content-full-version div ul').insertAdjacentHTML('beforeend', tab_li);
     document.querySelector('#content-full-version .tab-content').insertAdjacentHTML('beforeend', html);
     document.querySelector(`#numberversion`).value = Number(document.querySelectorAll(`[id^="${name}"]`).length);
@@ -490,9 +523,9 @@ function addOneVersion(){
 
 function remove_version(id,ev){
     name = 'version';
+    remove_versions.push(id-1);
     document.querySelector('#content-full-version div ul').removeChild(ev.parentElement.parentElement);
     document.querySelector('#content-full-version .tab-content').removeChild(document.getElementById(`${name}${id}`));
-    document.querySelector('#generate_name').removeChild(document.querySelector(`#generate_name input[name="${name}${id}_img[]"]`));
     let demo = document.querySelectorAll(`[id^="${name}"]`);
     if(demo.length > 0){
         if(id == 1){
@@ -511,10 +544,11 @@ function remove_version(id,ev){
         demo[i-1].id = `${name}${i}`;
     	let demos = document.querySelectorAll(`#${name}${i} .content-full-color [id^="color${name}"]`);
 	    for (j = 1; j <= demos.length; j++) {
-	        demos[j-1].querySelector('.img_color').setAttribute('name',`img_color${name}${i}${j}`);
-	        demos[j-1].querySelector('.icon_color').setAttribute('name',`icon_color${name}${i}${j}`);
-	        demos[j-1].querySelector('.code_color').setAttribute('name',`code_color${name}${i}${j}`);
-	        demos[j-1].querySelector(`[name^="title${name}"]`).setAttribute('name',`title${name}${i}${j}`);//demos[j].id.replace(`color${name}`, "")
+	        demos[j-1].querySelector('.img_color').setAttribute('name',`img_color${name}${i}[]`);
+	        demos[j-1].querySelector('.icon_color').setAttribute('name',`icon_color${name}${i}[]`);
+            demos[j-1].querySelector('.code_color').setAttribute('name',`code_color${name}${i}[]`);
+	        demos[j-1].querySelector('.code_color').setAttribute('name',`code_color${name}${i}[]`);
+	        demos[j-1].querySelector(`[name^="title${name}"]`).setAttribute('name',`title${name}${i}[]`);
 	        demos[j-1].id = `color${name}${i}${j}`;
 	        demos[j-1].parentElement.querySelector(`span[data-target^="#color${name}"]`).setAttribute('data-target',`#color${name}${i}${j}`);
 	    }
@@ -523,12 +557,10 @@ function remove_version(id,ev){
         document.querySelector(`#content-full-version div ul li a[href="#${name}${i+1}"] i`).setAttribute('onclick',`remove_version(${i},this)`);
         document.querySelector(`#content-full-version div ul li a[href="#${name}${i+1}"]`).setAttribute('href',`#${name}${i}`);
 
-        document.querySelector(`#generate_name input[name="${name}${i+1}_img[]"]`).setAttribute('name',`${name}${i}_img[]`);
     }
     number_version = demo.length == 0 ? '' : demo.length;
     document.querySelector(`#numberversion`).value = number_version;
 }
-
 
 
 // thêm nhiều field
@@ -549,17 +581,19 @@ function addColor(ev){
                 </div>
                 <div id="color${name}${i+1}" class="collapse in form-group">
                     <div class="col-xs-12" style="padding:0px;">
+                        <img src="" value="" class="show_image hidden" />
                         <div class="col-xs-12">
                             <label class="control-label" for="inputError">Hình ảnh sản phẩm theo màu sắc</label>
-                            <input type="file" name="img_color${name}${i+1}" value="" placeholder="" class="form-control img_color">
+                            <input type="file" value="" placeholder="" class="form-control img_color">
                         </div>
+                        <img src="" value="" class="show_icon hidden" />
                         <div class="col-xs-12">
                             <label class="control-label" for="inputError">Hình ảnh icon cho màu sản phẩm</label>
-                            <input type="file" name="icon_color${name}${i+1}" value="" placeholder="" class="form-control icon_color">
+                            <input type="file" value="" placeholder="" class="form-control icon_color">
                         </div>
                         <div class="col-xs-12" style="margin-bottom:5px;">
                             <label class="control-label" for="inputError">Mã sản phẩm</label>
-                            <input type="text" name="code_color${name}${i+1}" value="" placeholder="" class="form-control code_color">
+                            <input type="text" name="code_color${name}[]" value="" placeholder="" class="form-control code_color">
                         </div>
                         <div class="tab-content">
 		                    <div role="tabpanel" class="tab-pane fade active in">
@@ -568,13 +602,17 @@ function addColor(ev){
 		                                <div class="col-md-12" style="padding: 0px;margin-bottom: 10px;">
 		                                    <div class="col-md-12" style="margin-top:5px;">
 		                                        <label class="control-label" for="">Nhập tên màu sắc cho sản phẩm</label>
-		                                        <input type="text" name="title${name}${i+1}" class="form-control title" />
+		                                        <input type="text" name="title${name}[]" class="form-control title" />
 		                                        <span class="help-block hidden">Bạn cần nhập trường này</span>
 		                                    </div>
 		                                </div>
 		                            </div>
 		                        </div>
 		                    </div>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom:5px;">
+                            <label class="control-label" for="inputError">Giá sản phẩm</label>
+                            <input type="text" name="price_color${name}[]" value="" placeholder="" class="form-control price_color">
                         </div>
                     </div>
                 </div>
@@ -600,17 +638,19 @@ function addOneColor(ev){
             </div>
             <div id="color${name}${number+1}" class="collapse in form-group">
                 <div class="col-xs-12" style="padding:0px;">
+                    <img src="" value="" class="show_image hidden" />
                     <div class="col-xs-12">
                         <label class="control-label" for="inputError">Hình ảnh cho sản phẩm</label>
-                        <input type="file" name="img_color${name}${number+1}" value="" placeholder="" class="form-control img_color">
+                        <input type="file" value="" placeholder="" class="form-control img_color">
                     </div>
+                    <img src="" value="" class="show_icon hidden" />
                     <div class="col-xs-12">
                         <label class="control-label" for="inputError">Hình ảnh icon cho màu sản phẩm</label>
-                        <input type="file" name="icon_color${name}${number+1}" value="" placeholder="" class="form-control icon_color">
+                        <input type="file" value="" placeholder="" class="form-control icon_color">
                     </div>
                     <div class="col-xs-12" style="margin-bottom:5px;">
                         <label class="control-label" for="inputError">Mã sản phẩm</label>
-                        <input type="text" name="code_color${name}${number+1}" value="" placeholder="" class="form-control code_color">
+                        <input type="text" name="code_color${name}[]" value="" placeholder="" class="form-control code_color">
                     </div>
                     <div class="tab-content">
 		                <div role="tabpanel" class="tab-pane fade active in">
@@ -619,13 +659,17 @@ function addOneColor(ev){
 		                            <div class="col-md-12" style="padding: 0px;margin-bottom: 10px;">
 		                                <div class="col-md-12" style="margin-top:5px;">
 		                                    <label class="control-label" for="">Nhập tên màu sắc cho sản phẩm</label>
-		                                    <input type="text" name="title${name}${number+1}}" class="form-control title" />
+		                                    <input type="text" name="title${name}[]" class="form-control title" />
 		                                    <span class="help-block hidden">Bạn cần nhập trường này</span>
 		                                </div>
 		                            </div>
 		                        </div>
 		                    </div>
 		                </div>
+                    </div>
+                    <div class="col-xs-12" style="margin-bottom:5px;">
+                        <label class="control-label" for="inputError">Giá sản phẩm</label>
+                        <input type="text" name="price_color${name}[]" value="" placeholder="" class="form-control price_color">
                     </div>
                 </div>
             </div>
@@ -639,13 +683,19 @@ function addOneColor(ev){
 
 function remove_color(id,ev){
     name = ev.closest('[id^="version"]').id;
+    if(document.querySelector(`#color${name}${id} img.show_image`).getAttribute('value') != ''){
+        remove_image.push(document.querySelector(`#color${name}${id} img.show_image`).getAttribute('value'));
+    }
+    if(document.querySelector(`#color${name}${id} img.show_icon`).getAttribute('value') != ''){
+        remove_image.push(document.querySelector(`#color${name}${id} img.show_icon`).getAttribute('value'));
+    }
     document.querySelector(`#${name} .content-full-color`).removeChild(document.querySelector(`#color${name}${id}`).parentElement);
     let demo = document.querySelectorAll(`#${name} .content-full-color [id^="color${name}"]`);
     for (i = id; i <= demo.length; i++) {
-        demo[i-1].querySelector('.img_color').setAttribute('name',`img_color${name}${i}`);
-        demo[i-1].querySelector('.icon_color').setAttribute('name',`icon_color${name}${i}`);
-        demo[i-1].querySelector('.code_color').setAttribute('name',`code_color${name}${i}`);
-        demo[i-1].querySelector(`.tab-content [id^="color${name}"] [name^="title${name}"]`).setAttribute('name',`title${name}${i}`);//demo[i-1].id.replace(`color${name}`, "")
+        // demo[i-1].querySelector('.img_color').setAttribute('name',`img_color${name}${i}`);
+        // demo[i-1].querySelector('.icon_color').setAttribute('name',`icon_color${name}${i}`);
+        // demo[i-1].querySelector('.code_color').setAttribute('name',`code_color${name}${i}`);
+        // demo[i-1].querySelector(`.tab-content [id^="color${name}"] [name^="title${name}"]`).setAttribute('name',`title${name}${i}`);//demo[i-1].id.replace(`color${name}`, "")
         demo[i-1].id = `color${name}${i}`;
         demo[i-1].parentElement.querySelector(`span[data-target^="#color${name}"]`).setAttribute('data-target',`#color${name}${i}`);
         demo[i-1].parentElement.querySelector(`span[data-target^="#color${name}"] span`).innerHTML = i;

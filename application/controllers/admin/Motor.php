@@ -3,7 +3,7 @@
 /**
 * 
 */
-class Product extends Admin_Controller{
+class Motor extends Admin_Controller{
     private $author_data = array();
     private $remove_image_product_all = array();
     private $price_product_all = array();
@@ -44,9 +44,6 @@ class Product extends Admin_Controller{
         $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
         $this->build_new_category($product_category,0,$this->data['product_category']);
         if($this->input->post()){
-            echo "<pre>";
-            print_r($this->input->post());
-            echo "<pre>";die;
             if($this->check_all_file_img($_FILES) === false){
                 return false;
             }
@@ -60,29 +57,14 @@ class Product extends Admin_Controller{
                 mkdir("assets/upload/".$this->data['controller']."/".$unique_slug.'/thumb', 0777);
             }
             $design_img = array();
-            $technology_img = array();
-            $untilities_img = array();
             if($this->input->post('design_img') !== null){
                 $design_img = $this->input->post('design_img');
             }
-            if($this->input->post('technology_img') !== null){
-                $technology_img = $this->input->post('technology_img');
-            }
-            if($this->input->post('untilities_img') !== null){
-                $untilities_img = $this->input->post('untilities_img');
-            }
             $version_img = array();
-            $version_icon = array();
-            for ($i=0; $i < $this->input->post('number_version'); $i++) { 
-                $version_img[$i] = array();
-                if($this->input->post('version'.($i+1).'_img') !== null){
-                    $version_img[$i] = $this->input->post('version'.($i+1).'_img');
-                }
-                $version_icon[$i] = array();
-                if($this->input->post('version'.($i+1).'_icon') !== null){
-                    $version_icon[$i] = $this->input->post('version'.($i+1).'_icon');
-                }
+            if($this->input->post('version_img') !== null){
+                $version_img = $this->input->post('version_img');
             }
+
             $image = array();
             if(!empty($_FILES['image_shared']['name'][0])){
                 $image = $this->upload_file('./assets/upload/product/'.$unique_slug, 'image_shared', 'assets/upload/product/'. $unique_slug .'/thumb');
@@ -91,20 +73,10 @@ class Product extends Admin_Controller{
             if(!empty($_FILES['banner_shared']['name'][0])){
                 $banner = $this->upload_file('./assets/upload/product/'.$unique_slug, 'banner_shared', 'assets/upload/product/'. $unique_slug .'/thumb');
             }
-
             $image_design_full = $this->update_img('design_img', 'designtitle', $unique_slug, $design_img);
-            $image_technology_full = $this->update_img('technology_img','technologytitle', $unique_slug , $technology_img);
-            $image_untilities_full = $this->update_img('untilities_img','untilitiestitle', $unique_slug , $untilities_img);
-            $img_version_full = array();
-            $icon_version_full = array();
-            for ($i=0; $i < $this->input->post('number_version'); $i++) { 
-                $img_version_full[] = $this->update_img('version'.($i+1).'_img','titleversion'.($i+1), $unique_slug , $version_img[$i]);
-                $icon_version_full[] = $this->update_img('version'.($i+1).'_icon','titleversion'.($i+1), $unique_slug , $version_icon[$i]);
-            }
-            $this->version_column('version', $img_version_full, $icon_version_full);
+            $img_version_full = $this->update_img('version_img','titleversion', $unique_slug , $version_img);
+            $this->version_column('version', $img_version_full);
             $this->content_column('design',$image_design_full);
-            $this->content_column('technology',$image_technology_full);
-            $this->content_column('untilities',$image_untilities_full);
 
             $shared_request = array(
                 'slug' => $unique_slug,
@@ -112,9 +84,8 @@ class Product extends Admin_Controller{
                 'image' => json_encode($image),
                 'banner' => json_encode($banner),
                 'title' => $this->input->post('title'), 
+                'description' => $this->input->post('description'), 
                 'design' => json_encode($this->input->post('design')), 
-                'technology' => json_encode($this->input->post('technology')), 
-                'untilities' => json_encode($this->input->post('untilities')), 
                 'version' => json_encode($this->input->post('version')), 
                 'metadescription' => $this->input->post('metadescription'), 
                 'metakeywords' => $this->input->post('metakeywords'), 
@@ -137,11 +108,12 @@ class Product extends Admin_Controller{
                 'motion' => $this->input->post('motion'),
                 'bootsystem' => $this->input->post('bootsystem'),
                 'design_img' => json_encode($image_design_full),
-                'technology_img' => json_encode($image_technology_full),
-                'untilities_img' => json_encode($image_untilities_full),
                 'version_img' => json_encode($img_version_full),
-                'version_icon' => json_encode($icon_version_full),
-                'price' => json_encode($this->price_product_all)
+                'price' => json_encode($this->price_product_all),
+                'inclination' => $this->input->post('inclination'),
+                'scanlength' => $this->input->post('scanlength'),
+                'frontbrake' => $this->input->post('frontbrake'),
+                'brakeafter' => $this->input->post('brakeafter'),
             );
             $insert = $this->product_model->common_insert(array_merge($shared_request,$this->author_data));
             if($insert){
@@ -153,25 +125,22 @@ class Product extends Admin_Controller{
                 return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
             }
         }
-        $this->render('admin/product/create_product_view');
+        $this->render('admin/motor/create_motor_view');
     }
     public function detail($id){
         if($id &&  is_numeric($id) && ($id > 0)){
             if($this->product_model->find_rows(array('id' => $id,'is_deleted' => 0)) != 0){
-
                 $this->load->helper('form');
                 $this->load->library('form_validation');
                 $product = $this->product_model->find($id);
                 $product['image'] = json_decode($product['image']);
                 $product['banner'] = json_decode($product['banner']);
                 $product['design'] = json_decode($product['design'],true);
-                $product['technology'] = json_decode($product['technology'],true);
-                $product['untilities'] = json_decode($product['untilities'],true);
                 $product['version'] = json_decode($product['version'],true);
                 $parent_title = $this->build_parent_title($product['product_category_id']);
                 $product['parent_title'] = $parent_title;
                 $this->data['product'] = $product;
-                $this->render('admin/product/detail_product_view');
+                $this->render('admin/motor/detail_motor_view');
             }else{
                 $this->session->set_flashdata('message_error',MESSAGE_ISSET_ERROR);
                 redirect('admin/product', 'refresh');
@@ -210,11 +179,7 @@ class Product extends Admin_Controller{
             $product['image'] = json_decode($product['image']);
             $product['banner'] = json_decode($product['banner']);
             $product['design'] = json_decode($product['design'],true);
-            $product['technology'] = json_decode($product['technology'],true);
-            $product['untilities'] = json_decode($product['untilities'],true);
             $product['version'] = json_decode($product['version'],true);
-            $product['version_img'] = json_decode($product['version_img'],true);
-            $product['version_icon'] = json_decode($product['version_icon'],true);
             $product_category = $this->product_category_model->get_by_parent_id_when_active(null,'asc');
             $this->build_new_category($product_category,0,$this->data['product_category'],$product['product_category_id']);
             $this->data['product'] = $product;
@@ -225,23 +190,6 @@ class Product extends Admin_Controller{
                 if($this->input->post('parent_id_shared') == '' || $this->input->post('title') == ''){
                     return $this->return_api(HTTP_NOT_FOUND,MESSAGE_EDIT_ERROR_VALIDATE);
                 }
-                $_POST['remove_image'] = ($this->input->post('remove_image') !== null) ? $this->input->post('remove_image') : array();
-                $_POST['remove_version'] = ($this->input->post('remove_version') !== null) ? $this->input->post('remove_version') : array();
-                $product['design_img'] = array_values(array_diff(json_decode($product['design_img']), $this->input->post('remove_image')));
-                $product['technology_img'] = array_values(array_diff(json_decode($product['technology_img']), $this->input->post('remove_image')));
-                $product['untilities_img'] = array_values(array_diff(json_decode($product['untilities_img']), $this->input->post('remove_image')));
-                foreach ($this->input->post('remove_version') as $key => $value) {
-                    $this->remove_image_product_all = array_merge($this->remove_image_product_all, $product['version_img'][$value]);
-                    $this->remove_image_product_all = array_merge($this->remove_image_product_all, $product['version_icon'][$value]);
-                    unset($product['version_img'][$value]);
-                    unset($product['version_icon'][$value]);
-                }
-                $product['version_img'] = array_values($product['version_img']);
-                $product['version_icon'] = array_values($product['version_icon']);
-                for ($i=0; $i < count($product['version_img']); $i++) { 
-                    $product['version_img'][$i] = array_values(array_diff($product['version_img'][$i],$this->input->post('remove_image')));
-                    $product['version_icon'][$i] = array_values(array_diff($product['version_icon'][$i],$this->input->post('remove_image')));
-                }
                 $unique_slug = $product['slug'];
                 if($unique_slug !== $this->input->post('slug_shared')){
                     $unique_slug = $this->product_model->build_unique_slug($this->input->post('slug_shared'));
@@ -249,29 +197,17 @@ class Product extends Admin_Controller{
                         rename("assets/upload/product/".$product['slug'], "assets/upload/product/".$unique_slug);
                     }
                 }
+                $product['design_img'] = array_values(array_diff(json_decode($product['design_img']), $this->input->post('remove_image')));
+                $product['version_img'] = array_values(array_diff(json_decode($product['version_img']), $this->input->post('remove_image')));
+
                 $design_img = array();
-                $technology_img = array();
-                $untilities_img = array();
                 if($this->input->post('design_img') !== null){
                     $design_img = $this->input->post('design_img');
                 }
-                if($this->input->post('technology_img') !== null){
-                    $technology_img = $this->input->post('technology_img');
-                }
-                if($this->input->post('untilities_img') !== null){
-                    $untilities_img = $this->input->post('untilities_img');
-                }
+
                 $version_img = array();
-                $version_icon = array();
-                for ($i=0; $i < $this->input->post('number_version'); $i++) { 
-                    $version_img[$i] = array();
-                    if($this->input->post('version'.($i+1).'_img') !== null){
-                        $version_img[$i] = $this->input->post('version'.($i+1).'_img');
-                    }
-                    $version_icon[$i] = array();
-                    if($this->input->post('version'.($i+1).'_icon') !== null){
-                        $version_icon[$i] = $this->input->post('version'.($i+1).'_icon');
-                    }
+                if($this->input->post('version_img') !== null){
+                    $version_img = $this->input->post('version_img');
                 }
                 $image = array();
                 if(!empty($_FILES['image_shared']['name'][0])){
@@ -282,37 +218,16 @@ class Product extends Admin_Controller{
                     $banner = $this->upload_file('./assets/upload/product/'.$unique_slug, 'banner_shared', 'assets/upload/product/'. $unique_slug .'/thumb');
                 }
                 $image_design_full = $this->update_img('design_img', 'designtitle', $unique_slug, $design_img, $product['design_img']);
-                $image_technology_full = $this->update_img('technology_img','technologytitle', $unique_slug , $technology_img, $product['technology_img']);
-                $image_untilities_full = $this->update_img('untilities_img','untilitiestitle', $unique_slug , $untilities_img, $product['untilities_img']);
-                $img_version_full = array();
-                $icon_version_full = array();
-                for ($i=0; $i < $this->input->post('number_version'); $i++) { 
-                    $data_image = isset($product['version_img'][$i]) ? $product['version_img'][$i] : array();
-                    $data_icon = isset($product['version_icon'][$i]) ? $product['version_icon'][$i] : array();
-                    $img_version_full[] = $this->update_img('version'.($i+1).'_img','titleversion'.($i+1), $unique_slug , $version_img[$i], $data_image);
-                    $icon_version_full[] = $this->update_img('version'.($i+1).'_icon','titleversion'.($i+1), $unique_slug , $version_icon[$i], $data_icon);
-                }
-                // if($this->input->post('number_version') < count($product['version'])){
-                //     for ($i=$this->input->post('number_version'); $i < count($product['version']); $i++) {
-                //         foreach ($product['version_img'][$i] as $key => $value) {
-                //             $this->remove_image_product_all[] = $value;
-                //         }
-                //         foreach ($product['version_icon'][$i] as $key => $value) {
-                //             $this->remove_image_product_all[] = $value;
-                //         }
+                $img_version_full = $this->update_img('version_img','titleversion', $unique_slug , $version_img, $product['version_img']);
 
-                //     }
-                // }
-                $this->version_column('version', $img_version_full, $icon_version_full);
+                $this->version_column('version', $img_version_full);
                 $this->content_column('design',$image_design_full);
-                $this->content_column('technology',$image_technology_full);
-                $this->content_column('untilities',$image_untilities_full);
+
                 $shared_request = array(
                     'product_category_id' => $this->input->post('parent_id_shared'),
                     'title' => $this->input->post('title'), 
+                    'description' => $this->input->post('description'), 
                     'design' => json_encode($this->input->post('design')), 
-                    'technology' => json_encode($this->input->post('technology')), 
-                    'untilities' => json_encode($this->input->post('untilities')), 
                     'version' => json_encode($this->input->post('version')), 
                     'metadescription' => $this->input->post('metadescription'), 
                     'metakeywords' => $this->input->post('metakeywords'), 
@@ -335,11 +250,12 @@ class Product extends Admin_Controller{
                     'motion' => $this->input->post('motion'),
                     'bootsystem' => $this->input->post('bootsystem'),
                     'design_img' => json_encode($image_design_full),
-                    'technology_img' => json_encode($image_technology_full),
-                    'untilities_img' => json_encode($image_untilities_full),
                     'version_img' => json_encode($img_version_full),
-                    'version_icon' => json_encode($icon_version_full),
-                    'price' => json_encode($this->price_product_all)
+                    'price' => json_encode($this->price_product_all),
+                    'inclination' => $this->input->post('inclination'),
+                    'scanlength' => $this->input->post('scanlength'),
+                    'frontbrake' => $this->input->post('frontbrake'),
+                    'brakeafter' => $this->input->post('brakeafter'),
                 );
                 if($unique_slug != $product['slug']){
                     $shared_request['slug'] = $unique_slug;
@@ -352,7 +268,7 @@ class Product extends Admin_Controller{
                 }
                 $update = $this->product_model->common_update($id,array_merge($shared_request,$this->author_data));
                 if($update){
-                    $remove_image_product = array_unique(array_merge($this->remove_image_product_all, $this->input->post('remove_image')));
+                    $remove_image_product = array_merge($this->remove_image_product_all, $this->input->post('remove_image'));
                     if(!empty($remove_image_product)) {
                         foreach ($remove_image_product as $key => $value) {
                             if(!empty($value)){
@@ -363,10 +279,7 @@ class Product extends Admin_Controller{
                     $reponse = array(
                         'csrf_hash' => $this->security->get_csrf_hash(),
                         'design_img' => $image_design_full,
-                        'technology_img' => $image_technology_full,
-                        'untilities_img' => $image_untilities_full,
                         'version_img' => $img_version_full,
-                        'version_icon' => $icon_version_full,
                     );
                     return $this->return_api(HTTP_SUCCESS,MESSAGE_EDIT_SUCCESS,$reponse);
                 }else {
@@ -378,7 +291,7 @@ class Product extends Admin_Controller{
             $this->session->set_flashdata('message_error',MESSAGE_ID_ERROR);
             redirect('admin/'. $this->data['controller'] .'', 'refresh');
         }
-        $this->render('admin/product/edit_product_view');
+        $this->render('admin/motor/edit_motor_view');
     }
     public function active(){
         $id = $this->input->post('id');
@@ -562,20 +475,20 @@ class Product extends Admin_Controller{
         $check_count = ($this->input->post($title) !== null) ? count($this->input->post($title)) : 0;
         if ($check_count > 0) {
             if (empty($data_img)) {
-                    if(!empty($_FILES[$file_name]['name'][0])){
-                        $image_data = $this->upload_file('./assets/upload/product/'.$unique_slug, $file_name, 'assets/upload/product/'. $unique_slug .'/thumb');
-                        for ($i=0; $i < $check_count; $i++) { 
-                            if(array_key_exists($i,array_flip($img_array))){
-                                $image_data_full[] = "";
-                            }else{
-                                $image_data_full[] = array_shift($image_data);
-                            }
-                        }
-                    }else{
-                        for ($i=0; $i < $check_count; $i++) {
+                if(!empty($_FILES[$file_name]['name'][0])){
+                    $image_data = $this->upload_file('./assets/upload/product/'.$unique_slug, $file_name, 'assets/upload/product/'. $unique_slug .'/thumb');
+                    for ($i=0; $i < $check_count; $i++) { 
+                        if(array_key_exists($i,array_flip($img_array))){
                             $image_data_full[] = "";
+                        }else{
+                            $image_data_full[] = array_shift($image_data);
                         }
                     }
+                }else{
+                    for ($i=0; $i < $check_count; $i++) {
+                        $image_data_full[] = "";
+                    }
+                }
             }else{
                 if(!empty($_FILES[$file_name]['name'][0])){
                     $image_data = $this->upload_file('./assets/upload/product/'.$unique_slug, $file_name, 'assets/upload/product/'. $unique_slug .'/thumb');
@@ -586,9 +499,10 @@ class Product extends Admin_Controller{
                                 $image_data_full[] = $data_img[$i];
                             }else{
                                 $image_data_full[] = array_shift($image_data);
-                                if(!empty($data_img[$i])){
+                                if (!empty($data_img[$i])) {
                                     $this->remove_image_product_all[] = $data_img[$i];
                                 }
+                                
                             }
                         }
                     }
@@ -616,28 +530,16 @@ class Product extends Admin_Controller{
         }
     }
 
-    function version_column($name = 'version', $image=array(), $icon=array()){
-        if ($this->input->post($name.'title') !== null) {
-            for ($i=0; $i < count($this->input->post($name.'title')); $i++) {
-                $content = array();
-                if ($this->input->post('title'.$name.($i+1)) !== null) {
-                    for ($j=0; $j < count($this->input->post('title'.$name.($i+1))); $j++) { 
-                        $content[$j] = array(
-                            'title' => $this->input->post('title'.$name.($i+1))[$j],
-                            'code' => $this->input->post('code_color'.$name.($i+1))[$j],
-                            'price' => $this->input->post('price_color'.$name.($i+1))[$j],
-                            'image' => isset($image[$i][$j]) ? $image[$i][$j] : "",
-                            'icon' => isset($icon[$i][$j]) ? $icon[$i][$j] : "",
-                        );
-                        $this->price_product_all[] = !empty($this->input->post('price_color'.$name.($i+1))[$j]) ? $this->input->post('price_color'.$name.($i+1))[$j] : "0";
-                        
-                    }
-                }
-                $_POST[$name][] = array(
-                    'title' => $this->input->post($name.'title')[$i],
-                    'content' => $content,
-
+    function version_column($name = 'version', $image=array()){
+        if ($this->input->post('titleversion') !== null) {
+            for ($i=0; $i < count($this->input->post('titleversion')); $i++) {    
+                $_POST['version'][] = array(
+                    'title' => $this->input->post('titleversion')[$i],
+                    'code' => $this->input->post('codeversion')[$i],
+                    'price' => $this->input->post('priceversion')[$i],
+                    'image' => $image[$i],
                 );
+                $this->price_product_all[] = !empty($this->input->post('priceversion')[$i]) ? $this->input->post('priceversion')[$i] : "0";
             }
         }else{
             $_POST[$name] = array();
