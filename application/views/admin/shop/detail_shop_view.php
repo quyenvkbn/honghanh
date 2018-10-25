@@ -7,14 +7,14 @@
         <h1>
             Chi tiết
             <small>
-                Bài Viết
+                Cửa Hàng
             </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="#"><i class="fa fa-dashboard"></i> Chi tiết</a></li>
             <li class="active">
-                Bài Viết
+                Cửa Hàng
             </li>
         </ol>
     </section>

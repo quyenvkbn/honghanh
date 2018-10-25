@@ -4,7 +4,7 @@
         <h1>
             Cập nhật
             <small>
-                Bài Viết
+                Cửa Hàng
             </small>
         </h1>
     </section>
@@ -19,7 +19,7 @@
                         echo form_open_multipart('', array('class' => 'form-horizontal'));
                         ?>
                         <div class="col-xs-12">
-                            <h4 class="box-title">Basic Information</h4>
+                            <h4 class="box-title">Thông tin cơ bản</h4>
                         </div>
                         <div class="row">
                             <span><?php echo $this->session->flashdata('message'); ?></span>
@@ -27,12 +27,12 @@
                         <div class="form-group col-xs-12">
                             <label for="image">Hình ảnh đang dùng</label>
                             <br>
-                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['image']); ?>" width=250px>
+                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['image']); ?>" width=150px>
                             <br>
                         </div>
                         <div class="form-group col-xs-12">
                             <?php
-                            echo form_label('Hình ảnh', 'image');
+                            echo form_label('Ảnh đại diện', 'image');
                             echo form_error('image');
                             echo form_upload('image', set_value('image'), 'class="form-control"');
                             ?>
@@ -47,38 +47,20 @@
                                 ?>
                             </div>
                         </div>
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Slug', 'slug');
-                                echo form_error('slug');
-                                echo form_input('slug', $detail['slug'], 'class="form-control" id="slug" readonly');
-                                ?>
-                            </div>
-                        </div>
 
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Danh mục', 'parent_id');
-                                echo form_error('parent_id');
+                                echo form_label('Loại cửa hàng', 'shop_type_id');
+                                echo form_error('shop_type_id');
                                 ?>
-                                <select name="parent_id" class="form-control">
-                                    <option value="">Chọn danh mục</option>
-                                    <optgroup label="Dịch Vụ">
-                                        <?php foreach ($category as $key => $value): ?>
+                                <select name="shop_type_id" class="form-control">
+                                    <option value="">Chọn loại cửa hàng</option>
+                                        <?php foreach ($shop_type as $key => $value): ?>
                                             <?php if ($value['type'] == 0): ?>
                                                 <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
                                             <?php endif ?>
                                         <?php endforeach ?>
-                                    </optgroup>
-                                    <optgroup label="Tin Tức">
-                                        <?php foreach ($category as $key => $value): ?>
-                                            <?php if ($value['type'] == 1): ?>
-                                                <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
-                                    </optgroup>
                                 </select>
                             </div>
                         </div>
@@ -86,12 +68,29 @@
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                    echo form_label('Mô tả', 'description');
-                                    echo form_error('description');
-                                    echo form_textarea('description', $detail['description'], 'class="form-control" rows="5"');
-                                    echo form_label('Nội dung', 'content');
-                                    echo form_error('content');
-                                    echo form_textarea('content', $detail['content'], 'class="tinymce-area form-control" rows="5"');
+                                    echo form_label('Địa Chỉ', 'address');
+                                    echo form_error('address');
+                                    echo form_input('address', $detail['address'], 'class="form-control"');
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xs-12">
+                            <div class="form-group col-xs-12">
+                                <?php
+                                    echo form_label('Số Điện Thoại Liên Hệ', 'phone');
+                                    echo form_error('phone');
+                                    echo form_input('phone', $detail['phone'], 'class="form-control"');
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xs-12">
+                            <div class="form-group col-xs-12">
+                                <?php
+                                    echo form_label('Email', 'email');
+                                    echo form_error('email');
+                                    echo form_input('email', $detail['email'], 'class="form-control"');
                                 ?>
                             </div>
                         </div>

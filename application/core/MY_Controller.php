@@ -70,7 +70,9 @@ class MY_Controller extends CI_Controller {
         return $image;
     }
 
-    protected function upload_multiple_image($upload_path = '', $file_name = '', $upload_thumb_path = '', $thumbs_with = 500, $thumbs_height = 500) {
+    protected function upload_multiple_image($file_name = '', $upload_path = '') {
+        //$file_name input name
+        //$upload_path path upload fiel
         $config = $this->config_file($upload_path);
 
         $image = '';
@@ -93,26 +95,11 @@ class MY_Controller extends CI_Controller {
                 $data = $this->upload->data();
                 $image_list[] = $data['file_name'];
                 $image = $data['file_name'];
-
-                $this->load->library('image_lib');
-
-                $config['image_library'] = 'gd2';
-                $config_thumb['source_image'] = $upload_path . '/' . $image;
-                $config_thumb['create_thumb'] = TRUE;
-                $config_thumb['maintain_ratio'] = TRUE;
-                $config_thumb['new_image'] = $upload_thumb_path;
-                $config_thumb['width'] = $thumbs_with;
-                $config_thumb['height'] = $thumbs_height;
-
-                $this->image_lib->initialize($config_thumb);
-                $this->image_lib->resize();
-                $this->image_lib->clear();
-
-                $this->image_lib->resize($image);
                 
             }
         }
         return $image_list;
+
     }
 
     function config_file($upload_path = '') {
@@ -250,6 +237,27 @@ class Admin_Controller extends MY_Controller {
             }
         }
         return $image_list;
+    }
+
+    function upload_pdf_file($file_input_id, $file_name, $upload_path) {
+        
+        $pdf_file = '';
+        if (!empty($file_name)) {
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'pdf';
+            $config['file_name'] = $file_name;
+            $config['max_size'] = '20971520';
+            $config['encrypt_name'] = TRUE;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if($this->upload->do_upload($file_input_id)){
+                $upload_data = $this->upload->data();
+                $pdf_file = $upload_data['file_name'];
+            }
+        }
+
+        return $pdf_file;
     }
 
     function config_file($upload_path = '') {

@@ -2,9 +2,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Thêm mới
+            Thêm Mới
             <small>
-                Danh Mục
+                Cửa Hàng
             </small>
         </h1>
     </section>
@@ -35,18 +35,9 @@
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Tiêu đề', 'title');
-                                echo form_error('title');
-                                echo form_input('title', set_value('title'), 'class="form-control" id="title"');
-                                ?>
-                            </div>
-                        </div>
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Slug', 'slug');
-                                echo form_error('slug');
-                                echo form_input('slug', set_value('slug'), 'class="form-control" id="slug" readonly');
+                                    echo form_label('Tiêu đề', 'title');
+                                    echo form_error('title');
+                                    echo form_input('title', set_value('title'), 'class="form-control" id="title"');
                                 ?>
                             </div>
                         </div>
@@ -54,23 +45,50 @@
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Loại danh mục', 'type');
-                                echo form_error('type');
-                                echo form_dropdown('type', array(0 => 'Dịch Vụ', 1 => 'Tin Tức'), 0, 'class="form-control"');
-                                                    
+                                echo form_label('Loại cửa hàng', 'shop_type_id');
+                                echo form_error('shop_type_id');
                                 ?>
+                                <select name="shop_type_id" class="form-control">
+                                    <option value="">Chọn loại cửa hàng</option>
+                                        <?php foreach ($shop_type as $key => $value): ?>
+                                            <?php if ($value['type'] == 0): ?>
+                                                <option value="<?php echo $value['id'] ?>" ><?php echo $value['title'] ?></option>
+                                            <?php endif ?>
+                                        <?php endforeach ?>
+                                </select>
                             </div>
                         </div>
+
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Mô tả', 'content');
-                                echo form_error('content');
-                                echo form_textarea('content', set_value('content', '', false), 'class="tinymce-area form-control" rows="5"');
-                                                    
+                                    echo form_label('Địa Chỉ', 'address');
+                                    echo form_error('address');
+                                    echo form_input('address', set_value('address'), 'class="form-control"');
                                 ?>
                             </div>
                         </div>
+
+                        <div class="form-group col-xs-12">
+                            <div class="form-group col-xs-12">
+                                <?php
+                                    echo form_label('Số Điện Thoại Liên Hệ', 'phone');
+                                    echo form_error('phone');
+                                    echo form_input('phone', set_value('phone'), 'class="form-control"');
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xs-12">
+                            <div class="form-group col-xs-12">
+                                <?php
+                                    echo form_label('Email', 'email');
+                                    echo form_error('email');
+                                    echo form_input('email', set_value('email'), 'class="form-control"');
+                                ?>
+                            </div>
+                        </div>
+
                         <?php echo form_submit('submit', 'OK', 'class="btn btn-primary"'); ?>
                         <?php echo form_close(); ?>
                     </div>
@@ -79,4 +97,3 @@
         </div>
     </section>
 </div>
-

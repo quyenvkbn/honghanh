@@ -1,5 +1,5 @@
 switch(window.location.origin){
-    case 'http://myielts.vn':
+    case 'http://honghanh.vn':
         var HOSTNAME = 'http://honghanh.vn/';
         break;
     default:
@@ -67,7 +67,7 @@ $(document).ready(function(){
     });
 
     $('#title').change(function(){
-        $('#slug_shared').val(to_slug($('#title').val()));
+        $('#slug').val(to_slug($('#title').val()));
     });
 });
 

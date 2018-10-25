@@ -2,9 +2,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Cập nhật
+            Cập Nhật
             <small>
-                Bài Viết
+                Phụ Tùng
             </small>
         </h1>
     </section>
@@ -19,7 +19,7 @@
                         echo form_open_multipart('', array('class' => 'form-horizontal'));
                         ?>
                         <div class="col-xs-12">
-                            <h4 class="box-title">Basic Information</h4>
+                            <h4 class="box-title">Thông tin cơ bản</h4>
                         </div>
                         <div class="row">
                             <span><?php echo $this->session->flashdata('message'); ?></span>
@@ -32,7 +32,7 @@
                         </div>
                         <div class="form-group col-xs-12">
                             <?php
-                            echo form_label('Hình ảnh', 'image');
+                            echo form_label('Ảnh đại diện', 'image');
                             echo form_error('image');
                             echo form_upload('image', set_value('image'), 'class="form-control"');
                             ?>
@@ -56,42 +56,20 @@
                                 ?>
                             </div>
                         </div>
-
+                        
                         <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Danh mục', 'parent_id');
-                                echo form_error('parent_id');
-                                ?>
-                                <select name="parent_id" class="form-control">
-                                    <option value="">Chọn danh mục</option>
-                                    <optgroup label="Dịch Vụ">
-                                        <?php foreach ($category as $key => $value): ?>
-                                            <?php if ($value['type'] == 0): ?>
-                                                <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
-                                    </optgroup>
-                                    <optgroup label="Tin Tức">
-                                        <?php foreach ($category as $key => $value): ?>
-                                            <?php if ($value['type'] == 1): ?>
-                                                <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
-                                    </optgroup>
-                                </select>
-                            </div>
+                            <label for="image">Bảng giá đang dùng</label>
+                            <br>
+                            <a href="<?php echo base_url('assets/upload/accessary/pdf/' . $detail['file']) ?>" target="_blank"><button class="btn btn-default btn-sm" type="button">Xem chi tiết</button></a>
+                            <br>
                         </div>
 
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                    echo form_label('Mô tả', 'description');
-                                    echo form_error('description');
-                                    echo form_textarea('description', $detail['description'], 'class="form-control" rows="5"');
-                                    echo form_label('Nội dung', 'content');
-                                    echo form_error('content');
-                                    echo form_textarea('content', $detail['content'], 'class="tinymce-area form-control" rows="5"');
+                                    echo form_label('Bảng giá ( File PDF )', 'file');
+                                    echo form_error('file');
+                                    echo form_upload('file', set_value('file'), 'class="form-control"');
                                 ?>
                             </div>
                         </div>

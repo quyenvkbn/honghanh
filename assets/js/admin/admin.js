@@ -1,16 +1,21 @@
 switch(window.location.origin){
-    case 'http://diamondtour.vn':
-        var HOSTNAME = 'http://diamondtour.vn/';
+    case 'http://honghanh.vn':
+        var HOSTNAME = 'http://honghanh.vn/';
         break;
     default:
         var HOSTNAME = 'http://localhost/honghanh/';
 }
 switch(window.location.origin){
-    case 'http://diamondtour.vn':
-        var HOSTNAMEADMIN = 'http://diamondtour.vn/admin';
+
+    case 'http://honghanh.com':
+        var HOSTNAMEADMIN = 'http://honghanh.com/admin';
         break;
     default:
         var HOSTNAMEADMIN = 'http://localhost/honghanh/admin';
+} 
+$("#box-promotion").fadeOut();
+if(window.location.pathname.indexOf("/product/edit/") != '-1' && $('#promotion').is(':checked') == true){
+	$("#box-promotion").fadeIn();
 }
 var remove_image = new Array();
 var remove_versions = new Array();

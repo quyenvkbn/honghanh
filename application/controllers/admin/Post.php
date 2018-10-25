@@ -27,7 +27,7 @@ class Post extends Admin_Controller{
         if($keywords != ''){
             $total_rows  = $this->post_model->count_search($keywords);
         }
-
+        $this->data['keywords'] = $keywords;
         $this->load->library('pagination');
         $config = array();
         $base_url = base_url('admin/'. $this->controller .'/index');
@@ -62,18 +62,18 @@ class Post extends Admin_Controller{
         $this->data['post_category'] = $post_category;
 
         $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
-        $this->form_validation->set_rules('parent_id_shared', 'Danh mục', 'required');
+        $this->form_validation->set_rules('parent_id', 'Danh mục', 'required');
 
         if ($this->form_validation->run() == FALSE) {
         	$this->render('admin/post/create_post_view');
         } else {
         	if($this->input->post()){
-                if(!empty($_FILES['image_shared']['name'])){
-                    $this->check_img($_FILES['image_shared']['name'], $_FILES['image_shared']['size']);
+                if(!empty($_FILES['image']['name'])){
+                    $this->check_img($_FILES['image']['name'], $_FILES['image']['size']);
                 }
-            	$slug = $this->input->post('slug_shared');
+            	$slug = $this->input->post('slug');
                 $unique_slug = $this->post_model->build_unique_slug($slug);
-                $image = $this->upload_image('image_shared', $_FILES['image_shared']['name'], 'assets/upload/'. $this->controller, 'assets/upload/'.$this->controller.'/thumb');
+                $image = $this->upload_image('image', $_FILES['image']['name'], 'assets/upload/'. $this->controller, 'assets/upload/'.$this->controller.'/thumb');
 
                 $shared_request = array(
                     'slug' => $unique_slug,
@@ -81,7 +81,7 @@ class Post extends Admin_Controller{
                     'title' => $this->input->post('title'),
                     'description' => $this->input->post('description'),
                     'content' => $this->input->post('content'),
-                    'post_category_id' => $this->input->post('parent_id_shared'),
+                    'post_category_id' => $this->input->post('parent_id'),
                     'created_at' => $this->author_data['created_at'],
                     'created_by' => $this->author_data['created_by'],
                     'updated_at' => $this->author_data['updated_at'],
@@ -94,7 +94,7 @@ class Post extends Admin_Controller{
                 }else {
                     $this->load->libraries('session');
                     $this->session->set_flashdata('message_error', MESSAGE_CREATE_ERROR);
-                    $this->render('admin/'. $this->controller .'/create_post_category_view');
+                    $this->render('admin/'. $this->controller .'/create_post_view');
                 }
         	}
         }
@@ -136,25 +136,26 @@ class Post extends Admin_Controller{
         
         $this->data['detail'] = $detail;
         $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
+        $this->form_validation->set_rules('parent_id', 'Danh mục', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('admin/post/edit_post_view');
         } else {
             if($this->input->post()){
                 $check_upload = true;
-                if ($_FILES['image_shared']['size'] > 1228800) {
+                if ($_FILES['image']['size'] > 1228800) {
                     $check_upload = false;
                 }
                 if ($check_upload == true) {
-                    $slug = $this->input->post('slug_shared');
+                    $slug = $this->input->post('slug');
                     $unique_slug = $this->post_model->build_unique_slug($slug, $id);
-                    $image = $this->upload_image('image_shared', $_FILES['image_shared']['name'], 'assets/upload/'. $this->controller .'', 'assets/upload/'. $this->controller .'/thumb');
+                    $image = $this->upload_image('image', $_FILES['image']['name'], 'assets/upload/'. $this->controller .'', 'assets/upload/'. $this->controller .'/thumb');
                     $shared_request = array(
                         'slug' => $unique_slug,
                         'title' => $this->input->post('title'),
                         'description' => $this->input->post('description'),
                         'content' => $this->input->post('content'),
-                        'post_category_id' => $this->input->post('parent_id_shared'),
+                        'post_category_id' => $this->input->post('parent_id'),
                         'created_at' => $this->author_data['created_at'],
                         'created_by' => $this->author_data['created_by'],
                         'updated_at' => $this->author_data['updated_at'],
@@ -268,5 +269,11 @@ class Post extends Admin_Controller{
             redirect('admin/'.$this->data['controller']);
         }
     }
+
+    // protected function build_category($post_category){
+    //     foreach ($post_category as $key => $value) {
+    //         if
+    //     }
+    // }
 
 }

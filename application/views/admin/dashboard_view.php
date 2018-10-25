@@ -31,7 +31,7 @@
                     <a href="<?php echo base_url('admin/product'); ?>" class="small-box-footer">Xem danh sách <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            
+
             <!-- ./col -->
             <div class="col-lg-4 col-xs-6">
                 <!-- small box -->
@@ -49,7 +49,7 @@
             </div>
         </div>
         <!-- /.row -->
-        
+
 
     </section>
     <!-- /.content -->

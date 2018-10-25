@@ -4,7 +4,7 @@
         <h1>
             Cập nhật
             <small>
-                Bài Viết
+                Bài Viết Giới Thiệu
             </small>
         </h1>
     </section>
@@ -60,32 +60,6 @@
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Danh mục', 'parent_id');
-                                echo form_error('parent_id');
-                                ?>
-                                <select name="parent_id" class="form-control">
-                                    <option value="">Chọn danh mục</option>
-                                    <optgroup label="Dịch Vụ">
-                                        <?php foreach ($category as $key => $value): ?>
-                                            <?php if ($value['type'] == 0): ?>
-                                                <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
-                                    </optgroup>
-                                    <optgroup label="Tin Tức">
-                                        <?php foreach ($category as $key => $value): ?>
-                                            <?php if ($value['type'] == 1): ?>
-                                                <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
                                     echo form_label('Mô tả', 'description');
                                     echo form_error('description');
                                     echo form_textarea('description', $detail['description'], 'class="form-control" rows="5"');
@@ -103,3 +77,23 @@
         </div>
     </section>
 </div>
+
+<?php 
+    function build_new_category($categorie, $parent_id = 0, $detail_id, $char = ''){
+        $cate_child = array();
+        foreach ($categorie as $key => $item){
+            if ($item['parent_id'] == $parent_id){
+                $cate_child[] = $item;
+                unset($categorie[$key]);
+            }
+        }
+        if ($cate_child){
+            foreach ($cate_child as $key => $value){
+            ?>
+            <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail_id)? 'selected' : ''?> ><?php echo $char.$value['title'] ?></option>
+            <?php build_new_category($categorie, $value['id'], $detail_id, $char.'---|') ?>
+            <?php
+            }
+        }
+    }
+?>

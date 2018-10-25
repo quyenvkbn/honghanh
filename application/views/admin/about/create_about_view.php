@@ -4,7 +4,7 @@
         <h1>
             Thêm mới
             <small>
-                Danh Mục
+                Bài Viết Giới Thiệu
             </small>
         </h1>
     </section>
@@ -35,9 +35,9 @@
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Tiêu đề', 'title');
-                                echo form_error('title');
-                                echo form_input('title', set_value('title'), 'class="form-control" id="title"');
+                                    echo form_label('Tiêu đề', 'title');
+                                    echo form_error('title');
+                                    echo form_input('title', set_value('title'), 'class="form-control" id="title"');
                                 ?>
                             </div>
                         </div>
@@ -54,20 +54,12 @@
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
-                                echo form_label('Loại danh mục', 'type');
-                                echo form_error('type');
-                                echo form_dropdown('type', array(0 => 'Dịch Vụ', 1 => 'Tin Tức'), 0, 'class="form-control"');
-                                                    
-                                ?>
-                            </div>
-                        </div>
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Mô tả', 'content');
-                                echo form_error('content');
-                                echo form_textarea('content', set_value('content', '', false), 'class="tinymce-area form-control" rows="5"');
-                                                    
+                                    echo form_label('Mô tả', 'description');
+                                    echo form_error('description');
+                                    echo form_textarea('description', set_value('description', '', false), 'class="form-control" rows="5"');
+                                    echo form_label('Nội dung', 'content');
+                                    echo form_error('content');
+                                    echo form_textarea('content', set_value('content', '', false), 'class="tinymce-area form-control" rows="5"');
                                 ?>
                             </div>
                         </div>
@@ -79,4 +71,3 @@
         </div>
     </section>
 </div>
-

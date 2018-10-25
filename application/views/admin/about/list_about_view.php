@@ -6,7 +6,7 @@
         <h1>
             Danh sách
             <small>
-                Bài Viết
+                Bài Viết Giới Thiệu
             </small>
         </h1>
     </section>
@@ -33,7 +33,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
-                            Bài Viết
+                            Bài Viết Giới Thiệu
                         </h3>
                     </div>
 
@@ -63,7 +63,6 @@
                                     <th>No.</th>
                                     <th>Hình ảnh</th>
                                     <th>Tiêu đề</th>
-                                    <th>Danh mục</th>
                                     <th>Trạng thái</th>
                                     <th>Detail</th>
                                     <th>Action</th>
@@ -73,8 +72,6 @@
                                 <?php if($result): ?>
                                 <?php $i = 1; ?>
                                 <?php foreach ($result as $key => $value): ?>
-                                    
-                                
                                     <tr class="remove_<?php echo $value['id'] ?>">
                                         <td><?php echo $i++ ?></td>
                                         <td>
@@ -83,7 +80,6 @@
                                             </div>
                                         </td>
                                         <td><?php echo $value['title'] ?></td>
-                                        <td><?php echo $value['parent_title'] ?></td>
                                         <td>
                                             <?php echo ($value['is_activated'] == 0)? '<span class="label label-success">Đang sử dụng</span>' : '<span class="label label-warning">Không sử dụng</span>' ?>   
                                         </td>
@@ -98,14 +94,14 @@
                                                 <a href="javascript:void(0);" onclick="active('<?php echo $controller; ?>', <?php echo $value['id'] ?>, 'Chăc chắn bật')" class="dataActionDelete" title="Bật bài viết"><i class="fa fa-eye" aria-hidden="true"></i> </a>
                                             <?php endif ?>
                                             <a href="<?php echo base_url('admin/'.$controller.'/edit/'. $value['id']) ?>" class="dataActionEdit" title="Sửa bài viết"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                                            <a href="javascript:void(0);" onclick="remove('post', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa bài viết"><i class="fa fa-remove" aria-hidden="true"></i> </a>
+                                            <a href="javascript:void(0);" onclick="remove('about', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa bài viết"><i class="fa fa-remove" aria-hidden="true"></i> </a>
                                         </td>
 
                                     </tr>
                                 <?php endforeach ?>
                                 <?php else: ?>
                                     <tr>
-                                        Chưa có bài viết
+                                        Chưa có bài viết giới thiệu
                                     </tr>
                                 <?php endif; ?>
 
@@ -115,7 +111,6 @@
                                     <th>No.</th>
                                     <th>Hình ảnh</th>
                                     <th>Tiêu đề</th>
-                                    <th>Danh mục</th>
                                     <th>Trạng thái</th>
                                     <th>Detail</th>
                                     <th>Action</th>
