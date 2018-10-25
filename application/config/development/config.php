@@ -439,6 +439,7 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
 $config['csrf_protection'] = TRUE;
+
 $config['csrf_token_name'] = 'csrf_honghanh_token';
 $config['csrf_cookie_name'] = 'csrf_honghanh_cookie';
 $config['csrf_expire'] = 7200;

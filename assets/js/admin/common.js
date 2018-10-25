@@ -68,6 +68,7 @@ function removeDate(){
 
 
 }
+
 var csrf_hash = $("input[name='csrf_honghanh_token']").val();
 function remove(controller, id){
     var url = HOSTNAMEADMIN + '/' + controller + '/remove';

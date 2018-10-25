@@ -7,7 +7,6 @@ class Dashboard extends Admin_Controller {
 		$this->load->model('post_model');
 		$this->load->model('product_model');
     }
-
     public function index(){
     	$this->data['product'] = $this->product_model->find_rows(array('is_deleted' => 0));
     	$this->data['post'] = $this->post_model->find_rows(array('is_deleted' => 0));

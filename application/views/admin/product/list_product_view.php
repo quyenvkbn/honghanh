@@ -6,7 +6,7 @@
         <h1>
             Danh sách
             <small>
-                Tours
+                sản phẩm
             </small>
         </h1>
     </section>
@@ -27,42 +27,30 @@
                     <?php echo $this->session->flashdata('message_success'); ?>
                 </div>
             <?php endif ?>
-            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash() ?>" id="csrf" />
+            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash() ?>" id="csrf_motorbike_token" />
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
-                            Tours
+                            sản phẩm
                         </h3>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2 col-ms-12">
-                            <a href="<?php echo base_url('admin/'.$controller.'/create') ?>" class="btn btn-primary" role="button">Thêm mới</a>
-                        </div>
-                        <div class="col-md-10 col-ms-12">
-                            <form action="<?php echo base_url('admin/'.$controller.'/index') ?>" method="get">
-                                <div class="checkbox col-md-6 col-ms-12">
-                                    <label style="padding-right: 10px;">
-                                        <input type="checkbox" name="promotion" <?php echo (!empty($promotion))? 'checked' : '';?>> Khuyến Mãi
-                                    </label>
-                                    <label style="padding-right: 10px;">
-                                        <input type="checkbox" name="bestselling" <?php echo (!empty($bestselling))? 'checked' : '';?>> Bán Chạy
-                                    </label>
-                                    <label style="padding-right: 10px;">
-                                        <input type="checkbox" name="hot" <?php echo (!empty($hot))? 'checked' : '';?>> Hot
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="banner" <?php echo (!empty($banner))? 'checked' : '';?>> banner
-                                    </label>
-                                </div>
-                                <div class="input-group col-md-6 col-ms-12">
-                                    <input type="text" class="form-control" placeholder="Tìm kiếm theo tên tiêu đề..." name="search" value="<?php echo (!empty($keyword))? $keyword : '';?>">
-                                    <span class="input-group-btn">
-                                        <input type="submit" class="btn btn-block btn-primary" value="Tìm kiếm">
-                                    </span>
-                                </div>
-                            </form>
+                        <div class="col-xs-12">
+                            <div class="col-md-7 col-ms-12">
+                                <span type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"  >Thêm mới</span>
+                            </div>
+                            <div class="col-md-5 col-ms-12">
+                                <form action="<?php echo base_url('admin/'.$controller.'/index') ?>" method="get">
+                                    <div class="input-group col-ms-12">
+                                        <input type="text" class="form-control" placeholder="Tìm kiếm theo tên tiêu đề..." name="search" value="<?php echo (!empty($keyword))? $keyword : '';?>">
+                                        <span class="input-group-btn">
+                                            <input type="submit" class="btn btn-block btn-primary" value="Tìm kiếm">
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
@@ -90,10 +78,10 @@
                                         <td><?php echo $i++ ?></td>
                                         <td>
                                             <div class="mask_sm">
-                                                <?php if (!empty($value['image'])): ?>
-                                                    <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$value['slug'].'/' .$value['imglocaltion']) ?>" alt="anh-cua-<?php echo $value['slug'] ?>" width=150px>
+                                                <?php if (!empty(json_decode($value['image']))): ?>
+                                                    <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$value['slug'].'/' .json_decode($value['image'])[0]) ?>" alt="anh-cua-<?php echo $value['slug'] ?>" width=150px>
                                                 <?php else: ?>
-                                                    Chưa có Ảnh.
+                                                    <img src="<?php echo base_url('assets/img/horizontal.jpg') ?>" alt="anh-cua-<?php echo $value['slug'] ?>" width=150px>
                                                 <?php endif ?>
                                             </div>
                                         </td>
@@ -103,19 +91,19 @@
                                             <?php echo ($value['is_activated'] == 0)? '<span class="label label-success">Đang sử dụng</span>' : '<span class="label label-warning">Không sử dụng</span>'; ?>   
                                         </td>
                                         <td>
-                                            <a href="<?php echo base_url('admin/'.$controller.'/detail/'.$value['id']) ?>">
-                                                <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">Xem chi tiết</button>
-                                            </a>
+                                            <?php $controller_type = ($value['type'] == 0) ? $controller : 'motor' ?>
+                                            <a href="<?php echo base_url('admin/'.$controller_type.'/detail/'.$value['id']) ?>"
+                                            <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">Xem chi tiết</button>
                                         </td>
                                         <td>
                                             <?php if ($value['is_activated'] == 0): ?>
-                                                <a href="javascript:void(0);" onclick="deactive('<?php echo $controller; ?>', <?php echo $value['id'] ?>, 'Chăc chắn tắt')" class="dataActionDelete" title="Tắt danh mục"><i class="fa fa-low-vision" aria-hidden="true"></i> </a>
+                                                <a href="javascript:void(0);" onclick="deactive('<?php echo $controller; ?>', <?php echo $value['id'] ?>, 'Chăc chắn tắt')" class="dataActionDelete" title="Tắt sản phẩm"><i class="fa fa-low-vision" aria-hidden="true"></i> </a>
                                             <?php else: ?>
-                                                <a href="javascript:void(0);" onclick="active('<?php echo $controller; ?>', <?php echo $value['id'] ?>, 'Chăc chắn bật')" class="dataActionDelete" title="Bật danh mục"><i class="fa fa-eye" aria-hidden="true"></i> </a>
+                                                <a href="javascript:void(0);" onclick="active('<?php echo $controller; ?>', <?php echo $value['id'] ?>, 'Chăc chắn bật')" class="dataActionDelete" title="Bật sản phẩm"><i class="fa fa-eye" aria-hidden="true"></i> </a>
                                             <?php endif ?>
-                                            <a href="<?php echo base_url('admin/'.$controller.'/edit/'. $value['id']) ?>" class="dataActionEdit"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                                            <a href="<?php echo base_url('admin/'.$controller_type.'/edit/'. $value['id']) ?>" class="dataActionEdit" title="Sửa sản phẩm"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
                                             &nbsp&nbsp&nbsp
-                                            <a href="javascript:void(0);" onclick="remove('<?php echo $controller; ?>', <?php echo $value['id'] ?>)" class="dataActionDelete"><i class="fa fa-remove" aria-hidden="true"></i> </a>
+                                            <a href="javascript:void(0);" onclick="remove('<?php echo $controller; ?>', <?php echo $value['id'] ?>)" class="dataActionDelete" title="Xóa sản phẩm"><i class="fa fa-remove" aria-hidden="true"></i> </a>
 
                                             <!-- <a href="<?php echo base_url('admin/'.$controller.'/remove/'.$value['id']); ?>" class="dataActionDelete"><i class="fa fa-remove" aria-hidden="true"></i> </a> -->
                                         </td>
@@ -134,7 +122,7 @@
                                     </tr>
                                 <?php else: ?>
                                     <tr>
-                                        Chưa có Tours
+                                        Chưa có sản phẩm
                                     </tr>
                                 <?php endif; ?>
 
@@ -151,6 +139,35 @@
                 <!-- /.box -->
             </div>
         </div>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Chọn cấu hình</h4>
+                    </div>
+                    <div class="modal-body" id="modal-form">
+                        <select name="" id="select_templates" class="form-control" required="required" onclick="submit_shared(this.value)">
+                                <option value="product" selected>Xe thông dụng</option>
+                                <option value="motor">Xe Motor</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" id="submit_shared">Xác nhận</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
 </div>
+<script type="text/javascript">
+    var HOSTNAMEADMIN = 'http://localhost/honghanh/admin';
+    document.querySelector('.modal-footer a').setAttribute('href',HOSTNAMEADMIN+'/product/create');
+    function submit_shared(val){
+        document.querySelector('.modal-footer a').setAttribute('href',`${HOSTNAMEADMIN}/${val}/create`);
+    }
+</script>
