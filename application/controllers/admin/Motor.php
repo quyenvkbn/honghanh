@@ -26,12 +26,12 @@ class Motor extends Admin_Controller{
         }
         $this->load->library('pagination');
         $per_page = 10;
-        $total_rows  = $this->product_model->count_search($this->data['keyword']);
+        $total_rows  = $this->product_model->count_search($this->data['keyword'],1);
         $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/index'), $total_rows, $per_page, 4);
         $this->data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $this->pagination->initialize($config);
         $this->data['page_links'] = $this->pagination->create_links();
-        $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc' , $per_page, $this->data['page'], $this->data['keyword']);
+        $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc' , $per_page, $this->data['page'], $this->data['keyword'],1);
         foreach ($this->data['result'] as $key => $value) {
             $parent_title = $this->build_parent_title($value['product_category_id']);
             $this->data['result'][$key]['parent_title'] = $parent_title;
@@ -41,7 +41,7 @@ class Motor extends Admin_Controller{
 
     public function create(){
         $this->load->helper('form');
-        $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
+        $product_category = $this->product_category_model->get_by_type(1,'asc');
         $this->build_new_category($product_category,0,$this->data['product_category']);
         if($this->input->post()){
             if($this->check_all_file_img($_FILES) === false){
@@ -114,6 +114,7 @@ class Motor extends Admin_Controller{
                 'scanlength' => $this->input->post('scanlength'),
                 'frontbrake' => $this->input->post('frontbrake'),
                 'brakeafter' => $this->input->post('brakeafter'),
+                'type' => 1
             );
             $insert = $this->product_model->common_insert(array_merge($shared_request,$this->author_data));
             if($insert){
@@ -428,18 +429,11 @@ class Motor extends Admin_Controller{
         return true;
     }
     function build_new_category($categorie, $parent_id = 0,&$result, $id = "",$char=""){
-        $cate_child = array();
-        foreach ($categorie as $key => $item){
-            if ($item['parent_id'] == $parent_id){
-                $cate_child[] = $item;
-                unset($categorie[$key]);
-            }
-        }
-        if ($cate_child){
-            foreach ($cate_child as $key => $value){
+        
+        if ($categorie){
+            foreach ($categorie as $key => $value){
             $select = ($value['id'] == $id)? 'selected' : '';
             $result.='<option value="'.$value['id'].'"'.$select.'>'.$char.$value['title'].'</option>';
-            $this->build_new_category($categorie, $value['id'],$result, $id, $char.'---|');
             }
         }
     }

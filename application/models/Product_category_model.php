@@ -46,6 +46,17 @@ class Product_category_model extends MY_Model{
 
         return $result = $this->db->get()->result_array();
     }
+    public function get_by_type($type, $order = 'desc'){
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('is_deleted', 0);
+        $this->db->where('is_activated', 0);
+        $this->db->where('type', $type);
+        $this->db->group_by('id');
+        $this->db->order_by($this->table .".sort", $order);
+
+        return $result = $this->db->get()->result_array();
+    }
     public function get_all($order="asc") {
         $this->db->select('*');
         $this->db->from($this->table);
