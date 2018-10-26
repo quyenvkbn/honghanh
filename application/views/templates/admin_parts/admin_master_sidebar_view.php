@@ -79,6 +79,24 @@
                     </ul>
                 </li>
 
+                <li class="<?php echo ($this->uri->segment(2) == 'image_library' || $this->uri->segment(2) == 'video_library')? 'active' : 'treeview' ?>">
+                    <a href="">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>Thư Viện</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?php echo ($this->uri->segment(2) == 'image_library')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/image_library') ?>"><i class="fa fa-filter"></i> Thư viện ảnh</a>
+                        </li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'video_library')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/video_library') ?>"><i class="fa fa-list"></i> Thư viện video</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="<?php echo ($this->uri->segment(2) == 'product' || $this->uri->segment(2) == 'product_category')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>

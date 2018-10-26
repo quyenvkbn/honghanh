@@ -65,6 +65,7 @@ class Shop extends Admin_Controller
         $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
         $this->form_validation->set_rules('shop_type_id', 'Loại cửa hàng', 'required');
         $this->form_validation->set_rules('address', 'Địa Chỉ', 'required');
+        $this->form_validation->set_rules('region', 'Khu Vực', 'required');
         $this->form_validation->set_rules('image', 'Ảnh đại diện', 'callback_check_file');
 
         if ($this->form_validation->run() == FALSE) {
@@ -80,6 +81,7 @@ class Shop extends Admin_Controller
                     'image' => $image,
                     'title' => $this->input->post('title'),
                     'shop_type_id' => $this->input->post('shop_type_id'),
+                    'region' => $this->input->post('region'),
                     'address' => $this->input->post('address'),
                     'phone' => $this->input->post('phone'),
                     'email' => $this->input->post('email'),
@@ -112,6 +114,7 @@ class Shop extends Admin_Controller
         $this->data['detail'] = $detail;
         $this->form_validation->set_rules('title', 'Tiêu đề', 'required');
         $this->form_validation->set_rules('shop_type_id', 'Loại cửa hàng', 'required');
+        $this->form_validation->set_rules('region', 'Khu Vực', 'required');
         $this->form_validation->set_rules('address', 'Địa Chỉ', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -127,6 +130,7 @@ class Shop extends Admin_Controller
                     $shared_request = array(
                         'title' => $this->input->post('title'),
 	                    'shop_type_id' => $this->input->post('shop_type_id'),
+                        'region' => $this->input->post('region'),
 	                    'address' => $this->input->post('address'),
 	                    'phone' => $this->input->post('phone'),
 	                    'email' => $this->input->post('email'),
