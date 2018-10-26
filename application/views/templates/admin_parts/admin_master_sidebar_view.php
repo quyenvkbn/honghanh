@@ -21,7 +21,7 @@
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="<?php echo ($this->uri->segment(2) == 'about' || $this->uri->segment(2) == 'about')? 'active' : 'treeview' ?>">
+                <li class="<?php echo ($this->uri->segment(2) == 'about' || $this->uri->segment(2) == 'image_library')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>
                         <span>Giới Thiệu</span>
@@ -32,6 +32,9 @@
                     <ul class="treeview-menu">
                         <li class="<?php echo ($this->uri->segment(2) == 'about')? 'active' : '' ?>">
                             <a href="<?php echo base_url('admin/about') ?>"><i class="fa fa-list"></i> Danh Sách Bài Viêt</a>
+                        </li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'image_library')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/image_library') ?>"><i class="fa fa-list"></i> Thư Viện Ảnh</a>
                         </li>
                     </ul>
                 </li>

@@ -25,34 +25,28 @@
                             <span><?php echo $this->session->flashdata('message'); ?></span>
                         </div>
                         <div class="form-group col-xs-12">
-                            <label for="image">Hình ảnh đang dùng</label>
+                            <label for="image">Video đang dùng</label>
                             <br>
-                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['image']); ?>" width=250px>
+                            <?php echo $detail['iframe'] ?>
                             <br>
                         </div>
+
                         <div class="form-group col-xs-12">
-                            <?php
-                            echo form_label('Hình ảnh', 'image');
-                            echo form_error('image');
-                            echo form_upload('image', set_value('image'), 'class="form-control"');
-                            ?>
-                            <br>
+                            <div class="form-group col-xs-12">
+                                <?php
+                                    echo form_label('Iframe', 'iframe');
+                                    echo form_error('iframe');
+                                    echo form_textarea('iframe', $detail['iframe'], 'class="form-control"');
+                                ?>
+                            </div>
                         </div>
+
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
                                     echo form_label('Tiêu đề', 'title');
                                     echo form_error('title');
                                     echo form_input('title', $detail['title'], 'class="form-control" id="title"');
-                                ?>
-                            </div>
-                        </div>
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Slug', 'slug');
-                                echo form_error('slug');
-                                echo form_input('slug', $detail['slug'], 'class="form-control" id="slug" readonly');
                                 ?>
                             </div>
                         </div>
@@ -63,9 +57,6 @@
                                     echo form_label('Mô tả', 'description');
                                     echo form_error('description');
                                     echo form_textarea('description', $detail['description'], 'class="form-control" rows="5"');
-                                    echo form_label('Nội dung', 'content');
-                                    echo form_error('content');
-                                    echo form_textarea('content', $detail['content'], 'class="tinymce-area form-control" rows="5"');
                                 ?>
                             </div>
                         </div>
