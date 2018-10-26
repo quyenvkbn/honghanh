@@ -59,6 +59,22 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group col-xs-12">
+                            <div class="form-group col-xs-12">
+                                <?php
+                                echo form_label('Khu vực', 'region');
+                                echo form_error('region');
+                                ?>
+                                <select name="region" class="form-control">
+                                    <option value="">Chọn khu vực</option>
+                                    <option value="1">Miền Bắc</option>
+                                    <option value="2">Miền Trung</option>
+                                    <option value="3">Miền Nam</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php

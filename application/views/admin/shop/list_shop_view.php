@@ -64,6 +64,7 @@
                                     <th>Hình ảnh</th>
                                     <th>Tiêu đề</th>
                                     <th>Loại cửa hàng</th>
+                                    <th>Khu vực</th>
                                     <th>Đại chỉ</th>
                                     <th>Số điện thoại</th>
                                     <th>E-Mail</th>
@@ -85,6 +86,24 @@
                                         </td>
                                         <td><?php echo $value['title'] ?></td>
                                         <td><?php echo $value['shop_type_title'] ?></td>
+                                        <td>
+                                            <?php
+                                                switch ($value['region']) {
+                                                    case 1:
+                                                        echo 'Miền Bắc';
+                                                        break;
+                                                    case 2:
+                                                        echo 'Miền Trung';
+                                                        break;
+                                                    case 3:
+                                                        echo 'Miền Nam';
+                                                        break;
+                                                    default:
+                                                        echo 'Miền Bắc';
+                                                        break;
+                                                }
+                                            ?>
+                                        </td>
                                         <td><?php echo $value['address'] ?></td>
                                         <td><?php echo $value['phone'] ?></td>
                                         <td><?php echo $value['email'] ?></td>
@@ -108,6 +127,7 @@
                                     <th>Hình ảnh</th>
                                     <th>Tiêu đề</th>
                                     <th>Loại cửa hàng</th>
+                                    <th>Khu vực</th>
                                     <th>Đại chỉ</th>
                                     <th>Số điện thoại</th>
                                     <th>E-Mail</th>
