@@ -26,12 +26,12 @@ class Product extends Admin_Controller{
         }
         $this->load->library('pagination');
         $per_page = 10;
-        $total_rows  = $this->product_model->count_search($this->data['keyword']);
+        $total_rows  = $this->product_model->count_search($this->data['keyword'],0);
         $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/index'), $total_rows, $per_page, 4);
         $this->data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $this->pagination->initialize($config);
         $this->data['page_links'] = $this->pagination->create_links();
-        $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc' , $per_page, $this->data['page'], $this->data['keyword']);
+        $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc' , $per_page, $this->data['page'], $this->data['keyword'],0);
         foreach ($this->data['result'] as $key => $value) {
             $parent_title = $this->build_parent_title($value['product_category_id']);
             $this->data['result'][$key]['parent_title'] = $parent_title;
@@ -41,12 +41,9 @@ class Product extends Admin_Controller{
 
     public function create(){
         $this->load->helper('form');
-        $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
+        $product_category = $this->product_category_model->get_by_type(0,'asc');
         $this->build_new_category($product_category,0,$this->data['product_category']);
         if($this->input->post()){
-            echo "<pre>";
-            print_r($this->input->post());
-            echo "<pre>";die;
             if($this->check_all_file_img($_FILES) === false){
                 return false;
             }
@@ -141,7 +138,8 @@ class Product extends Admin_Controller{
                 'untilities_img' => json_encode($image_untilities_full),
                 'version_img' => json_encode($img_version_full),
                 'version_icon' => json_encode($icon_version_full),
-                'price' => json_encode($this->price_product_all)
+                'price' => json_encode($this->price_product_all),
+                'type' => 0
             );
             $insert = $this->product_model->common_insert(array_merge($shared_request,$this->author_data));
             if($insert){
@@ -215,7 +213,7 @@ class Product extends Admin_Controller{
             $product['version'] = json_decode($product['version'],true);
             $product['version_img'] = json_decode($product['version_img'],true);
             $product['version_icon'] = json_decode($product['version_icon'],true);
-            $product_category = $this->product_category_model->get_by_parent_id_when_active(null,'asc');
+            $product_category = $this->product_category_model->get_by_type(0,'asc');
             $this->build_new_category($product_category,0,$this->data['product_category'],$product['product_category_id']);
             $this->data['product'] = $product;
             if($this->input->post()){
@@ -292,17 +290,6 @@ class Product extends Admin_Controller{
                     $img_version_full[] = $this->update_img('version'.($i+1).'_img','titleversion'.($i+1), $unique_slug , $version_img[$i], $data_image);
                     $icon_version_full[] = $this->update_img('version'.($i+1).'_icon','titleversion'.($i+1), $unique_slug , $version_icon[$i], $data_icon);
                 }
-                // if($this->input->post('number_version') < count($product['version'])){
-                //     for ($i=$this->input->post('number_version'); $i < count($product['version']); $i++) {
-                //         foreach ($product['version_img'][$i] as $key => $value) {
-                //             $this->remove_image_product_all[] = $value;
-                //         }
-                //         foreach ($product['version_icon'][$i] as $key => $value) {
-                //             $this->remove_image_product_all[] = $value;
-                //         }
-
-                //     }
-                // }
                 $this->version_column('version', $img_version_full, $icon_version_full);
                 $this->content_column('design',$image_design_full);
                 $this->content_column('technology',$image_technology_full);
@@ -391,10 +378,7 @@ class Product extends Admin_Controller{
             if($this->product_model->find_rows(array('id' => $id,'is_deleted' => 0)) != 0){
                 $update = $this->product_model->common_update($id,array_merge(array('is_activated' => 0),$this->author_data));
                 if($update){
-                    $reponse = array(
-                        'csrf_hash' => $this->security->get_csrf_hash()
-                    );
-                    return $this->return_api(HTTP_SUCCESS,'',$reponse);
+                    return $this->return_api(HTTP_SUCCESS);
                 }
                 return $this->return_api(HTTP_BAD_REQUEST);
             }
@@ -408,10 +392,7 @@ class Product extends Admin_Controller{
             if($this->product_model->find_rows(array('id' => $id,'is_deleted' => 0)) != 0){
                 $update = $this->product_model->common_update($id,array_merge(array('is_activated' => 1),$this->author_data));
                 if($update){
-                    $reponse = array(
-                        'csrf_hash' => $this->security->get_csrf_hash()
-                    );
-                    return $this->return_api(HTTP_SUCCESS,'',$reponse);
+                    return $this->return_api(HTTP_SUCCESS);
                 }
                 return $this->return_api(HTTP_BAD_REQUEST);
             }
@@ -419,47 +400,53 @@ class Product extends Admin_Controller{
         }
         return $this->return_api(HTTP_NOT_FOUND,MESSAGE_ID_ERROR);
     }
-    public function remove_image(){
+
+
+    public function remove_image()
+    {
         $id = $this->input->post('id');
         $image = $this->input->post('image');
+        $type = $this->input->post('type');
         $detail = $this->product_model->get_by_id($id);
-        $upload = [];
-        $upload = json_decode($detail['image']);
-        $key = array_search($image, $upload);
-        unset($upload[$key]);
-        $newUpload = [];
-        foreach ($upload as $key => $value) {
-            $newUpload[] = $value;
+        if ($image == $detail['avatar'] && $type == 'image') {
+            $reponse = array(
+                'csrf_hash' => $this->security->get_csrf_hash()
+            );
+            return $this->return_api(HTTP_SUCCESS, 'Avatar không được xóa', $reponse, false);
+        }else{
+            $upload = [];
+            $upload = json_decode($detail[$type]);
+            $key = array_search($image, $upload);
+            unset($upload[$key]);
+            $update = $this->product_model->common_update($id, array($type => json_encode(array_values($upload))));
+            if($update == 1){
+                $reponse = array(
+                    'csrf_hash' => $this->security->get_csrf_hash()
+                );
+                if($image != '' && file_exists('assets/upload/'. $this->data['controller'] .'/'.$detail['slug'].'/'.$image)){
+                    $this->remove_img($detail['slug'],$image);
+                }
+                return $this->return_api(HTTP_SUCCESS, '', $reponse);
+            }
+            return $this->return_api(HTTP_BAD_REQUEST);
         }
         
-        $image_json = json_encode($newUpload);
-        $data = array('image' => $image_json);
+    }
 
+    public function active_image()
+    {
+        $id = $this->input->post('id');
+        $image = $this->input->post('image');
+        $data = array('avatar' => $image);
         $update = $this->product_model->common_update($id, $data);
         if($update == 1){
             $reponse = array(
                 'csrf_hash' => $this->security->get_csrf_hash()
             );
-            if($image != '' && file_exists('assets/upload/product/'.$detail['slug'].'/'.$image)){
-                unlink('assets/upload/product/'.$detail['slug'].'/'.$image);
-                $new_array = explode('.', $image);
-                $typeimg = array_pop($new_array);
-                $nameimg = str_replace(".".$typeimg, "", $image);
-                if(file_exists('assets/upload/product/'.$detail['slug'].'/thumb/'.$nameimg.'_thumb.'.$typeimg)){
-                    unlink('assets/upload/product/'.$detail['slug'].'/thumb/'.$nameimg.'_thumb.'.$typeimg);
-                }
-            }
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(HTTP_SUCCESS)
-                ->set_output(json_encode(array('status' => HTTP_SUCCESS, 'reponse' => $reponse)));
+            return $this->return_api(HTTP_SUCCESS, '', $reponse);
         }
-            return $this->output
-                    ->set_content_type('application/json')
-                    ->set_status_header(HTTP_BAD_REQUEST)
-                    ->set_output(json_encode(array('status' => HTTP_BAD_REQUEST)));
+        return $this->return_api(HTTP_BAD_REQUEST);
     }
-
 
     /**
      * [build_parent_title description]
@@ -515,33 +502,10 @@ class Product extends Admin_Controller{
         return true;
     }
     function build_new_category($categorie, $parent_id = 0,&$result, $id = "",$char=""){
-        $cate_child = array();
-        foreach ($categorie as $key => $item){
-            if ($item['parent_id'] == $parent_id){
-                $cate_child[] = $item;
-                unset($categorie[$key]);
-            }
-        }
-        if ($cate_child){
-            foreach ($cate_child as $key => $value){
-            $select = ($value['id'] == $id)? 'selected' : '';
-            $result.='<option value="'.$value['id'].'"'.$select.'>'.$char.$value['title'].'</option>';
-            $this->build_new_category($categorie, $value['id'],$result, $id, $char.'---|');
-            }
-        }
-    }
-    function remove_img_date($numberdate=array(),$dateimg_array=array(),$unique_slug = '',$dateimg= ''){
-        for ($i=0; $i < count($this->input->post('datetitle_vi')); $i++) { 
-            if(!array_key_exists($i,array_flip($dateimg)) && !empty($dateimg_array[$i])){
-                if(file_exists('assets/upload/'. $this->data['controller'] .'/'.$unique_slug.'/'.$dateimg_array[$i])){
-                    unlink('assets/upload/'. $this->data['controller'] .'/'.$unique_slug.'/'.$dateimg_array[$i]);
-                    $new_array = explode('.', $dateimg_array[$i]);
-                    $typeimg = array_pop($new_array);
-                    $nameimg = str_replace(".".$typeimg, "", $dateimg_array[$i]);
-                    if(file_exists('assets/upload/'. $this->data['controller'] .'/'.$unique_slug.'/thumb/'.$nameimg.'_thumb.'.$typeimg)){
-                        unlink('assets/upload/'. $this->data['controller'] .'/'.$unique_slug.'/thumb/'.$nameimg.'_thumb.'.$typeimg);
-                    }
-                }
+        if ($categorie){
+            foreach ($categorie as $key => $value){
+                $select = ($value['id'] == $id)? 'selected' : '';
+                $result.='<option value="'.$value['id'].'"'.$select.'>'.$char.$value['title'].'</option>';
             }
         }
     }

@@ -56,30 +56,6 @@
                         <div role="tabpanel" class="tab-pane fade in active" id="tour">
                             <div class="box-body">
                                 <div class="row">
-                                    <?php if (!empty($product['image'])): ?>
-                                        <div class="detail-image col-sm-6" style="margin-bottom: 5px;">
-                                            <label>Hình ảnh đại diện</label>
-                                            <div class="row">
-                                                    <div class="col-xs-12">
-                                                        <div class="mask-sm">
-                                                            <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$product['slug'].'/'.$product['image'][0]) ?>" alt="anh-cua-<?php echo $product['slug'] ?>" style="padding: 0px;" width=100% height=300px>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
-                                    <?php if (!empty($product['banner'])): ?>
-                                        <div class="product-image col-sm-6" style="margin-bottom: 5px;">
-                                            <label>Hình ảnh banner</label>
-                                            <div class="row">
-                                                    <div class="col-xs-12">
-                                                        <div class="mask-sm">
-                                                            <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$product['slug'].'/'.$product['banner'][0]) ?>" alt="anh-cua-<?php echo $product['slug'] ?>" style="padding: 0px;" width=100% height=300px>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
                                     <div class="product-info col-sm-12">
                                         <div class="table-responsive">
                                             <label>Thông tin</label>
@@ -111,6 +87,35 @@
                                                 </tr>
                                             </table>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding: 0px;">
+                                        <?php if (!empty($product['image'])): ?>
+                                            <div class="detail-image col-xs-12" style="margin-bottom: 5px;">
+                                                <label>Hình ảnh</label>
+                                                <div class="row">
+                                                    <?php foreach ($product['image'] as $key => $value): ?>
+                                                        <div class="col-md-3 col-xs-6 row_<?php echo $key;?>" style="position: relative; margin-bottom: 10px;">
+                                                            <img src="<?php echo base_url('assets/upload/'.$controller .'/'.$product['slug'].'/'.$value); ?>" alt="anh-mo-ta" width=100% height=200px>
+                                                            <i class="fa-2x fa fa-check <?php echo ($product['avatar'] == $value) ?'avata':''; ?>" style="cursor: pointer; position: absolute;color:<?php echo ($product['avatar'] == $value) ?'green':'black'; ?>; top:0px;right:45px;" onclick="active_image('<?php echo $controller;?>','<?php echo $product["id"]; ?>','<?php echo $value; ?>','<?php echo $key ?>')"></i>
+                                                            <i class="fa-2x fa fa-times" style="cursor: pointer; position: absolute;color:red; top:0px;right: 20px;" onclick="remove_image('<?php echo $controller;?>','<?php echo $product["id"]; ?>','<?php echo $value; ?>','<?php echo $key ?>')"></i>
+                                                        </div>
+                                                    <?php endforeach ?>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+                                        <?php if (!empty($product['banner'])): ?>
+                                            <div class="product-image col-xs-12" style="margin-bottom: 5px;">
+                                                <label>Hình ảnh banner</label>
+                                                <div class="row">
+                                                    <?php foreach ($product['banner'] as $key => $value): ?>
+                                                        <div class="col-md-3 col-xs-6 row_<?php echo $key;?>banner" style="position: relative; margin-bottom: 10px;">
+                                                            <img src="<?php echo base_url('assets/upload/'.$controller .'/'.$product['slug'].'/'.$value); ?>" alt="anh-mo-ta" width=100% height=200px>
+                                                            <i class="fa-2x fa fa-times" style="cursor: pointer; position: absolute;color:red; top:0px;right: 20px;" onclick="remove_image('<?php echo $controller;?>','<?php echo $product["id"]; ?>','<?php echo $value; ?>','<?php echo $key ?>','banner')"></i>
+                                                        </div>
+                                                    <?php endforeach ?>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     
 

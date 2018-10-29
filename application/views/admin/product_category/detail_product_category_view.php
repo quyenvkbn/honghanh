@@ -40,14 +40,11 @@
                             <?php if (!empty($detail['image'])): ?>
                                 <label class="col-xs-12" for="image_shared">Hình ảnh đang dùng</label>
                                 <br>
-                                <?php foreach (json_decode($detail['image']) as $key => $value): ?>
-                                    <div class="col-xs-6 row_<?php echo $key; ?>">
+                                    <div class="col-xs-6 ">
                                         <div  style="background-color: #363636;position: relative;margin-top: 10px;">
-                                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'.$detail['slug'].'/'. $value); ?> " width=100% style="padding: 13px;height: 200px;">
-                                            <span class="glyphicon glyphicon-remove" style="position: absolute;right:0%;color: white; cursor: pointer;" onclick="remove_image('product_category','<?php echo $detail['id'] ?>','<?php echo $value; ?>','<?php echo $key;?>')"></span>
+                                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'.$detail['slug'].'/'. $detail['image']); ?> " width=100% style="padding: 13px;height: 200px;">
                                         </div>
                                     </div>
-                                <?php endforeach ?>
                             <?php endif ?>
                             <div class="detail-info col-md-12">
                                 <div class="table-responsive">
@@ -61,18 +58,12 @@
                                             <td><?php echo $detail['slug'] ?></td>
                                         </tr>
                                         <tr>
-                                            <th>
-                                                <?php if ($detail['parent_id'] != 0): ?>
-                                                    Danh Mục Cha
-                                                <?php else: ?>
-                                                    Danh Mục
-                                                <?php endif ?>
-                                            </th>
+                                            <th>Danh Mục</th>
                                             <td>
-                                                <?php if ($detail['parent_id'] != 0): ?>
-                                                    <a href="<?php echo base_url('admin/'. $controller .'/detail/'.$detail['parent_id']) ?>" class="btn btn-block btn-primary btn-flat" ><?php echo $detail['parent_title'] ?></a>
+                                                <?php if ($detail['type'] == 0): ?>
+                                                    Xe thông dụng
                                                 <?php else: ?>
-                                                    <a href="javascript:void(0)" class="btn btn-block btn-primary" ><?php echo $detail['parent_title'] ?></a>
+                                                    Xe motor
                                                 <?php endif ?>
                                                 
                                             </td>
@@ -132,25 +123,6 @@
                         <a href="<?php echo base_url('admin/'.$controller.'/edit/'.$detail['id']) ?>" class="btn btn-warning" role="button">Chỉnh sửa</a>
                         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     </div>
-                </div>
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title">Danh Mục Con</h3>
-                    </div>
-                    <?php if ($sub_category): ?>
-                        <?php foreach ($sub_category as $key => $value): ?>
-                            <div class="box-body" style="height: 30px;">
-                                <a href="<?php echo base_url('admin/'.$controller.'/detail/'.$value['id']) ?>" class="btn btn-block btn-social btn-dropbox" role="button" style="height: 30px;">
-                                    <i class="fa fa-link" aria-hidden="true"></i>
-                                    <?php echo $value['title'] ?>
-                                </a>
-                            </div>
-                        <?php endforeach ?>
-                    <?php else: ?>
-                        <div class="box-body">
-                            Hiện không có danh mục nhỏ
-                        </div>
-                    <?php endif ?>
                 </div>
             </div>
         </div>

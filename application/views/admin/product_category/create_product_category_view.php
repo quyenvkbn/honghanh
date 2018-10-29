@@ -35,27 +35,28 @@
                             <?php
                             echo form_label('Ảnh đại diện', 'image_shared');
                             echo form_error('image_shared');
-                            echo form_upload('image_shared[]', set_value('image_shared'), 'class="form-control" multiple');
+                            echo form_upload('image_shared', set_value('image_shared'), 'class="form-control"');
                             ?>
                             <br>
                         </div>
                         <div class="form-group col-xs-12">
-                            <?php
-                                echo form_label('Danh Mục', 'parent_id_shared');
-                                echo form_error('parent_id_shared');
-                            ?>
-                            <select name="parent_id_shared" class="form-control">
-                                <?php echo $product_category; ?>
-                            </select>
+                            <div class="form-group col-xs-12">
+                                <?php
+                                echo form_label('Loại danh mục', 'type');
+                                echo form_error('type');
+                                echo form_dropdown('type', array(0 => 'Xe thông dụng', 1 => 'Xe motor'), 0, 'class="form-control"');
+                                                    
+                                ?>
+                            </div>
                         </div>
                         <div class="form-group col-xs-12">
                             <?php
-                            echo form_label('Slug', 'slug_shared');
-                            echo form_error('slug_shared');
-                            echo form_input('slug_shared', set_value('slug_shared'), 'class="form-control" id="slug_shared" readonly');
                             echo form_label('Tiêu đề', 'title');
                             echo form_error('title');
                             echo form_input('title', set_value('title'), 'class="form-control" id="title"');
+                            echo form_label('Slug', 'slug_shared');
+                            echo form_error('slug_shared');
+                            echo form_input('slug_shared', set_value('slug_shared'), 'class="form-control" id="slug_shared" readonly');
                             echo form_label('Từ khóa meta', 'metakeywords');
                             echo form_error('metakeywords');
                             echo form_input('metakeywords', set_value('metakeywords', '', false), 'class="form-control"');

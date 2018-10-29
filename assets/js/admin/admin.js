@@ -97,24 +97,14 @@ function highlights(name,post){
         }else{
             post.append(`${name}_img[]`,number_highlights[i].querySelector('.image').files[0]);
         }
-        // post.append(`${name}title[]`,number_highlights[i].querySelector(`[id^="${name}"] .title`).value);
-        // post.append(`${name}content[]`,number_highlights[i].querySelector(`[id^="${name}"] .content`).value);
-        // highlights[i] = [];
-        // highlights[i]['title'] = number_highlights[i].querySelector(`[id^="${name}"] .title`).value;
-        // highlights[i]['content'] = number_highlights[i].querySelector(`[id^="${name}"] .content`).value;
            
     }
-    // for (var i = 0; i < highlights.length; i++) {
-    //     post.append(`${name}title[]`,highlights[i]['title']);
-    //     post.append(`${name}content[]`,highlights[i]['content']);
-    // }
         
 }
 
 function version(post){
     number_version = document.querySelectorAll(`#color-products [id^="version"]`);
     for (var i = 0; i < number_version.length; i++) {
-        // post.append(`versiontitle[]`,number_version[i].querySelector(`.tab-content .title`).value);
         number_color = number_version[i].querySelectorAll(`.content-full-color [id^="color${number_version[i].id}"]`);
         for (var j = 0; j < number_color.length; j++) {
             if(number_color[j].querySelector('.img_color').files.length == 0){
@@ -127,13 +117,6 @@ function version(post){
             }else{
                 post.append(`${number_version[i].id}_icon[]`,number_color[j].querySelector('.icon_color').files[0]);
             }
-            // post.append(`${number_version[i].id}title[]`,number_version[i].querySelectorAll(`[id^="color${number_version[i].id}"] .tab-content .title`)[j].value);
-            // post.append(`${number_version[i].id}_code[]`,number_color[j].querySelector('.code_color').value);
-            // if(number_color[j].querySelector('.code_color')){
-            //     post.append(`${number_version[i].id}_code[]`,number_color[j].querySelector('.code_color').value);
-            // }else{
-            //     post.append(`${number_version[i].id}_code[]`,j);
-            // }
             
         }
     }
@@ -194,9 +177,6 @@ function submit_shared(){
         for (var i = 0; i < remove_versions.length; i++) {
             post.append(`remove_version[]`,remove_versions[i]); 
         }
-        // console.log(remove_version);
-        // console.log(remove_image);
-        // return false;
         $.ajax({
                 method: "post",
                 url: url,
@@ -215,7 +195,7 @@ function submit_shared(){
                         if (response.isExisted == true) {
                             alert(response.message);
                             if(window.location.pathname.indexOf("/product/edit/") != '-1'){
-                                $("input[name='csrf_motorbike_token']").val(csrf_hash);
+                                $("input[name='csrf_honghanh_token']").val(csrf_hash);
                                 for (var i = 0; i < response.reponse.design_img.length; i++) {
                                     document.querySelectorAll('#design img')[i].setAttribute('value',response.reponse.design_img[i]);
                                 }
@@ -697,10 +677,6 @@ function remove_color(id,ev){
     document.querySelector(`#${name} .content-full-color`).removeChild(document.querySelector(`#color${name}${id}`).parentElement);
     let demo = document.querySelectorAll(`#${name} .content-full-color [id^="color${name}"]`);
     for (i = id; i <= demo.length; i++) {
-        // demo[i-1].querySelector('.img_color').setAttribute('name',`img_color${name}${i}`);
-        // demo[i-1].querySelector('.icon_color').setAttribute('name',`icon_color${name}${i}`);
-        // demo[i-1].querySelector('.code_color').setAttribute('name',`code_color${name}${i}`);
-        // demo[i-1].querySelector(`.tab-content [id^="color${name}"] [name^="title${name}"]`).setAttribute('name',`title${name}${i}`);//demo[i-1].id.replace(`color${name}`, "")
         demo[i-1].id = `color${name}${i}`;
         demo[i-1].parentElement.querySelector(`span[data-target^="#color${name}"]`).setAttribute('data-target',`#color${name}${i}`);
         demo[i-1].parentElement.querySelector(`span[data-target^="#color${name}"] span`).innerHTML = i;
