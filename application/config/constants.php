@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 
 /**
- * FIXED TOUR CATEGORIES ID
+ * FIXED sản phẩm CATEGORIES ID
  */
 defined('FIXED_DOMESTIC_PILGRIMAGE_CATEGORY_ID') OR define('FIXED_DOMESTIC_PILGRIMAGE_CATEGORY_ID', 22);
 defined('FIXED_INTERNATIONAL_PILGRIMAGE_CATEGORY_ID') OR define('FIXED_INTERNATIONAL_PILGRIMAGE_CATEGORY_ID', 23);
@@ -157,7 +157,7 @@ defined('MESSAGE_REMOVE_ERROR') OR define('MESSAGE_REMOVE_ERROR', 'Xóa thất b
 /**
  * Message foreign key link check product category and check product
  */
-defined('MESSAGE_FOREIGN_KEY_LINK_ERROR_PRODUCT') OR define('MESSAGE_FOREIGN_KEY_LINK_ERROR_PRODUCT', 'Category vẫn còn %s tour và có %s category là con nên không thẻ xóa!');/**
+defined('MESSAGE_FOREIGN_KEY_LINK_ERROR_PRODUCT') OR define('MESSAGE_FOREIGN_KEY_LINK_ERROR_PRODUCT', 'Category vẫn còn %s sản phẩm và có %s category là con nên không thẻ xóa!');/**
  * Message foreign key link check product category and check product
  */
 defined('MESSAGE_FOREIGN_KEY_LINK_ERROR') OR define('MESSAGE_FOREIGN_KEY_LINK_ERROR', 'Category vẫn còn %s bài viết nên không thẻ xóa!');
@@ -215,7 +215,7 @@ defined('MESSAGE_EDIT_ERROR') OR define('MESSAGE_EDIT_ERROR', 'Sửa thất bạ
  * Message Success code
  */
 defined('MESSAGE_ERROR_UPDATE_TURN_ON') OR define('MESSAGE_ERROR_UPDATE_TURN_ON', 'Bạn phải bật Menu cha của Menu hiện tại');
-defined('MESSAGE_ERROR_ACTIVE_PRODUCT') OR define('MESSAGE_ERROR_ACTIVE_PRODUCT', 'Bạn phải bật Danh mục tour của tour hiện tại');
+defined('MESSAGE_ERROR_ACTIVE_PRODUCT') OR define('MESSAGE_ERROR_ACTIVE_PRODUCT', 'Bạn phải bật Danh mục sản phẩm của sản phẩm hiện tại');
 defined('MESSAGE_ERROR_ACTIVE_POST') OR define('MESSAGE_ERROR_ACTIVE_POST', 'Bạn phải bật Danh mục bài viết của bài viết hiện tại');
 defined('MESSAGE_ERROR_ACTIVE_CATEGORY') OR define('MESSAGE_ERROR_ACTIVE_CATEGORY', 'Bạn phải bật danh mục cha của danh mục hiện tại');
 
@@ -250,17 +250,17 @@ defined('MESSAGE_ERROR_TURN_ON_POST_CATEGORY_FOR_SELECTED') OR define('MESSAGE_E
 defined('MESSAGE_ERROR_TURN_ON_POST_FOR_SELECTED') OR define('MESSAGE_ERROR_TURN_ON_POST_FOR_SELECTED', 'Bạn phải bật bài viết mà bạn đã chọn làm đường dẫn cho menu (tên bài viết là: %s)');
 /*=====  End of Message for Create  ======*/
 
-defined('MESSAGE_ERROR_REMOVE_LOCALTION') OR define('MESSAGE_ERROR_REMOVE_LOCALTION', 'Bạn có %u tour đang chọn địa điểm đến này nên bạn không thể xóa.');
+defined('MESSAGE_ERROR_REMOVE_LOCALTION') OR define('MESSAGE_ERROR_REMOVE_LOCALTION', 'Bạn có %u sản phẩm đang chọn địa điểm đến này nên bạn không thể xóa.');
 defined('MESSAGE_ERROR_REMOVE_AREA') OR define('MESSAGE_ERROR_REMOVE_AREA', 'Bạn có %u địa điểm đang chọn khu vực đến này nên bạn không thể xóa.');
-defined('MESSAGE_CREATE_BOOKING_SUCCESS') OR define('MESSAGE_CREATE_BOOKING_SUCCESS', 'Đặt Tour thành công bạn vui lòng chờ xác nhận.');
+defined('MESSAGE_CREATE_BOOKING_SUCCESS') OR define('MESSAGE_CREATE_BOOKING_SUCCESS', 'Đặt sản phẩm thành công bạn vui lòng chờ xác nhận.');
 defined('MESSAGE_CREATE_ERROR_EMAIL') OR define('MESSAGE_CREATE_ERROR_EMAIL', 'Vui lòng nhập trường Email và email confirm giống nhau.');
-defined('MESSAGE_CREATE_BOOKING_ERROR') OR define('MESSAGE_CREATE_BOOKING_ERROR', 'Không thể tạo tour mới vui lòng chờ trong giây lát.');
+defined('MESSAGE_CREATE_BOOKING_ERROR') OR define('MESSAGE_CREATE_BOOKING_ERROR', 'Không thể tạo sản phẩm mới vui lòng chờ trong giây lát.');
 defined('MESSAGE_CREATE_ERROR_REQUIRE') OR define('MESSAGE_CREATE_ERROR_REQUIRE', 'Vui lòng nhập đầy đủ thông tin.');
-defined('MESSAGE_EDIT_ERROR_VALIDATE') OR define('MESSAGE_EDIT_ERROR_VALIDATE', 'Lỗi sửa tour vui lòng thao tác lại.');
-defined('MESSAGE_CREATE_ERROR_VALIDATE') OR define('MESSAGE_CREATE_ERROR_VALIDATE', 'Lỗi tạo mới tour vui lòng thao tác lại.');
+defined('MESSAGE_EDIT_ERROR_VALIDATE') OR define('MESSAGE_EDIT_ERROR_VALIDATE', 'Lỗi sửa sản phẩm vui lòng thao tác lại.');
+defined('MESSAGE_CREATE_ERROR_VALIDATE') OR define('MESSAGE_CREATE_ERROR_VALIDATE', 'Lỗi tạo mới sản phẩm vui lòng thao tác lại.');
 
 
-defined('MESSAGE_DEACTIVE_ERROR') OR define('MESSAGE_DEACTIVE_ERROR', 'Bạn phải tắt tất cả danh mục con và tour thuộc danh mục!');
+defined('MESSAGE_DEACTIVE_ERROR') OR define('MESSAGE_DEACTIVE_ERROR', 'Bạn phải tắt tất cả danh mục con và sản phẩm thuộc danh mục!');
 defined('MESSAGE_DEACTIVE_POST_ERROR') OR define('MESSAGE_DEACTIVE_POST_ERROR', 'Bạn phải tắt tất cả danh mục con và bài viết thuộc danh mục!');
 defined('MESSAGE_DEACTIVE_SUCCESS') OR define('MESSAGE_DEACTIVE_SUCCESS', 'Tắt danh mục thành công!');
 defined('MESSAGE_ERROR_DEACTIVE_CATEGORY') OR define('MESSAGE_ERROR_DEACTIVE_CATEGORY', 'Danh mục này không thể tắt!');
@@ -268,4 +268,4 @@ defined('MESSAGE_ERROR_REMOVE_CATEGORY') OR define('MESSAGE_ERROR_REMOVE_CATEGOR
 defined('NO_DATA') OR define('NO_DATA', 'Không có dữ liệu');
 
 
-defined('MESSAGE_CHECK_BANNER_ERROR') OR define('MESSAGE_CHECK_BANNER_ERROR', 'Hiện tại đã có đủ 4 tour hiển thị trên BANNER. Vui lòng tắt 1 Tour đang hiển thị trên BANNER nếu bạn muốn thêm tour vào làm BANNER!');
+defined('MESSAGE_CHECK_BANNER_ERROR') OR define('MESSAGE_CHECK_BANNER_ERROR', 'Hiện tại đã có đủ 4 sản phẩm hiển thị trên BANNER. Vui lòng tắt 1 sản phẩm đang hiển thị trên BANNER nếu bạn muốn thêm sản phẩm vào làm BANNER!');

@@ -101,19 +101,20 @@ function remove(controller, id){
         });
     }
 }
-function remove_image(controller, id, image, key){
+function remove_image(controller, id, image, key, type='image'){
     var url = HOSTNAMEADMIN + '/' + controller + '/remove_image';
     if(confirm('Chắc chắn xóa ảnh này?')){
         $.ajax({
             method: "post",
             url: url,
             data: {
-                id : id, csrf_honghanh_token : csrf_hash, image : image
+                id : id, csrf_honghanh_token : csrf_hash, image : image, type : type
             },
             success: function(response){
                 if(response.status == 200 && response.isExisted == true){
                     csrf_hash = response.reponse.csrf_hash;
-                    $('.row_' + key).fadeOut();
+                    check = (type == 'banner') ? 'banner' : '';
+                    $('.row_' + key + check).fadeOut();
                     $("input[name='csrf_honghanh_token']").val(csrf_hash);
                 }else{
                     csrf_hash = response.reponse.csrf_hash;
@@ -140,8 +141,10 @@ function active_image(controller, id, image, key){
                 if (response.status == 200) {
                     csrf_hash = response.reponse.csrf_hash;
                     $("input[name='csrf_honghanh_token']").val(csrf_hash);
-                    document.querySelector(`.avata`).style.color = 'black';
-                    document.querySelector(`.avata`).classList.remove('avata');
+                    if(document.querySelector(`.avata`)){
+                        document.querySelector(`.avata`).style.color = 'black';
+                        document.querySelector(`.avata`).classList.remove('avata');
+                    }
                     document.querySelector(`.row_${key} .fa-check`).style.color = 'green';
                     document.querySelector(`.row_${key} .fa-check`).classList.add('avata');
                 }
@@ -162,7 +165,6 @@ function active(controller, id, question) {
                 id : id, csrf_honghanh_token : csrf_hash
             },
             success: function(response){
-                csrf_hash = response.reponse.csrf_hash;
                 if(response.status == 200){
                     switch(controller){
                         case 'post_category' :
@@ -175,7 +177,7 @@ function active(controller, id, question) {
                             alert('Bật banner thành công');
                             break;
                         case 'product' :
-                            alert('Bật thực đơn thành công');
+                            alert('Bật sản phẩm thành công');
                             break;
                         case 'post' :
                             alert('Bật bài viết thành công');
@@ -186,7 +188,6 @@ function active(controller, id, question) {
                     }
                     location.reload();
                 }
-                console.log(response);
             },
             error: function(jqXHR, exception){
                 if(jqXHR.status == 404 &&  jqXHR.responseJSON.message != 'undefined '){
@@ -210,7 +211,6 @@ function deactive(controller, id, question) {
                 id : id, csrf_honghanh_token : csrf_hash
             },
             success: function(response){
-                csrf_hash = response.reponse.csrf_hash;
                 if(response.status == 200){
                     switch(controller){
                         case 'post_category' :
@@ -220,7 +220,7 @@ function deactive(controller, id, question) {
                             alert('Tắt banner thành công');
                             break;
                         case 'product' :
-                            alert('Tắt tour thành công');
+                            alert('Tắt sản phẩm thành công');
                             break;
                         case 'post' :
                             alert('Tắt bài viết thành công');

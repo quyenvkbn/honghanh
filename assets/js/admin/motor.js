@@ -94,16 +94,8 @@ function highlights(name,post){
 
         post.append(`${name}title[]`,number_highlights[i].querySelector(`[id^="${name}"] .title`).value);
         post.append(`${name}content[]`,number_highlights[i].querySelector(`[id^="${name}"] .content`).value);
-        
-        // highlights[i] = [];
-        // highlights[i]['title'] = number_highlights[i].querySelector(`[id^="${name}"] .title`).value;
-        // highlights[i]['content'] = number_highlights[i].querySelector(`[id^="${name}"] .content`).value;
            
     }
-    // for (var i = 0; i < highlights.length; i++) {
-    //     post.append(`${name}title[]`,highlights[i]['title']);
-    //     post.append(`${name}content[]`,highlights[i]['content']);
-    // }
         
 }
 
@@ -176,7 +168,7 @@ function submit_shared(){
                         if (response.isExisted == true) {
                             alert(response.message);
                             if(window.location.pathname.indexOf("/motor/edit/") != '-1'){
-                                $("input[name='csrf_motorbike_token']").val(csrf_hash);
+                                $("input[name='csrf_honghanh_token']").val(csrf_hash);
                                 for (var i = 0; i < response.reponse.design_img.length; i++) {
                                     document.querySelectorAll('#design img')[i].setAttribute('value',response.reponse.design_img[i]);
                                 }
